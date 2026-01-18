@@ -1,4 +1,14 @@
 {
+  "my_name": "Pranay Gajbhiye",
+  "my_father_name": "Krupakar Gajbhiye",
+  "my_mother_name": "Kamal Gajbhiye",
+  "I_was born_on": "06th September 2005",
+  "Founder_of": "BlackObsidian AMC UAE",
+  "Business_email": "pranaykgajbhiye@gmail.com",
+
+  "Intrests": ["Finance", "Quant", "Tech Enthusiasm", "Learning"],
+  "about_me": "I am the Founder Of BlackObsidian Co. UAE, a Tech Enthusiast, a Coder, a Web Developer, and a Student. I love to explore new technologies and implement them in my projects. I am passionate about coding and always eager to learn new things.",
+  "hobbies": ["Reading Books", "Economy and Mathematics", "Exploring New Technologies", "Traveling", "Investing"],
   "dev_profile_link": "https://dev.to/pusparaj99op",
   "dev_username": "pusparaj99op",
   "dev_name": "Pranav Shah",
@@ -6,9 +16,14 @@
   "github_profile_link": "https://github.com/Pusparaj99op",
   "github_username": "Pusparaj99op",
   "github_name": "Pranav Shah",
+  // #thisproject will be hosted on this domain
+  "Domain": "pranaygajbhiye.me",
+  "X_profile_link": "https://twitter.com/pranaygajbhiye7",
+  "X_username": "pranaygajbhiye7",
 
-  "linkedin_profile_link": "https://www.linkedin.com/in/pranav-shah-887ba9194/",
-
+  "intgram_profile_link": "https://www.instagram.com/pranaygajbhiye777/",
+  "linkedin_profile_link": "https://www.linkedin.com/in/pranaygajbhiye/",
   "project_link": "https://github.com/Pusparaj99op/NewYouPortfolioChallenge-DEVChallenges",
   "project_name": "New You - Portfolio Challenge - DEVChallenges"
+
 }

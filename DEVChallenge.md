@@ -60,7 +60,7 @@ In the event of a tie in scoring between judges, the judges will select the entr
 ---
 
 ## My Submission (add your details below) 📝
-- GitHub repo: _(add URL)_
+- GitHub repo: https://github.com/Pusparaj99op/NewYouPortfolioChallenge-DEVChallenges
 - Deployed Cloud Run URL: _(add URL)_
 - DEV post URL (with Cloud Run embed & label): _(add URL)_
 - Notes / what I built / unique features: _(add short summary)_

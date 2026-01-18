@@ -1,0 +1,743 @@
+{
+  "portfolioWebSpecifications": {
+    "brandIdentity": {
+      "organization": "BlackObsidian AMC",
+      "fullName": "BlackObsidian Asset Management Company",
+      "description": "Quantitative trading and asset management firm specializing in algorithmic strategies, order flow analysis, and systematic trading",
+      "focus": [
+        "Quantitative Trading Strategies",
+        "Order Flow Analytics",
+        "Market Microstructure Research",
+        "Algorithmic Execution",
+        "Risk Management Systems",
+        "Systematic Investment Approaches"
+      ],
+      "brandColors": {
+        "primary": "#0A0E27",
+        "accent": "#8B5CF6",
+        "obsidian": "#1A1F3A",
+        "gold": "#F59E0B"
+      },
+      "brandPersonality": "Professional, data-driven, sophisticated, and cutting-edge"
+    },
+    "designPhilosophy": {
+      "primary": "Professional financial trading terminal aesthetic for BlackObsidian AMC",
+      "theme": "Finance, Quantitative Trading, Economy, Order Flow Analytics",
+      "characteristics": [
+        "Clean, data-driven design inspired by Bloomberg Terminal",
+        "Sharp typography with monospace fonts for numerical data",
+        "Rich micro-interactions and real-time data animations",
+        "Professional trading platform feel with financial color schemes",
+        "Seamless day/night mode transitions (trader-friendly dark mode)",
+        "Market-inspired color coding (green for bullish, red for bearish)",
+        "Chart and graph-ready layout with data visualization focus",
+        "Terminal-style UI elements with precision and clarity",
+        "BlackObsidian brand integration with obsidian dark theme"
+      ]
+    },
+    "frontendImplementation": {
+      "description": "Client-side architecture for a premium portfolio experience",
+      "structure": {
+        "framework": "Next.js 14+ (App Router)",
+        "rendering": "Server-Side Rendering (SSR) + Static Generation",
+        "routing": "File-based routing with Next.js App Router",
+        "stateManagement": "React Context API + useState/useReducer for theme",
+        "optimization": "Automatic code splitting and lazy loading"
+      },
+      "components": {
+        "layout": {
+          "description": "Core layout components for consistent structure",
+          "components": [
+            {
+              "name": "Header/Navbar",
+              "features": [
+                "Sticky navigation with blur backdrop",
+                "Smooth scroll to sections",
+                "Mobile hamburger menu with GSAP animation",
+                "Theme toggle button (sun/moon icon)",
+                "BlackObsidian AMC logo with subtle hover animation",
+                "Active section indicator",
+                "Professional financial brand identity"
+              ],
+              "styling": "Glass morphism effect, backdrop-filter blur, obsidian dark theme"
+            },
+            {
+              "name": "Footer",
+              "features": [
+                "Social media links with hover effects",
+                "Copyright information: © 2026 BlackObsidian AMC",
+                "Quick navigation links",
+                "Contact information",
+                "Back to top button with smooth scroll",
+                "Company tagline or mission statement",
+                "Professional affiliations and disclaimers"
+              ],
+              "styling": "Minimal design with subtle borders, obsidian theme"
+            },
+            {
+              "name": "Theme Provider",
+              "features": [
+                "System preference detection",
+                "Manual theme toggle",
+                "Persistent theme selection (localStorage)",
+                "Smooth theme transition animations",
+                "CSS variables for dynamic theming"
+              ],
+              "implementation": "React Context + Tailwind dark mode"
+            }
+          ]
+        },
+        "sections": {
+          "description": "Main portfolio sections",
+          "components": [
+            {
+              "name": "Hero Section",
+              "features": [
+                "Large, bold typography with financial gradient text",
+                "Animated name/title reveal (GSAP SplitText)",
+                "Professional title: 'Quantitative Trader at BlackObsidian AMC'",
+                "Tagline: 'Systematic Trading | Order Flow Analytics | Market Microstructure'",
+                "CTA buttons (View Portfolio + Download Resume)",
+                "Animated background: subtle candlestick chart pattern or market data stream",
+                "Scroll indicator with pulse animation",
+                "Professional headshot with premium obsidian border",
+                "Live market ticker with animated price updates (optional)",
+                "Terminal-style code snippet showcase",
+                "BlackObsidian AMC brand integration"
+              ],
+              "animations": "Stagger fade-in on load, parallax on scroll, data stream animation"
+            },
+            {
+              "name": "About Section",
+              "features": [
+                "Professional bio highlighting BlackObsidian AMC role and quant expertise",
+                "Skills visualization: Python, R, Trading Platforms, Data Analysis, Order Flow",
+                "Experience timeline: BlackObsidian AMC and other financial institutions",
+                "Certifications: CFA, FRM, CQF, or similar badges",
+                "Download resume button",
+                "Interactive skill cloud: Quantitative Analysis, Algorithmic Trading, Risk Management",
+                "Key metrics display: Years in Trading, Markets Covered, Strategies Developed",
+                "Specializations: Order Flow, Market Microstructure, Statistical Arbitrage",
+                "BlackObsidian AMC philosophy and approach to systematic trading"
+              ],
+              "animations": "Scroll-triggered reveals, counter animations for trading stats"
+            },
+            {
+              "name": "Projects Showcase",
+              "features": [
+                "Grid/masonry layout for trading project cards",
+                "Project cards with hover effects (terminal-style glow)",
+                "Filter by: Algorithmic Trading, Risk Management, Data Analysis, Backtesting",
+                "Project modal with detailed case studies",
+                "Live demo + GitHub links for open-source tools",
+                "Tech stack badges: Python, pandas, NumPy, QuantLib, Backtrader",
+                "Project thumbnails: charts, strategy performance, order flow visualizations",
+                "Performance metrics: Sharpe Ratio, Max Drawdown, Win Rate",
+                "Trading strategy descriptions and backtesting results",
+                "Order flow analysis examples and market microstructure research"
+              ],
+              "animations": "Stagger animations on filter, smooth transitions, chart zoom on hover"
+            },
+            {
+              "name": "AI Chat Assistant (Gemini)",
+              "features": [
+                "Floating chat button styled as trading terminal icon",
+                "Modal chat interface with terminal aesthetic",
+                "AI-powered Q&A about trading strategies and quant experience",
+                "Typing indicators with terminal-style cursor",
+                "Message history with financial context awareness",
+                "Code syntax highlighting for Python/R trading code",
+                "Quick question suggestions: 'Explain your trading strategy', 'Order flow techniques', 'Risk management approach'",
+                "Financial terminology recognition and explanations",
+                "Market insights and economic analysis capabilities"
+              ],
+              "animations": "Slide-in/fade-in modal, message bubble animations, typing effect"
+            },
+            {
+              "name": "Contact Section",
+              "features": [
+                "Contact form with validation",
+                "Email, LinkedIn, GitHub links",
+                "Availability status indicator",
+                "Success/error message animations",
+                "Spam protection (honeypot or reCAPTCHA)",
+                "Send button with loading state"
+              ],
+              "animations": "Form field focus animations, button ripple effects"
+            },
+            {
+              "name": "Testimonials/Recommendations",
+              "features": [
+                "Rotating testimonials carousel",
+                "LinkedIn recommendations",
+                "Client feedback from BlackObsidian AMC and trading community",
+                "Professional endorsements from finance industry",
+                "Star ratings visualization",
+                "Swipe gestures on mobile",
+                "Performance testimonials and strategy success stories"
+              ],
+              "animations": "Auto-rotate carousel with smooth transitions"
+            }
+          ]
+        },
+        "uiElements": {
+          "description": "Reusable UI components for premium feel",
+          "components": [
+            {
+              "name": "Premium Buttons",
+              "variants": [
+                "Primary: Gradient background with hover glow",
+                "Secondary: Outlined with fill on hover",
+                "Ghost: Transparent with subtle hover",
+                "Icon buttons with tooltips"
+              ],
+              "effects": "Ripple effect, smooth scale on hover, loading states"
+            },
+            {
+              "name": "Premium Cards",
+              "features": [
+                "Subtle shadow with elevation on hover",
+                "Gradient borders (subtle)",
+                "Glass morphism variants",
+                "Smooth corner radius (rounded-2xl)",
+                "Inner glow effects"
+              ]
+            },
+            {
+              "name": "Loading States",
+              "variants": [
+                "Skeleton loaders for content",
+                "Spinner with brand colors",
+                "Progress bars with animations",
+                "Shimmer effects"
+              ]
+            },
+            {
+              "name": "Tooltips & Popovers",
+              "features": [
+                "Smooth fade-in/out",
+                "Directional arrows",
+                "Dark/light theme variants",
+                "Micro-animations on show/hide"
+              ]
+            }
+          ]
+        }
+      },
+      "themeSystem": {
+        "description": "Advanced day/night mode implementation",
+        "implementation": {
+          "approach": "CSS variables + Tailwind dark mode class strategy",
+          "storage": "localStorage with 'theme' key",
+          "detection": "Prefers-color-scheme media query for initial load",
+          "transition": "Smooth 300ms transition for all theme-dependent properties"
+        },
+        "lightTheme": {
+          "name": "Trading Floor Light",
+          "background": {
+            "primary": "#FAFAFA",
+            "secondary": "#F5F5F5",
+            "elevated": "#FFFFFF",
+            "glass": "rgba(255, 255, 255, 0.85)",
+            "terminal": "#FCFCFC",
+            "chart": "#FFFFFF"
+          },
+          "text": {
+            "primary": "#0A0E27",
+            "secondary": "#2D3748",
+            "muted": "#718096",
+            "accent": "#1E40AF",
+            "financial": "#1F2937"
+          },
+          "financial": {
+            "bullish": "#10B981",
+            "bearish": "#EF4444",
+            "neutral": "#6B7280",
+            "profit": "#059669",
+            "loss": "#DC2626",
+            "volume": "#3B82F6",
+            "orderflow": "#8B5CF6"
+          },
+          "borders": {
+            "subtle": "#E5E7EB",
+            "default": "#D1D5DB",
+            "strong": "#9CA3AF",
+            "chart": "#CBD5E1"
+          },
+          "shadows": {
+            "sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "premium": "0 20px 40px rgba(0, 0, 0, 0.12)",
+            "terminal": "0 4px 12px rgba(0, 0, 0, 0.08)"
+          },
+          "gradients": {
+            "primary": "linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)",
+            "accent": "linear-gradient(135deg, #10B981 0%, #059669 100%)",
+            "subtle": "linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%)",
+            "bullish": "linear-gradient(135deg, #10B981 0%, #34D399 100%)",
+            "bearish": "linear-gradient(135deg, #EF4444 0%, #F87171 100%)",
+            "quant": "linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)"
+          }
+        },
+        "darkTheme": {
+          "name": "Trading Terminal Dark",
+          "background": {
+            "primary": "#0A0E27",
+            "secondary": "#131829",
+            "elevated": "#1A1F3A",
+            "glass": "rgba(19, 24, 41, 0.85)",
+            "terminal": "#0D1117",
+            "chart": "#161B2E"
+          },
+          "text": {
+            "primary": "#F8FAFC",
+            "secondary": "#CBD5E1",
+            "muted": "#94A3B8",
+            "accent": "#60A5FA",
+            "financial": "#E2E8F0"
+          },
+          "financial": {
+            "bullish": "#10B981",
+            "bearish": "#EF4444",
+            "neutral": "#9CA3AF",
+            "profit": "#34D399",
+            "loss": "#F87171",
+            "volume": "#60A5FA",
+            "orderflow": "#A78BFA"
+          },
+          "borders": {
+            "subtle": "#1E293B",
+            "default": "#334155",
+            "strong": "#475569",
+            "chart": "#2D3748"
+          },
+          "shadows": {
+            "sm": "0 1px 2px rgba(0, 0, 0, 0.4)",
+            "md": "0 4px 6px rgba(0, 0, 0, 0.5)",
+            "lg": "0 10px 15px rgba(0, 0, 0, 0.6)",
+            "premium": "0 20px 40px rgba(0, 0, 0, 0.7)",
+            "terminal": "0 8px 24px rgba(0, 0, 0, 0.5)",
+            "glow": "0 0 20px rgba(99, 102, 241, 0.3)"
+          },
+          "gradients": {
+            "primary": "linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)",
+            "accent": "linear-gradient(135deg, #059669 0%, #10B981 100%)",
+            "subtle": "linear-gradient(135deg, #131829 0%, #0A0E27 100%)",
+            "bullish": "linear-gradient(135deg, #059669 0%, #10B981 100%)",
+            "bearish": "linear-gradient(135deg, #DC2626 0%, #EF4444 100%)",
+            "quant": "linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)",
+            "terminal": "linear-gradient(180deg, #0D1117 0%, #161B2E 100%)"
+          }
+        },
+        "premiumEffects": {
+          "glassMorphism": {
+            "description": "Frosted glass effect for terminal-style cards and modals",
+            "css": "backdrop-filter: blur(12px); background: rgba(10, 14, 39, 0.75)",
+            "usage": "Trading terminal panels, modals, floating charts"
+          },
+          "gradientText": {
+            "description": "Financial gradient color on headings",
+            "css": "background-clip: text; -webkit-background-clip: text; color: transparent",
+            "usage": "Hero title, section headings, financial metrics"
+          },
+          "terminalGlow": {
+            "description": "Terminal-style glow effects for financial data",
+            "css": "box-shadow: 0 0 15px rgba(99, 102, 241, 0.4)",
+            "usage": "Active charts, live data feeds, order flow indicators"
+          },
+          "dataAnimation": {
+            "description": "Real-time data update animations",
+            "properties": "all 200ms cubic-bezier(0.4, 0, 0.2, 1)",
+            "usage": "Price tickers, volume bars, order book updates"
+          },
+          "marketPulse": {
+            "description": "Pulsing effect for live market data",
+            "css": "animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            "usage": "Live indicators, real-time status badges"
+          },
+          "chartGrid": {
+            "description": "Professional chart grid overlay",
+            "css": "background: linear-gradient(0deg, rgba(100,116,139,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(100,116,139,0.1) 1px, transparent 1px)",
+            "usage": "Chart backgrounds, data visualization areas"
+          },
+          "orderFlowIndicator": {
+            "description": "Visual indicators for order flow data",
+            "css": "border-left: 3px solid var(--orderflow-color); box-shadow: inset 0 0 10px rgba(139, 92, 246, 0.2)",
+            "usage": "Order flow visualization, trade execution indicators"
+          },
+          "smoothTransitions": {
+            "description": "Professional trading terminal feel",
+            "properties": "all 300ms cubic-bezier(0.4, 0, 0.2, 1)",
+            "usage": "All interactive elements, theme transitions"
+          }
+        },
+        "financialDataDisplay": {
+          "description": "Finance-specific UI patterns",
+          "typography": {
+            "prices": "font-family: 'JetBrains Mono', 'Fira Code', monospace",
+            "data": "font-variant-numeric: tabular-nums",
+            "charts": "letter-spacing: 0.02em"
+          },
+          "colorCoding": {
+            "positive": "Use bullish green (#10B981) for profits, gains, buy orders",
+            "negative": "Use bearish red (#EF4444) for losses, declines, sell orders",
+            "neutral": "Use gray (#6B7280) for unchanged values",
+            "volume": "Use blue (#3B82F6) for volume indicators",
+            "orderflow": "Use purple (#8B5CF6) for order flow analytics"
+          },
+          "dataVisualization": {
+            "candlesticks": "Traditional red/green candlestick charts",
+            "heatmaps": "Order book depth heatmaps",
+            "volumeProfile": "Volume profile with horizontal bars",
+            "orderFlow": "Delta, CVD, and imbalance visualizations",
+            "metrics": "Real-time KPI cards with sparklines"
+          }
+        }
+      },
+      "animations": {
+        "description": "GSAP-powered premium animations",
+        "pageLoad": [
+          "Hero text stagger reveal (SplitText)",
+          "Fade-in navigation with delay",
+          "Parallax background elements",
+          "Counter animations for statistics"
+        ],
+        "scrollAnimations": [
+          "Section fade-in on scroll (ScrollTrigger)",
+          "Parallax effects on images/backgrounds",
+          "Progress bar on scroll",
+          "Navbar hide/show on scroll direction",
+          "Sticky section pins",
+          "Number counter triggers on visibility"
+        ],
+        "interactions": [
+          "Magnetic buttons (cursor follow)",
+          "Smooth page transitions",
+          "Card hover lift effects",
+          "Image zoom on hover",
+          "Ripple effects on clicks",
+          "Custom cursor with trail"
+        ],
+        "themeTransition": [
+          "Circular reveal animation from toggle button",
+          "Smooth color transitions",
+          "Icon morph (sun to moon)"
+        ]
+      },
+      "performance": {
+        "optimization": [
+          "Next.js Image component for optimized images",
+          "Lazy loading for below-fold content",
+          "Code splitting by route",
+          "Dynamic imports for heavy components (AI chat)",
+          "Preloading critical assets",
+          "Font optimization with next/font",
+          "Minimal JavaScript bundle",
+          "CSS purging with Tailwind"
+        ],
+        "metrics": {
+          "lighthouse": {
+            "performance": ">90",
+            "accessibility": "100",
+            "bestPractices": "100",
+            "seo": "100"
+          },
+          "coreWebVitals": {
+            "LCP": "<2.5s",
+            "FID": "<100ms",
+            "CLS": "<0.1"
+          }
+        }
+      },
+      "accessibility": {
+        "features": [
+          "Semantic HTML5 elements",
+          "ARIA labels and roles",
+          "Keyboard navigation support",
+          "Focus visible states with premium styling",
+          "Skip to main content link",
+          "Alt text for all images",
+          "Color contrast WCAG AA compliant",
+          "Screen reader friendly",
+          "Reduced motion support (prefers-reduced-motion)"
+        ]
+      },
+      "responsive": {
+        "breakpoints": {
+          "mobile": "320px - 640px",
+          "tablet": "641px - 1024px",
+          "desktop": "1025px - 1920px",
+          "ultrawide": "1921px+"
+        },
+        "approach": "Mobile-first design with progressive enhancement",
+        "features": [
+          "Touch-friendly targets (min 44x44px)",
+          "Responsive typography (clamp functions)",
+          "Fluid grid layouts",
+          "Adaptive images",
+          "Mobile navigation drawer",
+          "Tablet-optimized layouts"
+        ]
+      }
+    },
+    "backendImplementation": {
+      "description": "Server-side logic and API integration",
+      "architecture": {
+        "framework": "Next.js API Routes (serverless functions)",
+        "runtime": "Node.js 18+",
+        "deployment": "Google Cloud Run (containerized)",
+        "scalability": "Auto-scaling based on traffic"
+      },
+      "apiRoutes": {
+        "description": "RESTful API endpoints in /app/api/",
+        "endpoints": [
+          {
+            "path": "/api/gemini/chat",
+            "method": "POST",
+            "purpose": "AI chatbot powered by Gemini API",
+            "request": {
+              "body": {
+                "message": "string - user's question",
+                "context": "string - portfolio context (optional)"
+              }
+            },
+            "response": {
+              "reply": "string - AI generated response",
+              "timestamp": "ISO string"
+            },
+            "features": [
+              "Gemini API integration",
+              "Context-aware responses about portfolio",
+              "Rate limiting to prevent abuse",
+              "Error handling with fallback responses",
+              "Streaming responses for real-time feel"
+            ],
+            "security": [
+              "API key stored in environment variables",
+              "Input sanitization",
+              "CORS configuration",
+              "Request validation"
+            ]
+          },
+          {
+            "path": "/api/contact",
+            "method": "POST",
+            "purpose": "Handle contact form submissions",
+            "request": {
+              "body": {
+                "name": "string",
+                "email": "string",
+                "message": "string",
+                "honeypot": "string (spam detection)"
+              }
+            },
+            "response": {
+              "success": "boolean",
+              "message": "string"
+            },
+            "features": [
+              "Email validation",
+              "Spam protection (honeypot field)",
+              "Rate limiting (max 3 submissions per hour)",
+              "Store submissions in Firebase Firestore"
+            ]
+          },
+          {
+            "path": "/api/projects",
+            "method": "GET",
+            "purpose": "Fetch portfolio projects dynamically",
+            "response": {
+              "projects": "array of project objects"
+            },
+            "features": [
+              "Dynamic project data from CMS or JSON",
+              "Filtering by technology",
+              "Caching with revalidation",
+              "GitHub API integration for live stats"
+            ]
+          },
+          {
+            "path": "/api/analytics",
+            "method": "POST",
+            "purpose": "Track custom analytics events",
+            "request": {
+              "body": {
+                "event": "string - event name",
+                "data": "object - event metadata"
+              }
+            },
+            "features": [
+              "Custom event tracking",
+              "User interaction analytics",
+              "Privacy-compliant tracking"
+            ]
+          },
+          {
+            "path": "/api/generate-content",
+            "method": "POST",
+            "purpose": "AI-generated content using Gemini",
+            "request": {
+              "body": {
+                "type": "string - content type (bio, project description)",
+                "prompt": "string - generation prompt"
+              }
+            },
+            "features": [
+              "On-demand content generation",
+              "Multiple content types support",
+              "Caching for repeated requests"
+            ]
+          }
+        ]
+      },
+      "dataManagement": {
+        "contentStrategy": "Static JSON + Dynamic API data",
+        "sources": [
+          {
+            "type": "Static JSON files",
+            "location": "/data/",
+            "files": [
+              "projects.json - Portfolio projects",
+              "skills.json - Technical skills",
+              "experience.json - Work history",
+              "testimonials.json - Client feedback"
+            ]
+          },
+          {
+            "type": "Dynamic API data",
+            "sources": [
+              "GitHub API - Live repository stats",
+              "Gemini API - AI-generated content"
+            ]
+          },
+          {
+            "type": "Firebase Firestore",
+            "purpose": "NoSQL database for contact forms and analytics"
+          }
+        ]
+      },
+      "integrations": {
+        "geminiAPI": {
+          "sdk": "@google/generative-ai",
+          "model": "gemini-pro",
+          "features": [
+            "Context-aware chatbot responses",
+            "Content generation for portfolio sections",
+            "Code explanation and examples",
+            "Project description enhancement"
+          ],
+          "configuration": {
+            "apiKey": "process.env.GEMINI_API_KEY",
+            "temperature": "0.7 - balanced creativity",
+            "maxTokens": "1024"
+          }
+        },
+        "githubAPI": {
+          "purpose": "Fetch live repository data",
+          "endpoints": [
+            "GET /repos/:owner/:repo - Repository details",
+            "GET /repos/:owner/:repo/languages - Tech stack"
+          ],
+          "features": [
+            "Live star count",
+            "Last update timestamps",
+            "Tech stack visualization"
+          ]
+        }
+      },
+      "security": {
+        "measures": [
+          "Environment variables for sensitive data",
+          "API route authentication/validation",
+          "Rate limiting on API endpoints",
+          "CORS configuration (allow specific origins)",
+          "Input sanitization and validation",
+          "HTTPS enforcement on Cloud Run",
+          "Security headers (helmet.js patterns)",
+          "SQL injection prevention (if using DB)",
+          "XSS protection"
+        ],
+        "environmentVariables": [
+          "GEMINI_API_KEY - Google Gemini API key",
+          "NEXT_PUBLIC_SITE_URL - Public site URL",
+          "CONTACT_EMAIL - Email for contact forms",
+          "ANALYTICS_ID - Google Analytics ID (optional)"
+        ]
+      },
+      "deployment": {
+        "platform": "Google Cloud Run",
+          "dockerfile": "Multi-stage build for optimization",
+          "baseImage": "node:18-alpine",
+          "outputMode": "standalone (Next.js)",
+          "optimization": [
+            "Multi-stage builds to reduce image size",
+            "Only production dependencies",
+            "Minimal base image (Alpine Linux)"
+          ]
+        },
+        "cicd": {
+          "platform": "GitHub Actions",
+          "workflow": [
+            "1. Trigger on push to main branch",
+            "2. Run tests and linting",
+            "3. Build Next.js app",
+            "4. Build Docker image",
+            "5. Push to Google Container Registry",
+            "6. Deploy to Cloud Run",
+            "7. Run smoke tests"
+          ]
+        },
+        "configuration": {
+          "memory": "512Mi - 1Gi",
+          "cpu": "1",
+          "minInstances": "0 (scale to zero)",
+          "maxInstances": "10",
+          "concurrency": "80",
+          "timeout": "60s"
+        }
+      },
+      "monitoring": {
+        "tools": [
+          "Cloud Monitoring - Infrastructure metrics",
+          "Cloud Logging - Application logs",
+          "Error Tracking - Sentry or similar",
+          "Analytics - Google Analytics 4"
+        ],
+
+        "metrics": [
+          "Response times",
+          "Error rates",
+        ],
+        "metrics": [
+          "Response times",
+          "Error rates",
+          "API usage",
+          "Container metrics (CPU, memory)",
+        "Custom cursor with smooth trail effect",
+        "Parallax scrolling on hero and sections",
+        "Smooth page transitions between routes",
+        "Gradient mesh backgrounds with animation",
+        "Particle effects on hero section",
+        "Glass morphism on floating elements",
+        "Gradient borders with animation",
+        "Micro-interactions on all UI elements"
+      ],
+      "interactive": [
+        "Magnetic buttons (follow cursor)",
+        "3D tilt effect on project cards",
+        "Smooth scroll with custom scrollbar",
+        "Context-aware AI chatbot",
+        "Live typing indicators in chat",
+        "Auto-save theme preference",
+        "Keyboard shortcuts for navigation",
+        "Easter eggs (Konami code, etc.)"
+      ],
+      "technical": [
+        "Progressive Web App (PWA) capabilities",
+        "Offline mode support",
+        "Share API integration",
+        "Copy to clipboard with feedback",
+        "Print-optimized styles"
+      ]
+    }
