@@ -1,0 +1,69 @@
+{
+  "deadline": "2026-02-01T23:59:00-08:00",
+  "judging_criteria": {
+    "primary": ["Innovation and Creativity", "Technical Implementation", "User Experience"],
+    "tie_breaker": "Positive reactions on DEV post"
+  },
+  "submission_requirements": {
+    "deploy_to": "Google Cloud Run (must be live and functional)",
+    "embed_in_post": "Use Cloud Run embed feature in your DEV post",
+    "required_label": "--labels dev-tutorial=devnewyear2026",
+    "must_be_english": "Prizes only for English submissions",
+    "template_url": "https://dev.to/new?prefill=---%0Atitle%3A%20%0Apublished%3A%20%0Atags%3A%20devchallenge%2C%20googleaichallenge%2C%20portfolio%2C%20gemini%0A---%0A%0A*This%20is%20a%20submission%20for%20the%20%5BNew%20Year%2C%20New%20You%20Portfolio%20Challenge%20Presented%20by%20Google%20AI%5D(https%3A%2F%2Fdev.to%2Fchallenges%2Fnew-year-new-you-google-ai-2025-12-31)*"
+  },
+  "tools_to_use": {
+    "ai_studio": "https://aistudio.google.com/",
+    "gemini_cli": "https://github.com/google-gemini/generative-ai-cli",
+    "antigravity": "https://antigravity.dev/",
+    "cloud_run_embed_guide": "https://dev.to/devteam/you-can-now-embed-cloud-run-deployments-directly-in-your-dev-posts-1jk8",
+    "deploy_guide": "https://dev.to/googleai/from-prompt-to-deployed-app-in-less-than-2-minutes-dh3"
+  },
+  "critical_rules": [
+    "Include significant original contributions, credit all reused code",
+    "Add MIT/Apache/BSD license to your repo",
+    "Write in English for prize eligibility"
+  ],
+  "winning_strategies": {
+    "goal": "Practical, judge-focused steps to maximize your chances of winning based on the official criteria and judge behavior.",
+    "general_tips": [
+      "Start with a clear, compelling hero section that states who you are and what you built (one-liner + demo).",
+      "Target the judging criteria directly: show innovation, robust technical implementation, and excellent UX in distinct sections of your post.",
+      "Make your submission English-friendly for prize consideration (write captions and summaries in English)."
+    ],
+    "innovation_and_creativity": [
+      "Showcase a unique idea or twist — don’t only change visuals; add new features, AI-driven interactions, or novel presentation formats.",
+      "Describe design decisions and trade-offs so judges understand why your approach is novel and meaningful."
+    ],
+    "technical_implementation": [
+      "Provide a public GitHub repo with a clear README, deployment instructions, and a short architecture/tech overview.",
+      "Use Google AI tools where relevant (AI Studio/Gemini) and include a short “How AI was used” section with code snippets or prompts so judges can verify your technical work.",
+      "Ensure reliability: use Cloud Run with health checks, fast cold-start configuration, and test/embed the live app in your DEV post before publishing."
+    ],
+    "user_experience": [
+      "Prioritize accessibility, responsiveness, and performance; include screenshots or short GIFs highlighting interactions.",
+      "Include a guided tour or ‘what to try’ section so judges can quickly experience the product’s highlights."
+    ],
+    "presentation_and_submission": [
+      "Embed your Cloud Run deployment correctly and confirm it loads inside the DEV post (test on desktop and mobile).",
+      "Use the submission template and add `--labels dev-tutorial=devnewyear2026` to your post so it’s properly collected for judging.",
+      "Be transparent: explicitly list reused work, dependencies, and any third-party assets or templates you built on."
+    ],
+    "community_and_reactions": [
+      "Share your DEV post with your network and relevant communities to gain early positive reactions (ties are broken by positive reactions).",
+      "Engage with commenters professionally — constructive engagement can increase visibility and reactions."
+    ],
+    "compliance_and_legal": [
+      "Include a license for your code (MIT/Apache/BSD recommended) and cite any third-party code or assets used.",
+      "Confirm eligibility and rule compliance; if you are unsure, consult the Official Rules link provided above."
+    ],
+    "final_checklist_before_publish": [
+      "Live Cloud Run URL embedded and working in DEV post",
+      "DEV post uses the submission template and includes the challenge label",
+      "Public GitHub repo with README, license, and usage notes",
+      "Short ‘How AI was used’ section and code snippets where applicable",
+      "Screenshots/GIFs and ‘what to try’ guide for judges",
+      "Post written in English (if you want to be prize-eligible)",
+      "Proofread and test on mobile/desktop"
+    ]
+  }
+}
