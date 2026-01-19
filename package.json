@@ -1,21 +1,29 @@
 {
-  "name": "newyouportfoliochallenge-devchallenges",
+  "name": "blackobsidian-portfolio",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev -p 1189",
+    "build": "next build",
+    "start": "next start -p 1189",
+    "lint": "eslint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Pusparaj99op/NewYouPortfolioChallenge-DEVChallenges.git"
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@studio-freight/lenis": "^1.0.42",
+    "gsap": "^3.14.2",
+    "next": "16.1.3",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Pusparaj99op/NewYouPortfolioChallenge-DEVChallenges/issues"
-  },
-  "homepage": "https://github.com/Pusparaj99op/NewYouPortfolioChallenge-DEVChallenges#readme"
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.3",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
 }

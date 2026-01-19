@@ -1,0 +1,14 @@
+# Ignore files not needed in Docker build
+node_modules
+.next
+.git
+.gitignore
+*.md
+.env*
+!.env.example
+.vscode
+.idea
+*.log
+npm-debug.log*
+.DS_Store
+Docs
