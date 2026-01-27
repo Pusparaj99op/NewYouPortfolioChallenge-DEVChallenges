@@ -119,7 +119,7 @@ export default function Hero() {
         <section
             ref={heroRef}
             id="home"
-            className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background-primary pt-20"
+            className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent pt-20"
         >
             {/* Enhanced Background */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -163,10 +163,15 @@ export default function Hero() {
                         </span>{' '}
                         and{' '}
                         <span className="text-accent-purple font-medium relative inline-block group">
-                            Web3 interfaces
                             <span className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-purple/30 group-hover:bg-accent-purple transition-colors" />
                         </span>.
                     </p>
+
+                    <div className="mb-12 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                        <p className="text-sm sm:text-base md:text-lg text-text-muted font-mono tracking-wider uppercase border-l-2 border-accent-purple/50 pl-4 py-1 ml-4 sm:ml-0 text-left sm:text-center sm:border-l-0 sm:border-y sm:border-white/10 sm:py-3 inline-block">
+                            Systematic research • Disciplined execution • Institutional risk controls
+                        </p>
+                    </div>
 
                     <div
                         ref={buttonsRef}
