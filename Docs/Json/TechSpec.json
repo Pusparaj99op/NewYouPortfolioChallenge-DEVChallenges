@@ -170,6 +170,27 @@
             "Interactive project showcases",
             "AI-generated portfolio insights"
           ]
+        },
+        {
+          "name": "Three.js",
+          "purpose": "3D rendering and immersive graphics",
+          "uses": [
+            "Interactive 3D backgrounds",
+            "3D model showcasing",
+            "Particle effects",
+            "Spatial navigation",
+            "WebGL abstraction"
+          ]
+        },
+        {
+          "name": "WebXR",
+          "purpose": "Immersive AR/VR experiences",
+          "uses": [
+            "VR portfolio mode",
+            "AR product visualizations",
+            "Spatial interfaces",
+            "Device motion interaction"
+          ]
         }
       ]
     },
@@ -190,6 +211,16 @@
             "Built-in API routes",
             "Image optimization",
             "File-based routing"
+          ]
+        },
+        {
+          "name": "WebGL",
+          "purpose": "High-performance 3D graphics",
+          "uses": [
+            "Custom shader effects (GLSL)",
+            "Hardware-accelerated rendering",
+            "Complex visual simulations",
+            "Fluid dynamics"
           ]
         },
         {
@@ -292,7 +323,11 @@
         },
         {
           "name": "Performance Optimization",
-          "tools": ["Lighthouse", "WebPageTest", "Chrome DevTools"],
+          "tools": [
+            "Lighthouse",
+            "WebPageTest",
+            "Chrome DevTools"
+          ],
           "purpose": "Fast loading and smooth interactions",
           "uses": [
             "Image optimization",
@@ -304,7 +339,10 @@
         },
         {
           "name": "Accessibility (a11y)",
-          "standards": ["WCAG 2.1", "ARIA"],
+          "standards": [
+            "WCAG 2.1",
+            "ARIA"
+          ],
           "purpose": "Inclusive design for all users",
           "uses": [
             "Semantic HTML",
@@ -368,7 +406,11 @@
         },
         {
           "name": "Analytics & Monitoring",
-          "tools": ["Google Analytics", "Cloud Monitoring", "Error Tracking"],
+          "tools": [
+            "Google Analytics",
+            "Cloud Monitoring",
+            "Error Tracking"
+          ],
           "purpose": "Understanding user behavior",
           "uses": [
             "Visitor tracking",
@@ -400,6 +442,26 @@
             "Blog/articles integration",
             "Social proof (testimonials, certifications)"
           ]
+        },
+        {
+          "name": "Lenis",
+          "purpose": "Smooth scrolling standardization",
+          "uses": [
+            "Normalization of scroll behavior",
+            "Parallax foundation",
+            "Scroll-linked animations",
+            "Momentum scrolling"
+          ]
+        },
+        {
+          "name": "Lottie",
+          "purpose": "Vector animation rendering",
+          "uses": [
+            "High-fidelity micro-interactions",
+            "Scalable vector graphics animations",
+            "After Effects integration",
+            "Interactive icons"
+          ]
         }
       ]
     }
@@ -417,7 +479,12 @@
     "devPost": {
       "requirement": "Published on DEV.to with Cloud Run embed",
       "label": "dev-tutorial=devnewyear2026",
-      "tags": ["devchallenge", "googleaichallenge", "portfolio", "gemini"]
+      "tags": [
+        "devchallenge",
+        "googleaichallenge",
+        "portfolio",
+        "gemini"
+      ]
     }
   },
   "additionalConsiderations": {
