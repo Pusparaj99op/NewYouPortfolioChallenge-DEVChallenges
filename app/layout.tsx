@@ -7,6 +7,10 @@ import CustomCursor from "@/components/ui/CustomCursor";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Preloader from "@/components/ui/Preloader";
 import FluidBackground from "@/components/ui/FluidBackground";
+import SmoothScrolling from "@/components/ui/SmoothScrolling";
+import Scene from "@/components/canvas/Scene";
+import { XRButton, XRWrapper } from "@/components/canvas/XRContainer";
+import ObsidianCrystal from "@/components/canvas/ObsidianCrystal";
 
 // Premium display font for headings - geometric and modern
 const spaceGrotesk = Space_Grotesk({
@@ -77,13 +81,21 @@ export default function RootLayout({
           <ToastProvider>
             <CustomCursor />
             <ScrollProgress />
-            <FluidBackground />
+            {/* <FluidBackground /> */}
+            <Scene className="fixed inset-0 z-0">
+              <XRWrapper>
+                <ObsidianCrystal />
+              </XRWrapper>
+            </Scene>
+            <XRButton />
             <Preloader />
             {/* Skip to main content for accessibility */}
             <a href="#main-content" className="skip-link">
               Skip to main content
             </a>
-            {children}
+            <SmoothScrolling>
+              {children}
+            </SmoothScrolling>
           </ToastProvider>
         </ThemeProvider>
       </body>
