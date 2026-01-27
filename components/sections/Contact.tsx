@@ -55,7 +55,7 @@ export default function Contact() {
     };
 
     return (
-        <section ref={sectionRef} id="contact" className="section bg-black relative overflow-hidden">
+        <section ref={sectionRef} id="contact" className="section bg-transparent relative overflow-hidden">
             {/* Enhanced Background Glow */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80vw] h-[40vw] bg-accent-purple/10 blur-[150px] rounded-full pointer-events-none" />
             <div className="absolute top-1/4 -right-32 w-64 h-64 bg-accent-green/10 blur-[100px] rounded-full pointer-events-none" />
@@ -83,8 +83,8 @@ export default function Contact() {
                             <label
                                 htmlFor="name"
                                 className={`absolute left-5 transition-all duration-300 pointer-events-none ${focusedField === 'name' || formData.name
-                                        ? '-top-2.5 text-xs bg-black px-2 text-accent-purple'
-                                        : 'top-4 text-text-muted'
+                                    ? '-top-2.5 text-xs bg-black px-2 text-accent-purple'
+                                    : 'top-4 text-text-muted'
                                     }`}
                             >
                                 Your Name
@@ -108,8 +108,8 @@ export default function Contact() {
                             <label
                                 htmlFor="email"
                                 className={`absolute left-5 transition-all duration-300 pointer-events-none ${focusedField === 'email' || formData.email
-                                        ? '-top-2.5 text-xs bg-black px-2 text-accent-purple'
-                                        : 'top-4 text-text-muted'
+                                    ? '-top-2.5 text-xs bg-black px-2 text-accent-purple'
+                                    : 'top-4 text-text-muted'
                                     }`}
                             >
                                 Email Address
@@ -133,8 +133,8 @@ export default function Contact() {
                             <label
                                 htmlFor="message"
                                 className={`absolute left-5 transition-all duration-300 pointer-events-none ${focusedField === 'message' || formData.message
-                                        ? '-top-2.5 text-xs bg-black px-2 text-accent-purple'
-                                        : 'top-4 text-text-muted'
+                                    ? '-top-2.5 text-xs bg-black px-2 text-accent-purple'
+                                    : 'top-4 text-text-muted'
                                     }`}
                             >
                                 Your Message
