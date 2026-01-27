@@ -86,7 +86,7 @@ export default function About() {
     }, []);
 
     return (
-        <section ref={sectionRef} id="about" className="section bg-black relative overflow-hidden">
+        <section ref={sectionRef} id="about" className="section bg-transparent relative overflow-hidden">
             {/* Decorative Elements */}
             <div className="absolute top-1/2 -left-64 w-96 h-96 bg-accent-purple/5 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-80 h-80 bg-accent-green/5 rounded-full blur-[100px] pointer-events-none" />
@@ -98,26 +98,61 @@ export default function About() {
                     <div ref={textRef}>
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-accent-purple text-xs font-semibold uppercase tracking-wider mb-6">
                             <span className="w-1.5 h-1.5 rounded-full bg-accent-purple" />
-                            About Me
+                            About The Firm
                         </div>
 
                         <h2 className="text-4xl sm:text-5xl font-bold mb-8 leading-tight">
-                            <span className="text-white">Crafting </span>
-                            <span className="gradient-text">Excellence</span>
-                            <br />
-                            <span className="text-text-muted text-3xl sm:text-4xl">in Every Line of Code</span>
+                            <span className="text-white">BlackObsidian</span>
+                            <span className="gradient-text"> AMC</span>
                         </h2>
 
-                        <div className="space-y-5 text-base sm:text-lg text-text-secondary leading-relaxed prose">
-                            <p>
-                                I&apos;m the Founder of <span className="text-accent-purple font-semibold hover:text-white transition-colors cursor-default">BlackObsidian AMC</span>.
-                                My work lies at the intersection of <span className="text-accent-green font-medium">high-frequency trading</span> and elegant software engineering.
+                        <div className="space-y-6 text-base sm:text-lg text-text-secondary leading-relaxed prose">
+                            <p className="font-medium text-lg text-white/90">
+                                UAE-based systematic asset manager building research-driven trading systems across digital assets, derivatives, and global markets.
                             </p>
+
+                            <div className="pl-4 border-l-2 border-accent-green/30 my-6">
+                                <p className="text-sm font-mono text-accent-green/80 mb-2">INSPIRATION</p>
+                                <p className="italic text-text-muted">
+                                    "BlackRock, leading systematic funds, and long-term, client-first investing principles."
+                                </p>
+                            </div>
+
                             <p>
-                                I don&apos;t just write code; I design systems that handle millions of dollars in transaction volume.
-                                Whether it&apos;s optimizing order execution latency or building immersive web interfaces,
-                                I obsess over <span className="text-white font-medium">performance</span> and <span className="text-white font-medium">user experience</span>.
+                                <span className="text-accent-purple font-semibold">Black Obsidian</span> is a trading company that trades in every market through every exchange in the world. We have no product to sell and no clients, yet remain profitable through pure alpha generation.
                             </p>
+
+                            <p className="text-sm text-text-muted bg-white/5 p-4 rounded-lg border border-white/5">
+                                <strong className="text-white block mb-1">PRIVACY NOTICE:</strong>
+                                Black Obsidian is a private company with no public information. The firm operates in strict stealth, leveraging proprietary systems that may interact with market dynamics in complex ways.
+                            </p>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                                <div>
+                                    <h4 className="text-white font-bold mb-2 text-sm uppercase tracking-wider">Trading Systems</h4>
+                                    <ul className="text-sm space-y-1 text-text-muted list-disc pl-4 marker:text-accent-green">
+                                        <li>Algorithmic Trading</li>
+                                        <li>High Frequency Trading (HFT)</li>
+                                        <li>Quantitative Trading</li>
+                                        <li>Market Metrics Trading</li>
+                                        <li>Crypto (BTC, ETH, BNB)</li>
+                                        <li>Forex, Commodities, Derivatives</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="text-white font-bold mb-2 text-sm uppercase tracking-wider">Corporate Structure</h4>
+                                    <ul className="text-sm space-y-2 text-text-muted">
+                                        <li className="flex flex-col">
+                                            <span className="text-white pb-0.5">Start Up Firm (Current)</span>
+                                            <span className="text-xs">Owned by Pranay Gajbhiye. Not listed. Registered in U.A.E. Currently active in Sensex Options.</span>
+                                        </li>
+                                        <li className="flex flex-col">
+                                            <span className="text-white pb-0.5">Start Up Company (Future)</span>
+                                            <span className="text-xs">Target Entities: BlackOnyx, BlackObsidian, BlackStreets. Minimum Investment: Rs. 10L.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Highlight Cards */}
