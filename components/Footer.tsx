@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import StripedLogo from '@/components/ui/StripedLogo';
+import WireframeHole from '@/components/ui/WireframeHole';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -71,7 +72,12 @@ export default function Footer() {
     return (
         <footer className="bg-black relative overflow-hidden bg-golden-spiral">
             {/* Mathematical Grid Background */}
-            <div className="absolute inset-0 bg-math-grid opacity-20 pointer-events-none" />
+            <div className="absolute inset-0 bg-math-grid opacity-10 pointer-events-none" />
+
+            {/* Animated Wireframe Hole - Full Width Bottom */}
+            <div className="absolute bottom-[-10%] left-0 w-full h-[800px] pointer-events-none opacity-60 z-0 mix-blend-screen">
+                <WireframeHole speed={0.8} gridScale={25} depth={8} />
+            </div>
 
             {/* Gradient Top Border */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-purple/50 to-transparent" />
@@ -150,15 +156,18 @@ export default function Footer() {
                     <p className="text-text-muted text-sm">
                         © 2026 BlackObsidian AMC. All rights reserved.
                     </p>
-                    <button
-                        onClick={scrollToTop}
-                        className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/10 text-text-muted hover:text-white hover:border-accent-purple transition-all text-sm group"
-                    >
-                        <span>Back to top</span>
-                        <svg className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                        </svg>
-                    </button>
+
+                    <div className="flex flex-col items-center relative group/button">
+                        <button
+                            onClick={scrollToTop}
+                            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/10 text-text-muted hover:text-white hover:border-accent-purple transition-all text-sm relative z-10"
+                        >
+                            <span>Back to top</span>
+                            <svg className="w-4 h-4 group-hover/button:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </footer>
