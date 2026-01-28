@@ -1,10 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import TiltCard from '@/components/ui/TiltCard';
 import Reveal from '@/components/ui/Reveal';
 import ScrambleText from '@/components/ui/ScrambleText';
 import LiquidGlass from '@/components/ui/LiquidGlass';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // SVG icon paths for projects
 const projectIcons = {
@@ -94,59 +98,193 @@ const categoryColors: { [key: string]: string } = {
 export default function Projects() {
     const [activeCategory, setActiveCategory] = useState('All');
     const [hoveredId, setHoveredId] = useState<number | null>(null);
+    const sectionRef = useRef<HTMLElement>(null);
+    const headerRef = useRef<HTMLDivElement>(null);
+    const gridRef = useRef<HTMLDivElement>(null);
+    const filtersRef = useRef<HTMLDivElement>(null);
 
     const filtered = activeCategory === 'All'
         ? projects
         : projects.filter(p => p.category === activeCategory);
 
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            // Badge and heading animation
+            gsap.fromTo('.projects-badge',
+                { scale: 0, opacity: 0 },
+                {
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.6,
+                    ease: 'elastic.out(1, 0.5)',
+                    scrollTrigger: {
+                        trigger: headerRef.current,
+                        start: 'top 85%',
+                    }
+                }
+            );
+
+            // Title with wave effect
+            gsap.fromTo('.projects-title-word',
+                { y: 100, opacity: 0, rotateX: -45 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    rotateX: 0,
+                    stagger: 0.1,
+                    duration: 1,
+                    ease: 'power4.out',
+                    scrollTrigger: {
+                        trigger: headerRef.current,
+                        start: 'top 80%',
+                    }
+                }
+            );
+
+            // Filters slide in
+            gsap.fromTo(filtersRef.current,
+                { x: 50, opacity: 0 },
+                {
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: headerRef.current,
+                        start: 'top 75%',
+                    }
+                }
+            );
+
+            // Project cards with cascade diagonal effect
+            const cards = gsap.utils.toArray('.project-card') as HTMLElement[];
+            cards.forEach((card, index) => {
+                // Calculate row and column for diagonal delay
+                const col = index % 2;
+                const row = Math.floor(index / 2);
+                const delay = (col + row) * 0.15;
+
+                gsap.fromTo(card,
+                    {
+                        y: 80,
+                        opacity: 0,
+                        scale: 0.9,
+                        rotateY: col === 0 ? -10 : 10
+                    },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        scale: 1,
+                        rotateY: 0,
+                        duration: 1,
+                        delay: delay,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: gridRef.current,
+                            start: 'top 85%',
+                        }
+                    }
+                );
+            });
+
+            // Background orb parallax
+            gsap.to('.projects-orb-1', {
+                y: -80,
+                x: 30,
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 2
+                }
+            });
+
+            gsap.to('.projects-orb-2', {
+                y: 60,
+                x: -40,
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1.5
+                }
+            });
+
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, [filtered]);
+
+    // Category change animation
+    const handleCategoryChange = (cat: string) => {
+        if (cat === activeCategory) return;
+
+        // Animate out current cards
+        const cards = gsap.utils.toArray('.project-card') as HTMLElement[];
+        gsap.to(cards, {
+            opacity: 0,
+            y: 30,
+            scale: 0.95,
+            stagger: 0.05,
+            duration: 0.3,
+            ease: 'power2.in',
+            onComplete: () => {
+                setActiveCategory(cat);
+                // Cards will animate in via useEffect
+            }
+        });
+    };
+
     return (
-        <section id="projects" className="section bg-gradient-to-b from-transparent via-black/80 to-transparent relative overflow-hidden">
-            {/* Background Decoration */}
-            <div className="absolute top-0 right-0 w-[40vw] h-[40vw] bg-accent-purple/5 rounded-full blur-[150px] pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[30vw] h-[30vw] bg-accent-green/5 rounded-full blur-[120px] pointer-events-none" />
+        <section ref={sectionRef} id="projects" className="section bg-gradient-to-b from-transparent via-black/80 to-transparent relative overflow-hidden">
+            {/* Background Decoration with parallax */}
+            <div className="projects-orb-1 absolute top-0 right-0 w-[40vw] h-[40vw] bg-accent-purple/5 rounded-full blur-[150px] pointer-events-none" />
+            <div className="projects-orb-2 absolute bottom-0 left-0 w-[30vw] h-[30vw] bg-accent-green/5 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-8">
+                <div ref={headerRef} className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-8">
                     <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-green/10 border border-accent-green/20 text-accent-green text-xs font-semibold uppercase tracking-wider mb-6">
+                        <div className="projects-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-green/10 border border-accent-green/20 text-accent-green text-xs font-semibold uppercase tracking-wider mb-6">
                             <span className="w-1.5 h-1.5 rounded-full bg-accent-green" />
                             Portfolio
                         </div>
 
-                        <h2 className="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
-                            <span className="text-white">Selected</span>{' '}
-                            <span className="gradient-text">Works</span>
+                        <h2 className="text-4xl sm:text-5xl font-bold mb-4 leading-tight overflow-hidden">
+                            <span className="projects-title-word inline-block text-white">Selected</span>{' '}
+                            <span className="projects-title-word inline-block gradient-text">Works</span>
                         </h2>
                         <p className="text-text-secondary max-w-xl text-base sm:text-lg leading-relaxed">
                             A collection of high-performance trading systems and web applications deployed in production.
                         </p>
                     </div>
 
-                    {/* Enhanced Filters */}
-                    <div className="flex flex-wrap gap-2 p-1.5 bg-white/[0.02] rounded-full border border-white/5">
+                    {/* Enhanced Filters with hover animations */}
+                    <div ref={filtersRef} className="flex flex-wrap gap-2 p-1.5 bg-white/[0.02] rounded-full border border-white/5">
                         {categories.map((cat) => (
                             <button
                                 key={cat}
-                                onClick={() => setActiveCategory(cat)}
-                                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 relative overflow-hidden ${activeCategory === cat
+                                onClick={() => handleCategoryChange(cat)}
+                                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 relative overflow-hidden group ${activeCategory === cat
                                     ? 'bg-white text-black shadow-lg shadow-white/10'
                                     : 'bg-transparent text-text-secondary hover:text-white hover:bg-white/5'
                                     }`}
                             >
                                 <span className="relative z-10">{cat}</span>
+                                {/* Hover ripple effect */}
+                                <span className="absolute inset-0 bg-gradient-to-r from-accent-purple/20 to-accent-green/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
                             </button>
                         ))}
                     </div>
                 </div>
 
                 {/* Project Grid */}
-                <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+                <div ref={gridRef} className="grid md:grid-cols-2 gap-6 lg:gap-8">
                     {filtered.map((project, idx) => (
                         <Reveal key={project.id} delay={idx * 0.1}>
                             <TiltCard intensity={6} className="h-full">
                                 <LiquidGlass className="h-full rounded-2xl">
                                     <div
-                                        className="group relative h-full bg-gradient-to-b from-[#0F0F0F] to-[#0A0A0A] border border-white/5 rounded-2xl overflow-hidden transition-all duration-500 hover:border-accent-purple/30"
+                                        className={`project-card group relative h-full bg-gradient-to-b from-[#0F0F0F] to-[#0A0A0A] border border-white/5 rounded-2xl overflow-hidden transition-all duration-500 hover:border-accent-purple/30`}
                                         onMouseEnter={() => setHoveredId(project.id)}
                                         onMouseLeave={() => setHoveredId(null)}
                                     >
@@ -156,10 +294,15 @@ export default function Projects() {
                                         {/* Glow Effect */}
                                         <div className="absolute -inset-px bg-gradient-to-r from-accent-purple/0 via-accent-purple/20 to-accent-purple/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
 
+                                        {/* Corner accent with animation */}
+                                        <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden">
+                                            <div className={`absolute -right-10 -top-10 w-20 h-20 bg-gradient-to-br from-accent-purple/10 to-transparent rotate-45 group-hover:from-accent-purple/30 transition-all duration-500 ${hoveredId === project.id ? 'scale-150' : 'scale-100'}`} />
+                                        </div>
+
                                         <div className="relative p-6 sm:p-8 h-full flex flex-col">
                                             <div className="flex justify-between items-start mb-6">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                                    <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
                                                         <svg className="w-5 h-5 text-accent-purple" fill="currentColor" viewBox="0 0 24 24">
                                                             <path d={projectIcons[project.icon as keyof typeof projectIcons]} />
                                                         </svg>
@@ -170,9 +313,9 @@ export default function Projects() {
                                                 </div>
                                                 <a
                                                     href={project.link}
-                                                    className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white group-hover:bg-accent-purple group-hover:border-accent-purple group-hover:rotate-45 transition-all duration-300"
+                                                    className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white group-hover:bg-accent-purple group-hover:border-accent-purple transition-all duration-300 group/link"
                                                 >
-                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg className="w-5 h-5 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                                     </svg>
                                                 </a>
@@ -188,10 +331,13 @@ export default function Projects() {
 
                                             <div className="pt-6 border-t border-white/5 flex flex-wrap items-center justify-between gap-4">
                                                 <div className="flex flex-wrap gap-2">
-                                                    {project.tech.map(t => (
+                                                    {project.tech.map((t, techIdx) => (
                                                         <span
                                                             key={t}
-                                                            className="text-xs text-text-muted font-mono px-2 py-1 bg-white/[0.03] rounded-md border border-white/5 group-hover:border-white/10 transition-colors"
+                                                            className="text-xs text-text-muted font-mono px-2 py-1 bg-white/[0.03] rounded-md border border-white/5 group-hover:border-white/10 transition-all duration-300"
+                                                            style={{
+                                                                transitionDelay: `${techIdx * 50}ms`
+                                                            }}
                                                         >
                                                             {t}
                                                         </span>
@@ -207,11 +353,6 @@ export default function Projects() {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        {/* Corner Accent */}
-                                        <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden">
-                                            <div className="absolute -right-10 -top-10 w-20 h-20 bg-gradient-to-br from-accent-purple/10 to-transparent rotate-45 group-hover:from-accent-purple/20 transition-colors duration-300" />
-                                        </div>
                                     </div>
                                 </LiquidGlass>
                             </TiltCard>
@@ -219,7 +360,7 @@ export default function Projects() {
                     ))}
                 </div>
 
-                {/* View All Link */}
+                {/* View All Link with animation */}
                 <div className="mt-16 text-center">
                     <a
                         href="#contact"
@@ -229,7 +370,7 @@ export default function Projects() {
                             Want to discuss a project?
                             <span className="absolute bottom-0 left-0 w-0 h-px bg-accent-purple group-hover:w-full transition-all duration-300" />
                         </span>
-                        <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-accent-purple/20 transition-all">
+                        <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-accent-purple/20 group-hover:scale-110 transition-all">
                             <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>

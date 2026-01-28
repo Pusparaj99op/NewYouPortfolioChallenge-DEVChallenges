@@ -3,14 +3,12 @@ import { Space_Grotesk, Sora, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ToastProvider } from "@/components/ui/Toast";
-import CustomCursor from "@/components/ui/CustomCursor";
+import GlassCursor from "@/components/ui/GlassCursor";
+
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Preloader from "@/components/ui/Preloader";
 import FluidBackground from "@/components/ui/FluidBackground";
 import SmoothScrolling from "@/components/ui/SmoothScrolling";
-import Scene from "@/components/canvas/Scene";
-import { XRButton, XRWrapper } from "@/components/canvas/XRContainer";
-import ObsidianCrystal from "@/components/canvas/ObsidianCrystal";
 
 // Premium display font for headings - geometric and modern
 const spaceGrotesk = Space_Grotesk({
@@ -79,15 +77,9 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <ToastProvider>
-            <CustomCursor />
+            <GlassCursor />
             <ScrollProgress />
             {/* <FluidBackground /> */}
-            <Scene className="fixed inset-0 z-0">
-              <XRWrapper>
-                <ObsidianCrystal />
-              </XRWrapper>
-            </Scene>
-            <XRButton />
             <Preloader />
             {/* Skip to main content for accessibility */}
             <a href="#main-content" className="skip-link">

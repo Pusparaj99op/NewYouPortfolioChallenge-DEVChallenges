@@ -1,77 +1,166 @@
 'use client';
 
-import { useRef, useState, MouseEvent, ReactNode } from 'react';
+import { useRef, useState, useCallback, ReactNode } from 'react';
 import { gsap } from 'gsap';
 
 interface MagneticButtonProps {
     children: ReactNode;
+    strength?: number;
     className?: string;
-    strength?: number; // How strong the pull is
 }
 
 export default function MagneticButton({
     children,
-    className = '',
-    strength = 30
+    strength = 30,
+    className = ''
 }: MagneticButtonProps) {
     const buttonRef = useRef<HTMLDivElement>(null);
-    const textRef = useRef<HTMLSpanElement>(null);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const rippleRef = useRef<HTMLDivElement>(null);
+    const glowRef = useRef<HTMLDivElement>(null);
+    const [ripples, setRipples] = useState<Array<{ x: number; y: number; id: number }>>([]);
+    const rippleIdRef = useRef(0);
 
-    const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-        const { clientX, clientY } = e;
-        const { left, top, width, height } = buttonRef.current!.getBoundingClientRect();
+    const handleMouseMove = useCallback((e: React.MouseEvent) => {
+        if (!buttonRef.current) return;
 
-        const x = clientX - (left + width / 2);
-        const y = clientY - (top + height / 2);
+        const rect = buttonRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
 
-        // Apply magnetic effect
+        const deltaX = (e.clientX - centerX) / rect.width;
+        const deltaY = (e.clientY - centerY) / rect.height;
+
+        // Magnetic movement
         gsap.to(buttonRef.current, {
-            x: x * 0.3,
-            y: y * 0.3,
-            duration: 1,
-            ease: 'power4.out',
+            x: deltaX * strength,
+            y: deltaY * strength,
+            rotateX: -deltaY * 10,
+            rotateY: deltaX * 10,
+            duration: 0.4,
+            ease: 'power2.out'
         });
 
-        // Move text slightly differently for depth
-        if (textRef.current) {
-            gsap.to(textRef.current, {
-                x: x * 0.1,
-                y: y * 0.1,
-                duration: 1,
-                ease: 'power4.out',
+        // Glow follows cursor
+        if (glowRef.current) {
+            const localX = e.clientX - rect.left;
+            const localY = e.clientY - rect.top;
+            gsap.to(glowRef.current, {
+                x: localX,
+                y: localY,
+                duration: 0.3
             });
         }
-    };
+    }, [strength]);
 
-    const handleMouseLeave = () => {
+    const handleMouseLeave = useCallback(() => {
+        if (!buttonRef.current) return;
+
+        // Spring back with elastic ease
         gsap.to(buttonRef.current, {
             x: 0,
             y: 0,
-            duration: 1,
-            ease: 'elastic.out(1, 0.3)',
+            rotateX: 0,
+            rotateY: 0,
+            duration: 0.8,
+            ease: 'elastic.out(1, 0.3)'
+        });
+    }, []);
+
+    const handleMouseEnter = useCallback(() => {
+        if (!buttonRef.current) return;
+
+        // Scale up slightly on enter
+        gsap.to(buttonRef.current, {
+            scale: 1.02,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    }, []);
+
+    const handleClick = useCallback((e: React.MouseEvent) => {
+        if (!buttonRef.current) return;
+
+        const rect = buttonRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Add ripple
+        rippleIdRef.current += 1;
+        const newRipple = { x, y, id: rippleIdRef.current };
+        setRipples(prev => [...prev, newRipple]);
+
+        // Click animation
+        gsap.to(buttonRef.current, {
+            scale: 0.95,
+            duration: 0.1,
+            yoyo: true,
+            repeat: 1,
+            ease: 'power2.inOut'
         });
 
-        if (textRef.current) {
-            gsap.to(textRef.current, {
-                x: 0,
-                y: 0,
-                duration: 1,
-                ease: 'elastic.out(1, 0.3)',
-            });
-        }
-    };
+        // Remove ripple after animation
+        setTimeout(() => {
+            setRipples(prev => prev.filter(r => r.id !== newRipple.id));
+        }, 600);
+    }, []);
+
+    const handleMouseLeaveScale = useCallback(() => {
+        if (!buttonRef.current) return;
+
+        gsap.to(buttonRef.current, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    }, []);
 
     return (
         <div
             ref={buttonRef}
-            className={`inline-block cursor-none ${className}`} // cursor-none because we'll handle custom cursor
+            className={`magnetic-button relative inline-block cursor-pointer ${className}`}
             onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+            onMouseLeave={() => {
+                handleMouseLeave();
+                handleMouseLeaveScale();
+            }}
+            onMouseEnter={handleMouseEnter}
+            onClick={handleClick}
+            style={{
+                transformStyle: 'preserve-3d',
+                perspective: '1000px'
+            }}
         >
-            <span ref={textRef} className="block pointer-events-none relative z-10">
+            {/* Glow effect that follows cursor */}
+            <div
+                ref={glowRef}
+                className="absolute w-20 h-20 rounded-full bg-accent-purple/20 blur-xl pointer-events-none -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ left: 0, top: 0 }}
+            />
+
+            {/* Ripple container */}
+            <div className="absolute inset-0 overflow-hidden rounded-full pointer-events-none">
+                {ripples.map(ripple => (
+                    <span
+                        key={ripple.id}
+                        className="absolute rounded-full bg-white/30 animate-ripple"
+                        style={{
+                            left: ripple.x,
+                            top: ripple.y,
+                            transform: 'translate(-50%, -50%)',
+                        }}
+                    />
+                ))}
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10">
                 {children}
-            </span>
+            </div>
+
+            {/* Border glow on hover */}
+            <div className="absolute inset-0 rounded-full opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <div className="absolute inset-0 rounded-full border border-accent-purple/50 blur-[2px]" />
+            </div>
         </div>
     );
 }

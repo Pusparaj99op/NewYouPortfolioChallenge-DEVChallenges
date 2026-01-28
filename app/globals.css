@@ -112,7 +112,6 @@
 
 /* Base Styles */
 html {
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -169,11 +168,32 @@ h6 {
 
 /* Gradient Text */
 .gradient-text {
-  background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-purple) 100%);
+  background: linear-gradient(135deg,
+      var(--accent-green) 0%,
+      var(--accent-blue) 25%,
+      var(--accent-purple) 50%,
+      var(--accent-blue) 75%,
+      var(--accent-green) 100%);
+  background-size: 300% 300%;
+  animation: gradient-flow 6s ease-in-out infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-weight: 800;
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .gradient-text-alt {
@@ -276,11 +296,11 @@ h6 {
 
 /* Glow Effects */
 .glow-text {
-  text-shadow: 0 0 20px rgba(153, 69, 255, 0.5);
+  filter: drop-shadow(0 0 10px rgba(153, 69, 255, 0.5));
 }
 
 .glow-text-green {
-  text-shadow: 0 0 20px rgba(20, 241, 149, 0.5);
+  filter: drop-shadow(0 0 10px rgba(20, 241, 149, 0.5));
 }
 
 /* Mesh Gradient Animation */
@@ -539,4 +559,134 @@ textarea:focus-visible {
 /* Section Transition */
 section {
   scroll-margin-top: 80px;
+}
+
+/* Ripple Animation for MagneticButton */
+@keyframes ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.5;
+  }
+
+  100% {
+    width: 500px;
+    height: 500px;
+    opacity: 0;
+  }
+}
+
+.animate-ripple {
+  animation: ripple 0.6s ease-out forwards;
+}
+
+/* Shimmer Animation for progress bars */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Perspective utility */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* 3D Transform preservation */
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Smooth text fade in */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+/* Morphing blob animation */
+@keyframes morph {
+
+  0%,
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+
+  50% {
+    border-radius: 50% 60% 30% 60% / 30% 70% 70% 40%;
+  }
+
+  75% {
+    border-radius: 60% 40% 60% 40% / 70% 30% 50% 50%;
+  }
+}
+
+.animate-morph {
+  animation: morph 8s ease-in-out infinite;
+}
+
+/* Glow pulse for interactive elements */
+@keyframes glow-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px var(--accent-purple),
+      0 0 10px var(--accent-purple),
+      0 0 15px var(--accent-purple);
+  }
+
+  50% {
+    box-shadow: 0 0 10px var(--accent-purple),
+      0 0 20px var(--accent-purple),
+      0 0 30px var(--accent-purple);
+  }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes morph-slow {
+
+  0%,
+  100% {
+    border-radius: 50%;
+  }
+
+  25% {
+    border-radius: 50% 55% 50% 55% / 55% 50% 55% 50%;
+  }
+
+  50% {
+    border-radius: 55% 50% 55% 50% / 50% 55% 50% 55%;
+  }
+
+  75% {
+    border-radius: 50% 55% 50% 55% / 55% 50% 55% 50%;
+  }
+}
+
+.animate-morph-slow {
+  animation: morph-slow 6s ease-in-out infinite;
 }

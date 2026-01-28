@@ -210,7 +210,7 @@ export default function FluidBackground() {
             // Clear and draw fluid orbs
             ctx.fillStyle = '#000000';
             ctx.fillRect(0, 0, width, height);
-            ctx.filter = 'blur(80px)';
+            // ctx.filter = 'blur(80px)'; // Removing expensive filter
 
             orbs.forEach(orb => {
                 orb.x += orb.vx;
@@ -226,15 +226,20 @@ export default function FluidBackground() {
                     orb.y += dy * 0.002;
                 }
 
+                // Use gradient instead of blur for performance
+                const gradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.r);
+                gradient.addColorStop(0, orb.color);
+                gradient.addColorStop(1, 'transparent');
+
                 ctx.beginPath();
                 ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
-                ctx.fillStyle = orb.color;
+                ctx.fillStyle = gradient;
                 ctx.globalAlpha = 0.4;
                 ctx.fill();
                 ctx.closePath();
             });
 
-            ctx.filter = 'none';
+            // ctx.filter = 'none';
 
             // Clear flowchart canvas
             flowCtx.clearRect(0, 0, width, height);

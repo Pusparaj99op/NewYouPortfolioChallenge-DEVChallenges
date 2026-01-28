@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLenis } from 'lenis/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,58 +39,204 @@ export default function About() {
     const sectionRef = useRef<HTMLElement>(null);
     const textRef = useRef<HTMLDivElement>(null);
     const skillsRef = useRef<HTMLDivElement>(null);
+    const highlightsRef = useRef<HTMLDivElement>(null);
+    const headingRef = useRef<HTMLHeadingElement>(null);
+
+    // Lenis for velocity-based effects
+    const lenis = useLenis();
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Animate text content
-            gsap.from(textRef.current, {
-                x: -50,
-                opacity: 0,
-                duration: 1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: textRef.current,
-                    start: 'top 80%',
-                },
-            });
+            // Heading character animation
+            if (headingRef.current) {
+                const headingChars = headingRef.current.querySelectorAll('.heading-char');
+                gsap.fromTo(headingChars,
+                    {
+                        opacity: 0,
+                        y: 50,
+                        rotateY: 90
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        rotateY: 0,
+                        stagger: 0.05,
+                        duration: 0.8,
+                        ease: 'back.out(1.7)',
+                        scrollTrigger: {
+                            trigger: headingRef.current,
+                            start: 'top 80%',
+                        }
+                    }
+                );
+            }
 
-            // Animate skills panel
-            gsap.from(skillsRef.current, {
-                x: 50,
-                opacity: 0,
-                duration: 1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: skillsRef.current,
-                    start: 'top 80%',
-                },
-            });
-
-            // Animate skill bars with stagger
-            const skills = gsap.utils.toArray('.skill-progress');
-            gsap.fromTo(skills,
-                { width: 0 },
+            // Text content reveal with slide and blur
+            gsap.fromTo(textRef.current,
                 {
-                    width: (i, target) => (target as HTMLElement).dataset.width || "0%",
-                    duration: 1.5,
+                    x: -80,
+                    opacity: 0,
+                    filter: 'blur(8px)'
+                },
+                {
+                    x: 0,
+                    opacity: 1,
+                    filter: 'blur(0px)',
+                    duration: 1.2,
                     ease: 'power3.out',
-                    stagger: 0.1, // Cascade effect
                     scrollTrigger: {
-                        trigger: skillsRef.current, // Trigger when the whole container enters
+                        trigger: textRef.current,
                         start: 'top 80%',
                     },
                 }
             );
+
+            // Skills panel with 3D rotation entrance
+            gsap.fromTo(skillsRef.current,
+                {
+                    x: 80,
+                    opacity: 0,
+                    rotateY: 15,
+                    transformPerspective: 1000
+                },
+                {
+                    x: 0,
+                    opacity: 1,
+                    rotateY: 0,
+                    duration: 1.2,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: skillsRef.current,
+                        start: 'top 80%',
+                    },
+                }
+            );
+
+            // Skill bars with wave effect
+            const skillBars = gsap.utils.toArray('.skill-progress') as HTMLElement[];
+            skillBars.forEach((bar, index) => {
+                const targetWidth = bar.dataset.width || "0%";
+
+                gsap.fromTo(bar,
+                    {
+                        width: 0,
+                        opacity: 0
+                    },
+                    {
+                        width: targetWidth,
+                        opacity: 1,
+                        duration: 1.5,
+                        delay: index * 0.08, // Wave stagger
+                        ease: 'elastic.out(1, 0.5)',
+                        scrollTrigger: {
+                            trigger: skillsRef.current,
+                            start: 'top 75%',
+                        },
+                    }
+                );
+
+                // Glow pulse on completion
+                gsap.to(bar, {
+                    boxShadow: '0 0 20px rgba(153, 69, 255, 0.5)',
+                    duration: 0.3,
+                    delay: 1.5 + index * 0.08,
+                    scrollTrigger: {
+                        trigger: skillsRef.current,
+                        start: 'top 75%',
+                    },
+                    onComplete: () => {
+                        gsap.to(bar, {
+                            boxShadow: 'none',
+                            duration: 0.5
+                        });
+                    }
+                });
+            });
+
+            // Highlight cards with staggered 3D flip
+            const highlightCards = gsap.utils.toArray('.highlight-card') as HTMLElement[];
+            gsap.fromTo(highlightCards,
+                {
+                    opacity: 0,
+                    y: 60,
+                    scale: 0.8,
+                    rotateX: -30
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    rotateX: 0,
+                    stagger: {
+                        each: 0.1,
+                        from: 'start'
+                    },
+                    duration: 0.8,
+                    ease: 'back.out(1.7)',
+                    scrollTrigger: {
+                        trigger: highlightsRef.current,
+                        start: 'top 85%',
+                    },
+                }
+            );
+
+            // Parallax effect on scroll for decorative elements
+            gsap.to('.about-orb-1', {
+                y: -100,
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 2
+                }
+            });
+
+            gsap.to('.about-orb-2', {
+                y: 80,
+                x: -50,
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1.5
+                }
+            });
+
         }, sectionRef);
 
         return () => ctx.revert();
     }, []);
 
+    // Velocity-based tilt effect
+    useEffect(() => {
+        if (!lenis || !skillsRef.current) return;
+
+        const handleScroll = () => {
+            const velocity = lenis.velocity;
+            gsap.to(skillsRef.current, {
+                skewY: velocity * 0.3,
+                duration: 0.3
+            });
+        };
+
+        lenis.on('scroll', handleScroll);
+        return () => lenis.off('scroll', handleScroll);
+    }, [lenis]);
+
+    // Split text helper
+    const splitText = (text: string) => {
+        return text.split('').map((char, i) => (
+            <span key={i} className="heading-char inline-block" style={{ display: char === ' ' ? 'inline' : 'inline-block' }}>
+                {char === ' ' ? '\u00A0' : char}
+            </span>
+        ));
+    };
+
     return (
         <section ref={sectionRef} id="about" className="section bg-transparent relative overflow-hidden">
-            {/* Decorative Elements */}
-            <div className="absolute top-1/2 -left-64 w-96 h-96 bg-accent-purple/5 rounded-full blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-80 h-80 bg-accent-green/5 rounded-full blur-[100px] pointer-events-none" />
+            {/* Decorative Elements with parallax */}
+            <div className="about-orb-1 absolute top-1/2 -left-64 w-96 h-96 bg-accent-purple/5 rounded-full blur-[120px] pointer-events-none" />
+            <div className="about-orb-2 absolute bottom-0 right-0 w-80 h-80 bg-accent-green/5 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -101,9 +248,9 @@ export default function About() {
                             About The Firm
                         </div>
 
-                        <h2 className="text-4xl sm:text-5xl font-bold mb-8 leading-tight">
-                            <span className="text-white">BlackObsidian</span>
-                            <span className="gradient-text"> AMC</span>
+                        <h2 ref={headingRef} className="text-4xl sm:text-5xl font-bold mb-8 leading-tight">
+                            <span className="text-white">{splitText('BlackObsidian')}</span>
+                            <span className="gradient-text">{splitText(' AMC')}</span>
                         </h2>
 
                         <div className="space-y-6 text-base sm:text-lg text-text-secondary leading-relaxed prose">
@@ -114,7 +261,7 @@ export default function About() {
                             <div className="pl-4 border-l-2 border-accent-green/30 my-6">
                                 <p className="text-sm font-mono text-accent-green/80 mb-2">INSPIRATION</p>
                                 <p className="italic text-text-muted">
-                                    "BlackRock, leading systematic funds, and long-term, client-first investing principles."
+                                    &quot;BlackRock, leading systematic funds, and long-term, client-first investing principles.&quot;
                                 </p>
                             </div>
 
@@ -156,19 +303,21 @@ export default function About() {
                         </div>
 
                         {/* Highlight Cards */}
-                        <div className="pt-10 grid grid-cols-2 gap-4">
+                        <div ref={highlightsRef} className="pt-10 grid grid-cols-2 gap-4">
                             {highlights.map((item, i) => (
                                 <div
                                     key={i}
                                     className={`
-                                        relative p-4 rounded-xl bg-white/[0.02] border border-white/10
+                                        highlight-card relative p-4 rounded-xl bg-white/[0.02] border border-white/10
                                         hover:border-${item.color === 'purple' ? 'accent-purple' : item.color === 'green' ? 'accent-green' : 'accent-blue'}/50
                                         transition-all duration-300 group cursor-default overflow-hidden
+                                        transform-gpu
                                     `}
+                                    style={{ transformStyle: 'preserve-3d' }}
                                 >
                                     <div className={`absolute inset-0 bg-gradient-to-br from-accent-${item.color}/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                                     <div className="relative">
-                                        <div className={`w-10 h-10 mb-3 rounded-lg flex items-center justify-center bg-accent-${item.color}/10 group-hover:scale-110 transition-transform duration-300`}>
+                                        <div className={`w-10 h-10 mb-3 rounded-lg flex items-center justify-center bg-accent-${item.color}/10 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}>
                                             <svg className={`w-5 h-5 text-accent-${item.color}`} fill="currentColor" viewBox="0 0 24 24">
                                                 <path d={icons[item.icon as keyof typeof icons]} />
                                             </svg>
@@ -199,7 +348,7 @@ export default function About() {
                     </div>
 
                     {/* Skills Visualization */}
-                    <div ref={skillsRef} className="relative">
+                    <div ref={skillsRef} className="relative transform-gpu" style={{ transformStyle: 'preserve-3d' }}>
                         {/* Decorative Glow */}
                         <div className="absolute -inset-4 bg-gradient-to-r from-accent-purple/10 via-accent-blue/10 to-accent-green/10 rounded-3xl blur-2xl opacity-50" />
 
@@ -215,8 +364,8 @@ export default function About() {
                             </div>
 
                             <div className="space-y-5">
-                                {skills.map((skill) => (
-                                    <div key={skill.name} className="group">
+                                {skills.map((skill, index) => (
+                                    <div key={skill.name} className="group skill-item" style={{ '--skill-index': index } as React.CSSProperties}>
                                         <div className="flex justify-between items-center mb-2">
                                             <span className="text-text-secondary font-medium group-hover:text-white transition-colors text-sm sm:text-base">
                                                 {skill.name}
@@ -234,7 +383,7 @@ export default function About() {
                                             <div
                                                 className="skill-progress h-full bg-gradient-to-r from-accent-purple via-accent-blue to-accent-green rounded-full relative"
                                                 data-width={`${skill.level}%`}
-                                                style={{ width: 0 }} // Initial state handled by GSAP
+                                                style={{ width: 0 }}
                                             >
                                                 <div className="absolute right-0 top-0 bottom-0 w-4 bg-white/30 blur-sm" />
                                                 <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-1 bg-white rounded-full shadow-[0_0_6px_rgba(255,255,255,0.8)]" />

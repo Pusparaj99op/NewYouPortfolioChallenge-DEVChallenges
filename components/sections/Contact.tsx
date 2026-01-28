@@ -24,20 +24,176 @@ export default function Contact() {
 
     const sectionRef = useRef<HTMLElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
+    const headerRef = useRef<HTMLDivElement>(null);
+    const socialsRef = useRef<HTMLDivElement>(null);
+    const orbsRef = useRef<HTMLDivElement>(null);
     const { showToast } = useToast();
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            gsap.from(formRef.current, {
-                y: 60,
-                opacity: 0,
-                duration: 1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: formRef.current,
-                    start: 'top 85%',
+            // Badge elastic animation
+            gsap.fromTo('.contact-badge',
+                { scale: 0, opacity: 0, rotation: -10 },
+                {
+                    scale: 1,
+                    opacity: 1,
+                    rotation: 0,
+                    duration: 0.8,
+                    ease: 'elastic.out(1, 0.5)',
+                    scrollTrigger: {
+                        trigger: headerRef.current,
+                        start: 'top 85%',
+                    }
+                }
+            );
+
+            // Heading word animation
+            gsap.fromTo('.contact-title-word',
+                { y: 80, opacity: 0, rotateX: -45 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    rotateX: 0,
+                    stagger: 0.15,
+                    duration: 1,
+                    ease: 'power4.out',
+                    scrollTrigger: {
+                        trigger: headerRef.current,
+                        start: 'top 80%',
+                    }
+                }
+            );
+
+            // Subtitle fade
+            gsap.fromTo('.contact-subtitle',
+                { y: 40, opacity: 0, filter: 'blur(5px)' },
+                {
+                    y: 0,
+                    opacity: 1,
+                    filter: 'blur(0px)',
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: headerRef.current,
+                        start: 'top 75%',
+                    }
+                }
+            );
+
+            // Form with slide and scale
+            gsap.fromTo(formRef.current,
+                {
+                    y: 80,
+                    opacity: 0,
+                    scale: 0.95,
+                    rotateX: 10
                 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    rotateX: 0,
+                    duration: 1.2,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: formRef.current,
+                        start: 'top 85%',
+                    },
+                }
+            );
+
+            // Form fields staggered entrance
+            gsap.fromTo('.form-field',
+                { x: -30, opacity: 0 },
+                {
+                    x: 0,
+                    opacity: 1,
+                    stagger: 0.1,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: formRef.current,
+                        start: 'top 80%',
+                    }
+                }
+            );
+
+            // Submit button with bounce
+            gsap.fromTo('.submit-button',
+                { y: 30, opacity: 0, scale: 0.9 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: 'elastic.out(1, 0.7)',
+                    scrollTrigger: {
+                        trigger: formRef.current,
+                        start: 'top 70%',
+                    }
+                }
+            );
+
+            // Social links orbital animation
+            const socialIcons = gsap.utils.toArray('.social-icon') as HTMLElement[];
+            socialIcons.forEach((icon, index) => {
+                gsap.fromTo(icon,
+                    {
+                        scale: 0,
+                        opacity: 0,
+                        rotation: -180
+                    },
+                    {
+                        scale: 1,
+                        opacity: 1,
+                        rotation: 0,
+                        duration: 0.6,
+                        delay: index * 0.1,
+                        ease: 'back.out(2)',
+                        scrollTrigger: {
+                            trigger: socialsRef.current,
+                            start: 'top 90%',
+                        }
+                    }
+                );
             });
+
+            // Background orbs parallax
+            gsap.to('.contact-orb-1', {
+                y: -60,
+                x: 40,
+                scale: 1.2,
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 2
+                }
+            });
+
+            gsap.to('.contact-orb-2', {
+                y: 40,
+                x: -30,
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1.5
+                }
+            });
+
+            gsap.to('.contact-orb-3', {
+                y: 80,
+                x: 20,
+                scale: 0.8,
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 2.5
+                }
+            });
+
         }, sectionRef);
 
         return () => ctx.revert();
@@ -46,43 +202,105 @@ export default function Contact() {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setStatus('sending');
-        // Simulate simple delay for effect
+
+        // Animate the button during sending
+        gsap.to('.submit-button', {
+            scale: 0.98,
+            duration: 0.1
+        });
+
+        // Simulate sending
         setTimeout(() => {
             setStatus('success');
             setFormData({ name: '', email: '', message: '' });
             showToast('Message broadcasted successfully!', 'success');
+
+            // Success animation burst
+            gsap.to('.submit-button', {
+                scale: 1,
+                duration: 0.3,
+                ease: 'elastic.out(1, 0.5)'
+            });
+
+            // Confetti-like particles animation
+            const particles = document.querySelectorAll('.success-particle');
+            particles.forEach((particle, i) => {
+                gsap.fromTo(particle,
+                    { scale: 0, opacity: 1 },
+                    {
+                        scale: 1,
+                        opacity: 0,
+                        x: (Math.random() - 0.5) * 200,
+                        y: (Math.random() - 0.5) * 200,
+                        rotation: Math.random() * 360,
+                        duration: 0.8,
+                        delay: i * 0.05,
+                        ease: 'power2.out'
+                    }
+                );
+            });
         }, 1500);
+    };
+
+    // Input focus animation
+    const handleFocus = (field: string) => {
+        setFocusedField(field);
+        gsap.to(`.field-${field}`, {
+            borderColor: 'rgba(153, 69, 255, 0.5)',
+            boxShadow: '0 0 20px rgba(153, 69, 255, 0.2)',
+            duration: 0.3
+        });
+    };
+
+    const handleBlur = (field: string) => {
+        setFocusedField(null);
+        gsap.to(`.field-${field}`, {
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            boxShadow: 'none',
+            duration: 0.3
+        });
     };
 
     return (
         <section ref={sectionRef} id="contact" className="section bg-transparent relative overflow-hidden">
-            {/* Enhanced Background Glow */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80vw] h-[40vw] bg-accent-purple/10 blur-[150px] rounded-full pointer-events-none" />
-            <div className="absolute top-1/4 -right-32 w-64 h-64 bg-accent-green/10 blur-[100px] rounded-full pointer-events-none" />
-            <div className="absolute top-1/4 -left-32 w-64 h-64 bg-accent-blue/10 blur-[100px] rounded-full pointer-events-none" />
+            {/* Enhanced Background Glows with parallax */}
+            <div ref={orbsRef}>
+                <div className="contact-orb-1 absolute bottom-0 left-1/2 -translate-x-1/2 w-[80vw] h-[40vw] bg-accent-purple/10 blur-[150px] rounded-full pointer-events-none" />
+                <div className="contact-orb-2 absolute top-1/4 -right-32 w-64 h-64 bg-accent-green/10 blur-[100px] rounded-full pointer-events-none" />
+                <div className="contact-orb-3 absolute top-1/4 -left-32 w-64 h-64 bg-accent-blue/10 blur-[100px] rounded-full pointer-events-none" />
+            </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="max-w-2xl mx-auto text-center mb-12 sm:mb-16">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-accent-purple text-xs font-semibold uppercase tracking-wider mb-6">
+                <div ref={headerRef} className="max-w-2xl mx-auto text-center mb-12 sm:mb-16">
+                    <div className="contact-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-accent-purple text-xs font-semibold uppercase tracking-wider mb-6">
                         <span className="w-1.5 h-1.5 rounded-full bg-accent-purple" />
                         Get in Touch
                     </div>
 
-                    <h2 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight">
-                        Let&apos;s <span className="gradient-text">Build</span> Together
+                    <h2 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight overflow-hidden">
+                        <span className="contact-title-word inline-block">Let&apos;s</span>{' '}
+                        <span className="contact-title-word inline-block gradient-text">Build</span>{' '}
+                        <span className="contact-title-word inline-block">Together</span>
                     </h2>
-                    <p className="text-text-secondary text-base sm:text-lg leading-relaxed max-w-lg mx-auto">
+                    <p className="contact-subtitle text-text-secondary text-base sm:text-lg leading-relaxed max-w-lg mx-auto">
                         Interested in high-frequency trading systems, Web3 infrastructure, or just want to connect? Drop a message.
                     </p>
                 </div>
 
                 <div className="max-w-xl mx-auto">
-                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 relative">
+                        {/* Success Particles */}
+                        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                            {[...Array(8)].map((_, i) => (
+                                <div key={i} className={`success-particle absolute top-1/2 left-1/2 w-3 h-3 rounded-full ${i % 2 === 0 ? 'bg-accent-purple' : 'bg-accent-green'}`} style={{ opacity: 0 }} />
+                            ))}
+                        </div>
+
                         {/* Name Field */}
-                        <div className="group relative">
+                        <div className="form-field group relative">
                             <label
                                 htmlFor="name"
-                                className={`absolute left-5 transition-all duration-300 pointer-events-none ${focusedField === 'name' || formData.name
+                                className={`absolute left-5 transition-all duration-300 pointer-events-none z-10 ${focusedField === 'name' || formData.name
                                     ? '-top-2.5 text-xs bg-black px-2 text-accent-purple'
                                     : 'top-4 text-text-muted'
                                     }`}
@@ -94,20 +312,20 @@ export default function Contact() {
                                 id="name"
                                 required
                                 value={formData.name}
-                                onFocus={() => setFocusedField('name')}
-                                onBlur={() => setFocusedField(null)}
+                                onFocus={() => handleFocus('name')}
+                                onBlur={() => handleBlur('name')}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                className="w-full px-5 py-4 bg-white/[0.02] border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent-purple focus:bg-white/[0.03] transition-all duration-300 placeholder-transparent"
+                                className="field-name w-full px-5 py-4 bg-white/[0.02] border border-white/10 rounded-xl text-white focus:outline-none transition-all duration-300 placeholder-transparent"
                                 placeholder="Your Name"
                             />
                             <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-purple/0 via-accent-purple/5 to-accent-purple/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
                         </div>
 
                         {/* Email Field */}
-                        <div className="group relative">
+                        <div className="form-field group relative">
                             <label
                                 htmlFor="email"
-                                className={`absolute left-5 transition-all duration-300 pointer-events-none ${focusedField === 'email' || formData.email
+                                className={`absolute left-5 transition-all duration-300 pointer-events-none z-10 ${focusedField === 'email' || formData.email
                                     ? '-top-2.5 text-xs bg-black px-2 text-accent-purple'
                                     : 'top-4 text-text-muted'
                                     }`}
@@ -119,20 +337,20 @@ export default function Contact() {
                                 id="email"
                                 required
                                 value={formData.email}
-                                onFocus={() => setFocusedField('email')}
-                                onBlur={() => setFocusedField(null)}
+                                onFocus={() => handleFocus('email')}
+                                onBlur={() => handleBlur('email')}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                className="w-full px-5 py-4 bg-white/[0.02] border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent-purple focus:bg-white/[0.03] transition-all duration-300 placeholder-transparent"
+                                className="field-email w-full px-5 py-4 bg-white/[0.02] border border-white/10 rounded-xl text-white focus:outline-none transition-all duration-300 placeholder-transparent"
                                 placeholder="Email Address"
                             />
                             <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-purple/0 via-accent-purple/5 to-accent-purple/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
                         </div>
 
                         {/* Message Field */}
-                        <div className="group relative">
+                        <div className="form-field group relative">
                             <label
                                 htmlFor="message"
-                                className={`absolute left-5 transition-all duration-300 pointer-events-none ${focusedField === 'message' || formData.message
+                                className={`absolute left-5 transition-all duration-300 pointer-events-none z-10 ${focusedField === 'message' || formData.message
                                     ? '-top-2.5 text-xs bg-black px-2 text-accent-purple'
                                     : 'top-4 text-text-muted'
                                     }`}
@@ -144,10 +362,10 @@ export default function Contact() {
                                 required
                                 rows={5}
                                 value={formData.message}
-                                onFocus={() => setFocusedField('message')}
-                                onBlur={() => setFocusedField(null)}
+                                onFocus={() => handleFocus('message')}
+                                onBlur={() => handleBlur('message')}
                                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                className="w-full px-5 py-4 bg-white/[0.02] border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent-purple focus:bg-white/[0.03] transition-all duration-300 resize-none placeholder-transparent"
+                                className="field-message w-full px-5 py-4 bg-white/[0.02] border border-white/10 rounded-xl text-white focus:outline-none transition-all duration-300 resize-none placeholder-transparent"
                                 placeholder="Your Message"
                             />
                             <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-purple/0 via-accent-purple/5 to-accent-purple/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
@@ -157,7 +375,7 @@ export default function Contact() {
                         <button
                             type="submit"
                             disabled={status === 'sending'}
-                            className="w-full btn-primary text-lg relative overflow-hidden group"
+                            className="submit-button w-full btn-primary text-lg relative overflow-hidden group"
                         >
                             <span className="relative z-10 flex items-center justify-center gap-2">
                                 {status === 'sending' ? (
@@ -177,6 +395,8 @@ export default function Contact() {
                                     </>
                                 )}
                             </span>
+                            {/* Shine effect on hover */}
+                            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                         </button>
 
                         {/* Success Message */}
@@ -191,19 +411,20 @@ export default function Contact() {
                     </form>
 
                     {/* Social Links */}
-                    <div className="mt-12 pt-8 border-t border-white/5">
+                    <div ref={socialsRef} className="mt-12 pt-8 border-t border-white/5">
                         <p className="text-center text-sm text-text-muted mb-6">Or connect with me on</p>
                         <div className="flex justify-center gap-4">
-                            {socialLinks.map((social) => (
+                            {socialLinks.map((social, index) => (
                                 <a
                                     key={social.name}
                                     href={social.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-12 h-12 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-text-muted hover:text-white hover:border-accent-purple hover:bg-accent-purple/10 transition-all duration-300 group"
+                                    className="social-icon w-12 h-12 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-text-muted hover:text-white hover:border-accent-purple hover:bg-accent-purple/10 transition-all duration-300 group"
                                     aria-label={social.name}
+                                    style={{ '--social-index': index } as React.CSSProperties}
                                 >
-                                    <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-5 h-5 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" fill="currentColor" viewBox="0 0 24 24">
                                         <path d={social.icon} />
                                     </svg>
                                 </a>
