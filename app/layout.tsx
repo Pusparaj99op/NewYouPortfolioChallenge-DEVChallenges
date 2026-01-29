@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ToastProvider } from "@/components/ui/Toast";
 import GlassCursor from "@/components/ui/GlassCursor";
+import { SoundProvider } from "@/components/context/SoundContext";
 
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Preloader from "@/components/ui/Preloader";
@@ -76,19 +77,22 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
-          <ToastProvider>
-            <GlassCursor />
-            <ScrollProgress />
-            {/* <FluidBackground /> */}
-            <Preloader />
-            {/* Skip to main content for accessibility */}
-            <a href="#main-content" className="skip-link">
-              Skip to main content
-            </a>
-            <SmoothScrolling>
-              {children}
-            </SmoothScrolling>
-          </ToastProvider>
+          <SoundProvider>
+            <ToastProvider>
+              <GlassCursor />
+              <ScrollProgress />
+              {/* <FluidBackground /> */}
+              <Preloader />
+              <Preloader />
+              {/* Skip to main content for accessibility */}
+              <a href="#main-content" className="skip-link">
+                Skip to main content
+              </a>
+              <SmoothScrolling>
+                {children}
+              </SmoothScrolling>
+            </ToastProvider>
+          </SoundProvider>
         </ThemeProvider>
       </body>
     </html>

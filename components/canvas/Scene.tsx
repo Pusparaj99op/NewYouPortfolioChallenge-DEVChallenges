@@ -73,8 +73,7 @@ export default function Scene({ children, className }: SceneProps) {
                     decay={2}
                 />
 
-                {/* Environment for reflections */}
-                <Environment preset="night" />
+                {/* Environment removed to prevent fetch error for missing HDR */}
 
                 <Suspense fallback={<Loader />}>
                     {children}

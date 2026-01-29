@@ -420,7 +420,7 @@ export default function Contact() {
                                     href={social.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="social-icon w-12 h-12 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-text-muted hover:text-white hover:border-accent-purple hover:bg-accent-purple/10 transition-all duration-300 group"
+                                    className="social-icon w-12 h-12 rounded-full glass-button-white flex items-center justify-center text-text-muted hover:text-white hover:border-accent-purple hover:bg-accent-purple/10 transition-all duration-300 group"
                                     aria-label={social.name}
                                     style={{ '--social-index': index } as React.CSSProperties}
                                 >

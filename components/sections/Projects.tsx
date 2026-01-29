@@ -265,7 +265,7 @@ export default function Projects() {
                                 key={cat}
                                 onClick={() => handleCategoryChange(cat)}
                                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 relative overflow-hidden group ${activeCategory === cat
-                                    ? 'bg-white text-black shadow-lg shadow-white/10'
+                                    ? 'glass-button-white shadow-lg shadow-white/10'
                                     : 'bg-transparent text-text-secondary hover:text-white hover:bg-white/5'
                                     }`}
                             >

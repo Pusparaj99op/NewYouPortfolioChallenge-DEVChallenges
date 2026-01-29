@@ -2,6 +2,7 @@
 
 import { useRef, useState, useCallback, ReactNode } from 'react';
 import { gsap } from 'gsap';
+import { useSoundEffects } from '@/hooks/use-sound-effects';
 
 interface MagneticButtonProps {
     children: ReactNode;
@@ -19,6 +20,7 @@ export default function MagneticButton({
     const glowRef = useRef<HTMLDivElement>(null);
     const [ripples, setRipples] = useState<Array<{ x: number; y: number; id: number }>>([]);
     const rippleIdRef = useRef(0);
+    const { playHover, playClick } = useSoundEffects();
 
     const handleMouseMove = useCallback((e: React.MouseEvent) => {
         if (!buttonRef.current) return;
@@ -69,16 +71,20 @@ export default function MagneticButton({
     const handleMouseEnter = useCallback(() => {
         if (!buttonRef.current) return;
 
+        playHover();
+
         // Scale up slightly on enter
         gsap.to(buttonRef.current, {
             scale: 1.02,
             duration: 0.3,
             ease: 'power2.out'
         });
-    }, []);
+    }, [playHover]);
 
     const handleClick = useCallback((e: React.MouseEvent) => {
         if (!buttonRef.current) return;
+
+        playClick();
 
         const rect = buttonRef.current.getBoundingClientRect();
         const x = e.clientX - rect.left;

@@ -324,7 +324,7 @@ export default function Hero() {
                             <MagneticButton strength={40}>
                                 <a
                                     href="#contact"
-                                    className="btn-secondary min-w-[180px] text-lg h-14 inline-flex items-center justify-center gap-2 group hover:gap-4 transition-all backdrop-blur-sm bg-white/[0.02]"
+                                    className="btn-secondary min-w-[180px] text-lg h-14 inline-flex items-center justify-center gap-2 group hover:gap-4 transition-all glass-button-white"
                                 >
                                     <span>Contact Me</span>
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
