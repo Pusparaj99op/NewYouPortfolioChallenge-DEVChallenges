@@ -704,11 +704,6 @@
           "Error Tracking - Sentry or similar",
           "Analytics - Google Analytics 4"
         ],
-
-        "metrics": [
-          "Response times",
-          "Error rates",
-        ],
         "metrics": [
           "Response times",
           "Error rates",
@@ -741,3 +736,5 @@
         "Print-optimized styles"
       ]
     }
+  }
+}

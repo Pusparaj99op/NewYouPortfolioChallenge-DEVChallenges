@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 interface ShinyTextProps {
     text: string;
@@ -12,6 +13,7 @@ interface ShinyTextProps {
     yoyo?: boolean;
     pauseOnHover?: boolean;
     className?: string;
+    link?: string;
 }
 
 const ShinyText: React.FC<ShinyTextProps> = ({
@@ -26,6 +28,7 @@ const ShinyText: React.FC<ShinyTextProps> = ({
     yoyo = false,
     pauseOnHover = false,
     className = '',
+    link,
 }) => {
     // State to handle hydration-safe randomization
     const [randomDelay, setRandomDelay] = useState(0);
@@ -44,7 +47,7 @@ const ShinyText: React.FC<ShinyTextProps> = ({
     // Improved gradient logic
     const gradientDegree = direction === 'left' ? '120deg' : '-60deg';
 
-    return (
+    const content = (
         <span
             className={`shiny-text ${className} ${disabled ? '' : 'animate-shine'} ${pauseOnHover ? 'hover:pause-animation' : ''}`}
             style={{
@@ -85,6 +88,12 @@ const ShinyText: React.FC<ShinyTextProps> = ({
             `}</style>
         </span>
     );
+
+    if (link) {
+        return <Link href={link}>{content}</Link>;
+    }
+
+    return content;
 };
 
 export default ShinyText;

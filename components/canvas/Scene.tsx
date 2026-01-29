@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
+import * as Fiber from "@react-three/fiber";
 import { Environment, PerformanceMonitor, AdaptiveDpr } from "@react-three/drei";
 import { Suspense, useState } from "react";
 import * as THREE from "three";
@@ -20,7 +20,7 @@ export default function Scene({ children, className }: SceneProps) {
 
     return (
         <div className={className}>
-            <Canvas
+            <Fiber.Canvas
                 dpr={dpr}
                 gl={{
                     antialias: true,
@@ -36,26 +36,13 @@ export default function Scene({ children, className }: SceneProps) {
                     far: 100
                 }}
             >
-                {/* Performance monitoring */}
+                {/* Performance monitoring with adaptive quality */}
                 <PerformanceMonitor
                     onIncline={() => setDpr(Math.min(2, dpr + 0.5))}
                     onDecline={() => setDpr(Math.max(1, dpr - 0.5))}
                 >
                     <AdaptiveDpr pixelated />
                 </PerformanceMonitor>
-
-                {/* Subtle ambient lighting */}
-                <ambientLight intensity={0.4} color="#ffffff" />
-                <directionalLight
-                    position={[5, 5, 5]}
-                    intensity={0.6}
-                    color="#ffffff"
-                />
-                <directionalLight
-                    position={[-5, -5, -5]}
-                    intensity={0.3}
-                    color="#9945FF"
-                />
 
                 {/* Accent point lights - subtle */}
                 <pointLight
@@ -78,7 +65,7 @@ export default function Scene({ children, className }: SceneProps) {
                 <Suspense fallback={<Loader />}>
                     {children}
                 </Suspense>
-            </Canvas>
+            </Fiber.Canvas>
         </div>
     );
 }

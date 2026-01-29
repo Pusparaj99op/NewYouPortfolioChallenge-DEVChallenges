@@ -281,7 +281,8 @@ export default function Hero() {
                             I engineer high-performance systems for{' '}
                             <span className="relative inline-block group cursor-help">
                                 <ShinyText
-                                    text="quantitative trading"
+                                    text="Quantitative Trading"
+                                    link="/quantitative-trading"
                                     speed={2}
                                     color="#14F195"
                                     className="font-medium"
@@ -291,7 +292,8 @@ export default function Hero() {
                             and{' '}
                             <span className="relative inline-block group cursor-help">
                                 <ShinyText
-                                    text="modern web"
+                                    text="Modern Web"
+                                    link="/modern-web"
                                     speed={2}
                                     color="#9945FF"
                                     className="font-medium"
@@ -343,12 +345,12 @@ export default function Hero() {
 
                 </div>
 
-                {/* Stats Strip - Left Aligned matches grid */}
+                {/* Stats Strip - Full width key statistics */}
                 <div
                     ref={statsRef}
-                    className="mt-20 lg:mt-32 w-full max-w-4xl border-t border-white/5 pt-12"
+                    className="mt-20 lg:mt-32 w-full border-t border-white/10 pt-10"
                 >
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-start">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 -mx-4">
                         {stats.map((stat, i) => (
                             <AnimatedStat
                                 key={stat.label}
