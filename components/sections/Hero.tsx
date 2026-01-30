@@ -234,7 +234,7 @@ export default function Hero() {
                     {/* Left Column: Content */}
                     <div className="flex flex-col items-start text-left order-2 lg:order-1">
                         {/* Enhanced Badge */}
-                        <div className="mb-8">
+                        <div className="mb-8 mt-20">
                             <div className="hero-badge inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/[0.03] border border-white/10 text-accent-purple text-sm font-medium hover:bg-white/[0.05] hover:border-accent-purple/30 transition-all duration-300 cursor-default group backdrop-blur-sm">
                                 <span className="relative flex h-2.5 w-2.5">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-green opacity-75"></span>
