@@ -99,7 +99,7 @@ export default function Header() {
         <header
             ref={headerRef}
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out opacity-0 ${isScrolled
-                ? 'bg-black/10 backdrop-blur-md py-4 border-b border-white/5'
+                ? 'bg-white/70 dark:bg-black/10 backdrop-blur-md py-4 border-b border-black/5 dark:border-white/5'
                 : 'py-6 bg-transparent'
                 }`}
         >
@@ -114,7 +114,7 @@ export default function Header() {
                             onClick={() => playClick()}
                         >
                             <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-accent-purple via-accent-blue to-accent-green p-[1px] group-hover:shadow-[0_0_20px_rgba(153,69,255,0.3)] transition-all duration-300">
-                                <div className="w-full h-full rounded-2xl bg-background-primary flex items-center justify-center text-white font-bold text-base group-hover:bg-transparent transition-all duration-300">
+                                <div className="w-full h-full rounded-2xl bg-background-primary flex items-center justify-center text-text-primary font-bold text-base group-hover:bg-transparent group-hover:text-white transition-all duration-300">
                                     BO
                                 </div>
                             </div>
@@ -129,7 +129,7 @@ export default function Header() {
                     <div
                         ref={navRef}
                         onMouseMove={handleNavMouseMove}
-                        className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center p-1.5 rounded-full bg-black/40 backdrop-blur-xl border border-white/10 shadow-lg shadow-black/20 hover:border-white/20 transition-all duration-300 group/nav overflow-hidden"
+                        className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center p-1.5 rounded-full bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-lg shadow-black/10 dark:shadow-black/20 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300 group/nav overflow-hidden"
                     >
                         {/* Spotlight Gradient */}
                         <div
@@ -148,8 +148,8 @@ export default function Header() {
                                         onMouseEnter={() => playHover()}
                                         onClick={() => playClick()}
                                         className={`relative px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 block ${isActive
-                                            ? 'text-white bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]'
-                                            : 'text-text-secondary hover:text-white hover:bg-white/5'
+                                            ? 'text-text-primary dark:text-white bg-black/10 dark:bg-white/10 shadow-[0_0_10px_rgba(0,0,0,0.05)] dark:shadow-[0_0_10px_rgba(255,255,255,0.1)]'
+                                            : 'text-text-secondary hover:text-text-primary dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                                             }`}
                                     >
                                         {link.label}
@@ -172,11 +172,11 @@ export default function Header() {
                                     if (isMuted) playClick();
                                 }}
                                 onMouseEnter={() => !isMuted && playHover()}
-                                className="w-11 h-11 rounded-full flex items-center justify-center bg-white/[0.03] border border-white/10 hover:border-accent-purple/50 hover:bg-accent-purple/10 hover:shadow-[0_0_15px_rgba(153,69,255,0.2)] transition-all duration-300 group"
+                                className="w-11 h-11 rounded-full flex items-center justify-center bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 hover:border-accent-purple/50 hover:bg-accent-purple/10 hover:shadow-[0_0_15px_rgba(153,69,255,0.2)] transition-all duration-300 group"
                                 aria-label={isMuted ? "Unmute sound" : "Mute sound"}
                             >
                                 {isMuted ? (
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-text-muted group-hover:text-white transition-colors" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-text-muted group-hover:text-text-primary dark:group-hover:text-white transition-colors" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M11 5L6 9H2v6h4l5 4V5z" />
                                         <line x1="23" y1="9" x2="17" y2="15" />
                                         <line x1="17" y1="9" x2="23" y2="15" />
@@ -199,7 +199,7 @@ export default function Header() {
                                     playClick();
                                 }}
                                 onMouseEnter={() => playHover()}
-                                className="w-11 h-11 rounded-full flex items-center justify-center bg-white/[0.03] border border-white/10 hover:border-accent-purple/50 hover:bg-accent-purple/10 hover:shadow-[0_0_15px_rgba(153,69,255,0.2)] transition-all duration-300 group"
+                                className="w-11 h-11 rounded-full flex items-center justify-center bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 hover:border-accent-purple/50 hover:bg-accent-purple/10 hover:shadow-[0_0_15px_rgba(153,69,255,0.2)] transition-all duration-300 group"
                                 aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                             >
                                 {theme === 'dark' ? (
@@ -235,7 +235,7 @@ export default function Header() {
                                 setIsMobileMenuOpen(!isMobileMenuOpen);
                                 playClick();
                             }}
-                            className="md:hidden w-11 h-11 rounded-full bg-white/[0.03] border border-white/10 flex flex-col items-center justify-center gap-1.5 hover:border-accent-purple/50 transition-all z-50"
+                            className="md:hidden w-11 h-11 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 flex flex-col items-center justify-center gap-1.5 hover:border-accent-purple/50 transition-all z-50"
                             aria-label="Toggle mobile menu"
                             aria-expanded={isMobileMenuOpen}
                         >
@@ -251,7 +251,7 @@ export default function Header() {
                     className={`md:hidden overflow-hidden transition-all duration-500 ease-out ${isMobileMenuOpen ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'
                         }`}
                 >
-                    <div className="flex flex-col gap-2 py-4 px-2 border-t border-white/5 bg-black/80 rounded-2xl backdrop-blur-xl border border-white/10 shadow-2xl">
+                    <div className="flex flex-col gap-2 py-4 px-2 border-t border-black/5 dark:border-white/5 bg-white/80 dark:bg-black/80 rounded-2xl backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl">
                         {navLinks.map((link, index) => (
                             <a
                                 key={link.href}
