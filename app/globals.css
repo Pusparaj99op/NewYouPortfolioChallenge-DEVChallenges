@@ -33,8 +33,76 @@
   --spacing-phi-3xl: var(--space-phi-3xl);
 }
 
+/* ============================================
+   LIGHT THEME (Default)
+   ============================================ */
 :root {
-  /* Solana-inspired Theme */
+  /* Light Theme - Clean & Professional */
+  --background-primary: #FAFAFA;
+  --background-secondary: #F4F4F5;
+  --background-elevated: #FFFFFF;
+  --background-glass: rgba(255, 255, 255, 0.8);
+  --background-terminal: #F8FAFC;
+
+  --text-primary: #18181B;
+  --text-secondary: #52525B;
+  --text-muted: #A1A1AA;
+  --text-accent: #7C3AED;
+
+  --financial-bullish: #10B981;
+  --financial-bearish: #EF4444;
+  --financial-neutral: #6B7280;
+  --financial-volume: #3B82F6;
+  --financial-orderflow: #7C3AED;
+
+  --border-subtle: #E4E4E7;
+  --border-default: #D4D4D8;
+  --border-strong: #A1A1AA;
+
+  --accent-purple: #7C3AED;
+  --accent-green: #10B981;
+  --accent-blue: #3B82F6;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.15);
+  --shadow-glow: 0 0 20px rgba(124, 58, 237, 0.3);
+  --shadow-glow-green: 0 0 20px rgba(16, 185, 129, 0.3);
+
+  --foreground: #18181B;
+  --background: #FAFAFA;
+
+  /* Golden Ratio (Phi) Scale */
+  /* Base: 1rem (16px) */
+  --phi: 1.61803398875;
+  --space-phi-base: 1rem;
+  --space-phi-sm: calc(var(--space-phi-base) / var(--phi));
+  /* ~0.618rem */
+  --space-phi-lg: calc(var(--space-phi-base) * var(--phi));
+  /* ~1.618rem */
+  --space-phi-xl: calc(var(--space-phi-base) * var(--phi) * var(--phi));
+  /* ~2.618rem */
+  --space-phi-2xl: calc(var(--space-phi-base) * var(--phi) * var(--phi) * var(--phi));
+  /* ~4.236rem */
+  --space-phi-3xl: calc(var(--space-phi-base) * var(--phi) * var(--phi) * var(--phi) * var(--phi));
+  /* ~6.854rem */
+
+  /* Typography Scale based on Phi */
+  --text-phi-base: 1rem;
+  --text-phi-lg: calc(var(--text-phi-base) * var(--phi));
+  /* ~1.618rem - h3 */
+  --text-phi-xl: calc(var(--text-phi-base) * var(--phi) * var(--phi));
+  /* ~2.618rem - h2 */
+  --text-phi-2xl: calc(var(--text-phi-base) * var(--phi) * var(--phi) * var(--phi));
+  /* ~4.236rem - h1 */
+}
+
+/* ============================================
+   DARK THEME (Class-based toggle)
+   ============================================ */
+.dark {
+  /* Solana-inspired Dark Theme */
   --background-primary: #000000;
   --background-secondary: #0F0F0F;
   --background-elevated: #18181B;
@@ -69,41 +137,30 @@
 
   --foreground: #FFFFFF;
   --background: #000000;
-
-  /* Golden Ratio (Phi) Scale */
-  /* Base: 1rem (16px) */
-  --phi: 1.61803398875;
-  --space-phi-base: 1rem;
-  --space-phi-sm: calc(var(--space-phi-base) / var(--phi));
-  /* ~0.618rem */
-  --space-phi-lg: calc(var(--space-phi-base) * var(--phi));
-  /* ~1.618rem */
-  --space-phi-xl: calc(var(--space-phi-base) * var(--phi) * var(--phi));
-  /* ~2.618rem */
-  --space-phi-2xl: calc(var(--space-phi-base) * var(--phi) * var(--phi) * var(--phi));
-  /* ~4.236rem */
-  --space-phi-3xl: calc(var(--space-phi-base) * var(--phi) * var(--phi) * var(--phi) * var(--phi));
-  /* ~6.854rem */
-
-  /* Typography Scale based on Phi */
-  --text-phi-base: 1rem;
-  --text-phi-lg: calc(var(--text-phi-base) * var(--phi));
-  /* ~1.618rem - h3 */
-  --text-phi-xl: calc(var(--text-phi-base) * var(--phi) * var(--phi));
-  /* ~2.618rem - h2 */
-  --text-phi-2xl: calc(var(--text-phi-base) * var(--phi) * var(--phi) * var(--phi));
-  /* ~4.236rem - h1 */
 }
 
 /* Mathematical Backgrounds */
 .bg-math-grid {
   background-size: 50px 50px;
   background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+}
+
+.dark .bg-math-grid {
+  background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
 .bg-golden-spiral {
+  background:
+    radial-gradient(circle at 100% 100%, transparent 9%, rgba(124, 58, 237, 0.05) 10%, transparent 11%),
+    radial-gradient(circle at 100% 100%, transparent 19%, rgba(16, 185, 129, 0.05) 20%, transparent 21%),
+    radial-gradient(circle at 100% 100%, transparent 39%, rgba(59, 130, 246, 0.05) 40%, transparent 41%);
+}
+
+.dark .bg-golden-spiral {
   background:
     radial-gradient(circle at 100% 100%, transparent 9%, rgba(153, 69, 255, 0.03) 10%, transparent 11%),
     radial-gradient(circle at 100% 100%, transparent 19%, rgba(20, 241, 149, 0.03) 20%, transparent 21%),
@@ -163,6 +220,10 @@ h6 {
   background: var(--background-glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.dark .glass {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -197,7 +258,7 @@ h6 {
 }
 
 .gradient-text-alt {
-  background: linear-gradient(135deg, #FFFFFF 0%, var(--text-secondary) 100%);
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -241,27 +302,40 @@ h6 {
   color: var(--accent-green);
 }
 
-/* Glass White Button */
+/* Glass Button - Theme-aware */
 .glass-button-white {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .glass-button-white:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
 }
 
-/* Solana Card Style */
+.dark .glass-button-white {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass-button-white:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Card Style - Theme-aware */
 .card {
-  background: #111111;
+  background: var(--background-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: 1.5rem;
   padding: 1.5rem;
@@ -275,10 +349,14 @@ h6 {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(153, 69, 255, 0.06), transparent 40%);
+  background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(124, 58, 237, 0.08), transparent 40%);
   z-index: -1;
   opacity: 0;
   transition: opacity 0.4s;
+}
+
+.dark .card::before {
+  background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(153, 69, 255, 0.06), transparent 40%);
 }
 
 .card:hover::before {
@@ -507,10 +585,18 @@ textarea:focus-visible {
 .shimmer {
   background: linear-gradient(90deg,
       transparent,
-      rgba(255, 255, 255, 0.1),
+      rgba(0, 0, 0, 0.05),
       transparent);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
+}
+
+.dark .shimmer {
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent);
+  background-size: 200% 100%;
 }
 
 /* Enhanced Badge Styles */
@@ -527,15 +613,25 @@ textarea:focus-visible {
 }
 
 .badge-purple {
-  background: rgba(153, 69, 255, 0.1);
-  border: 1px solid rgba(153, 69, 255, 0.2);
+  background: rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(124, 58, 237, 0.2);
   color: var(--accent-purple);
 }
 
+.dark .badge-purple {
+  background: rgba(153, 69, 255, 0.1);
+  border: 1px solid rgba(153, 69, 255, 0.2);
+}
+
 .badge-green {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: var(--accent-green);
+}
+
+.dark .badge-green {
   background: rgba(20, 241, 149, 0.1);
   border: 1px solid rgba(20, 241, 149, 0.2);
-  color: var(--accent-green);
 }
 
 /* Tooltip Styles */
