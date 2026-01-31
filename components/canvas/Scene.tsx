@@ -2,7 +2,7 @@
 
 import * as Fiber from "@react-three/fiber";
 import { Environment, PerformanceMonitor, AdaptiveDpr } from "@react-three/drei";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useMemo } from "react";
 import * as THREE from "three";
 
 // Loading fallback
@@ -16,30 +16,40 @@ interface SceneProps {
 }
 
 export default function Scene({ children, className }: SceneProps) {
-    const [dpr, setDpr] = useState(1.5);
+    const [dpr, setDpr] = useState(1.2);
+
+    // Memoize camera settings
+    const cameraProps = useMemo(() => ({
+        position: [0, 0, 5] as [number, number, number],
+        fov: 45,
+        near: 0.1,
+        far: 100
+    }), []);
+
+    // Memoize GL settings
+    const glProps = useMemo(() => ({
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance" as const,
+        toneMapping: THREE.ACESFilmicToneMapping,
+        toneMappingExposure: 1,
+    }), []);
 
     return (
         <div className={className}>
             <Fiber.Canvas
                 dpr={dpr}
-                gl={{
-                    antialias: true,
-                    alpha: true,
-                    powerPreference: "high-performance",
-                    toneMapping: THREE.ACESFilmicToneMapping,
-                    toneMappingExposure: 1,
-                }}
-                camera={{
-                    position: [0, 0, 5],
-                    fov: 45,
-                    near: 0.1,
-                    far: 100
-                }}
+                gl={glProps}
+                camera={cameraProps}
+                frameloop="demand"
             >
                 {/* Performance monitoring with adaptive quality */}
                 <PerformanceMonitor
-                    onIncline={() => setDpr(Math.min(2, dpr + 0.5))}
-                    onDecline={() => setDpr(Math.max(1, dpr - 0.5))}
+                    onIncline={() => setDpr(Math.min(1.5, dpr + 0.3))}
+                    onDecline={() => setDpr(Math.max(0.8, dpr - 0.3))}
+                    flipflops={3}
+                    factor={1}
+                    ms={50}
                 >
                     <AdaptiveDpr pixelated />
                 </PerformanceMonitor>

@@ -10,8 +10,8 @@ import { gsap } from 'gsap';
 const navLinks = [
     { href: '#home', label: 'Home' },
     { href: '#about', label: 'About' },
-    { href: '/quantitative-trading', label: 'Quant' },
-    { href: '/modern-web', label: 'Modern' },
+    { href: '#quant', label: 'Quant' },
+    { href: '#modern', label: 'Modern' },
     { href: '#projects', label: 'Projects' },
     { href: '#contact', label: 'Contact' },
 ];

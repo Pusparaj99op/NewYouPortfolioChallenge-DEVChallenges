@@ -48,11 +48,10 @@ export default function FluidBackground() {
         let width = canvas.width = flowCanvas.width = window.innerWidth;
         let height = canvas.height = flowCanvas.height = window.innerHeight;
 
-        // Orbs for fluid effect
+        // Orbs for fluid effect - reduced for performance
         const orbs = [
             { x: Math.random() * width, y: Math.random() * height, r: 300, color: '#9945FF', vx: Math.random() * 2 - 1, vy: Math.random() * 2 - 1 },
-            { x: Math.random() * width, y: Math.random() * height, r: 400, color: '#14F195', vx: Math.random() * 2 - 1, vy: Math.random() * 2 - 1 },
-            { x: Math.random() * width, y: Math.random() * height, r: 350, color: '#00C2FF', vx: Math.random() * 2 - 1, vy: Math.random() * 2 - 1 },
+            { x: Math.random() * width, y: Math.random() * height, r: 350, color: '#14F195', vx: Math.random() * 2 - 1, vy: Math.random() * 2 - 1 },
         ];
 
         // Flowchart nodes
@@ -60,13 +59,13 @@ export default function FluidBackground() {
         const flowLines: FlowLine[] = [];
         const dataParticles: DataParticle[] = [];
 
-        // Create flowchart grid pattern
-        const gridSpacing = 200;
+        // Create flowchart grid pattern - optimized spacing
+        const gridSpacing = 250;
         const nodeTypes: ('diamond' | 'rect' | 'circle' | 'parallelogram')[] = ['diamond', 'rect', 'circle', 'parallelogram'];
 
         for (let x = -gridSpacing; x < width + gridSpacing * 2; x += gridSpacing) {
             for (let y = -gridSpacing; y < height + gridSpacing * 2; y += gridSpacing) {
-                if (Math.random() > 0.4) {
+                if (Math.random() > 0.6) {
                     flowNodes.push({
                         x: x + (Math.random() - 0.5) * 60,
                         y,
@@ -100,8 +99,8 @@ export default function FluidBackground() {
             });
         });
 
-        // Create data particles that flow along paths
-        for (let i = 0; i < 50; i++) {
+        // Create data particles that flow along paths - reduced count
+        for (let i = 0; i < 25; i++) {
             dataParticles.push({
                 x: Math.random() * width,
                 y: Math.random() * height,
@@ -204,7 +203,29 @@ export default function FluidBackground() {
             ctx.restore();
         };
 
-        const animate = () => {
+        let lastFrameTime = performance.now();
+        let isVisible = true;
+
+        // Detect visibility to pause animations when tab is hidden
+        const handleVisibilityChange = () => {
+            isVisible = !document.hidden;
+        };
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        const animate = (currentTime: number) => {
+            if (!isVisible) {
+                requestAnimationFrame(animate);
+                return;
+            }
+
+            // Throttle to ~30 FPS for better performance
+            const deltaTime = currentTime - lastFrameTime;
+            if (deltaTime < 33) {
+                requestAnimationFrame(animate);
+                return;
+            }
+            lastFrameTime = currentTime;
+
             time += 0.016;
 
             // Clear and draw fluid orbs
@@ -281,8 +302,8 @@ export default function FluidBackground() {
                 flowCtx.restore();
             });
 
-            // Draw some arrow indicators flowing downward
-            const arrowCount = 8;
+            // Draw some arrow indicators flowing downward - reduced count
+            const arrowCount = 5;
             for (let i = 0; i < arrowCount; i++) {
                 const ax = (width / arrowCount) * i + width / arrowCount / 2;
                 const ay = ((time * 50 + i * 150) % (height + 100)) - 50;
@@ -311,6 +332,7 @@ export default function FluidBackground() {
 
         return () => {
             cancelAnimationFrame(animId);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('resize', handleResize);
         };

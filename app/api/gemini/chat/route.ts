@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
         // Initialize Gemini
         const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
         // Generate response
         const prompt = `${PORTFOLIO_CONTEXT}\n\nUser Question: ${message}\n\nProvide a helpful, concise response:`;

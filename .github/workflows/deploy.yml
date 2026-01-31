@@ -75,10 +75,18 @@ jobs:
             --region $REGION \
             --allow-unauthenticated \
             --set-env-vars "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" \
+            --set-env-vars "BINANCE_API_KEY=${{ secrets.BINANCE_API_KEY }}" \
+            --set-env-vars "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" \
+            --set-env-vars "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" \
+            --set-env-vars "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" \
+            --set-env-vars "POSTGRES_DATABASE=${{ secrets.POSTGRES_DATABASE }}" \
+            --set-env-vars "NEXT_PUBLIC_SITE_URL=https://pranaygajbhiye.me" \
+            --set-env-vars "CONTACT_EMAIL=pranaykgajbhiye@gmail.com" \
             --memory 512Mi \
             --cpu 1 \
             --min-instances 0 \
             --max-instances 10 \
+            --timeout 300 \
             --port 8080
 
       - name: Get service URL

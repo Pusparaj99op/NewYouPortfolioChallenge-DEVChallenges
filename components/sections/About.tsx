@@ -4,6 +4,18 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLenis } from 'lenis/react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import dynamic from 'next/dynamic';
+
+// Lazy load D3 chart for performance
+const D3PerformanceChart = dynamic(() => import('@/components/charts/D3PerformanceChart'), {
+    ssr: false,
+    loading: () => (
+        <div className="h-[350px] bg-gradient-to-br from-[#0a0a0a] to-[#0f0f0f] rounded-2xl border border-white/5 flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-accent-purple/30 border-t-accent-purple rounded-full animate-spin" />
+        </div>
+    )
+});
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -234,9 +246,36 @@ export default function About() {
 
     return (
         <section ref={sectionRef} id="about" className="section bg-transparent relative overflow-hidden">
-            {/* Decorative Elements with parallax */}
-            <div className="about-orb-1 absolute top-1/2 -left-64 w-96 h-96 bg-accent-purple/5 rounded-full blur-[120px] pointer-events-none" />
-            <div className="about-orb-2 absolute bottom-0 right-0 w-80 h-80 bg-accent-green/5 rounded-full blur-[100px] pointer-events-none" />
+            {/* Enhanced Decorative Elements with Framer Motion */}
+            <motion.div
+                className="about-orb-1 absolute top-1/2 -left-64 w-96 h-96 rounded-full blur-[120px] pointer-events-none"
+                style={{ background: 'radial-gradient(circle, rgba(153,69,255,0.1) 0%, transparent 70%)' }}
+                animate={{
+                    x: [0, 50, 0],
+                    y: [0, -30, 0],
+                    scale: [1, 1.2, 1]
+                }}
+                transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+                className="about-orb-2 absolute bottom-0 right-0 w-80 h-80 rounded-full blur-[100px] pointer-events-none"
+                style={{ background: 'radial-gradient(circle, rgba(20,241,149,0.08) 0%, transparent 70%)' }}
+                animate={{
+                    x: [0, -40, 0],
+                    y: [0, 40, 0],
+                    scale: [1, 1.15, 1]
+                }}
+                transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+            />
+            <motion.div
+                className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full blur-[80px] pointer-events-none"
+                style={{ background: 'radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%)' }}
+                animate={{
+                    x: [0, 30, -30, 0],
+                    y: [0, 20, -20, 0]
+                }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+            />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -350,12 +389,20 @@ export default function About() {
                     {/* Skills Visualization */}
                     <div ref={skillsRef} className="relative transform-gpu" style={{ transformStyle: 'preserve-3d' }}>
                         {/* Decorative Glow */}
-                        <div className="absolute -inset-4 bg-gradient-to-r from-accent-purple/10 via-accent-blue/10 to-accent-green/10 rounded-3xl blur-2xl opacity-50" />
+                        <motion.div
+                            className="absolute -inset-4 bg-gradient-to-r from-accent-purple/10 via-accent-blue/10 to-accent-green/10 rounded-3xl blur-2xl"
+                            animate={{ opacity: [0.3, 0.6, 0.3] }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                        />
 
                         <div className="relative bg-gradient-to-b from-[#0A0A0A] to-[#0F0F0F] border border-white/10 rounded-2xl p-6 sm:p-8 backdrop-blur-xl">
                             <div className="flex items-center justify-between mb-8">
                                 <h3 className="text-xl font-bold text-white flex items-center gap-3">
-                                    <span className="w-1 h-8 bg-gradient-to-b from-accent-green to-accent-purple rounded-full" />
+                                    <motion.span
+                                        className="w-1 h-8 bg-gradient-to-b from-accent-green to-accent-purple rounded-full"
+                                        animate={{ scaleY: [1, 1.2, 1] }}
+                                        transition={{ duration: 2, repeat: Infinity }}
+                                    />
                                     Technical Arsenal
                                 </h3>
                                 <span className="text-xs text-text-muted font-mono bg-white/5 px-3 py-1 rounded-full">
@@ -365,7 +412,15 @@ export default function About() {
 
                             <div className="space-y-5">
                                 {skills.map((skill, index) => (
-                                    <div key={skill.name} className="group skill-item" style={{ '--skill-index': index } as React.CSSProperties}>
+                                    <motion.div
+                                        key={skill.name}
+                                        className="group skill-item"
+                                        style={{ '--skill-index': index } as React.CSSProperties}
+                                        initial={{ opacity: 0, x: 20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: index * 0.05, duration: 0.5 }}
+                                    >
                                         <div className="flex justify-between items-center mb-2">
                                             <span className="text-text-secondary font-medium group-hover:text-white transition-colors text-sm sm:text-base">
                                                 {skill.name}
@@ -389,18 +444,27 @@ export default function About() {
                                                 <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-1 bg-white rounded-full shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
                                             </div>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
 
                             {/* Bottom Decoration */}
                             <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between text-xs text-text-muted">
                                 <span className="flex items-center gap-2">
-                                    <span className="w-2 h-2 rounded-full bg-accent-green animate-pulse" />
+                                    <motion.span
+                                        className="w-2 h-2 rounded-full bg-accent-green"
+                                        animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
+                                        transition={{ duration: 2, repeat: Infinity }}
+                                    />
                                     Always learning
                                 </span>
                                 <span className="font-mono">2024</span>
                             </div>
+                        </div>
+
+                        {/* D3 Performance Chart */}
+                        <div className="mt-8">
+                            <D3PerformanceChart />
                         </div>
                     </div>
 

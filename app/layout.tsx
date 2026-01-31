@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Space_Grotesk, Sora, Fira_Code } from "next/font/google";
+import dynamic from "next/dynamic";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ToastProvider } from "@/components/ui/Toast";
-import GlassCursor from "@/components/ui/GlassCursor";
 import { SoundProvider } from "@/components/context/SoundContext";
 
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Preloader from "@/components/ui/Preloader";
-import FluidBackground from "@/components/ui/FluidBackground";
 import SmoothScrolling from "@/components/ui/SmoothScrolling";
+import AppEffects from "@/components/ui/AppEffects";
+
+// Dynamic import for PageTransition (needs Suspense for useSearchParams)
+const PageTransition = dynamic(() => import("@/components/ui/PageTransition"));
+
+// Lazy load heavy UI components - Moved to AppEffects.tsx
 
 // Premium display font for headings - geometric and modern
 const spaceGrotesk = Space_Grotesk({
@@ -79,11 +85,12 @@ export default function RootLayout({
         <ThemeProvider>
           <SoundProvider>
             <ToastProvider>
-              <GlassCursor />
+              <AppEffects />
               <ScrollProgress />
-              {/* <FluidBackground /> */}
               <Preloader />
-              <Preloader />
+              <Suspense fallback={null}>
+                <PageTransition />
+              </Suspense>
               {/* Skip to main content for accessibility */}
               <a href="#main-content" className="skip-link">
                 Skip to main content

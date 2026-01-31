@@ -81,7 +81,7 @@ export default function ObsidianCrystal(props: object) {
                     ref={meshRef}
                     {...props}
                 >
-                    <icosahedronGeometry args={[1, 1]} />
+                    <icosahedronGeometry args={[1, 0]} />
                     <MeshTransmissionMaterial
                         backside
                         backsideThickness={3}
@@ -95,8 +95,8 @@ export default function ObsidianCrystal(props: object) {
                         distortion={0.2}
                         distortionScale={0.3}
                         temporalDistortion={0.05}
-                        resolution={512}
-                        samples={6}
+                        resolution={256}
+                        samples={3}
                     />
                 </mesh>
             </Float>

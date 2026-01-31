@@ -3,10 +3,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import Link from 'next/link';
 import TiltCard from '@/components/ui/TiltCard';
 import Reveal from '@/components/ui/Reveal';
 import ScrambleText from '@/components/ui/ScrambleText';
 import LiquidGlass from '@/components/ui/LiquidGlass';
+import { projects as projectsData } from '@/app/lib/projectsData';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,74 +21,19 @@ const projectIcons = {
     target: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z',
 };
 
-const projects = [
-    {
-        id: 1,
-        title: 'Sensex Options AI',
-        description: 'AI-driven algorithmic trading system for Sensex options execution on AngelOne platform. Leverages ML for strike selection.',
-        category: 'Trading',
-        tech: ['Python', 'AngelOne API', 'ML'],
-        metrics: { label: 'Win Rate', value: 'Est. 68%' },
-        link: 'https://github.com/Pusparaj99op/AngleOneSensexOptionsAIAlgo',
-        gradient: 'from-purple-500/20 to-blue-500/20',
-        icon: 'chart',
-    },
-    {
-        id: 2,
-        title: 'BXOTS System',
-        description: 'Binance X Option Trading System. Automated low-latency crypto options execution engine for high-volatility environments.',
-        category: 'Trading',
-        tech: ['Python', 'Binance API', 'WebSockets'],
-        metrics: { label: 'Latency', value: '<50ms' },
-        link: 'https://github.com/Pusparaj99op/BXOTS',
-        gradient: 'from-green-500/20 to-emerald-500/20',
-        icon: 'lightning',
-    },
-    {
-        id: 3,
-        title: 'QSCI Indicator',
-        description: 'Quantum Sentiment Composite Indicator. Advanced market sentiment analysis tool fusing multiple data streams.',
-        category: 'Finance',
-        tech: ['Python', 'NLP', 'QuantLib'],
-        metrics: { label: 'Signals', value: 'Real-time' },
-        link: 'https://github.com/Pusparaj99op/QUANTUM-SENTIMENT-COMPOSITE-INDICATOR--QSCI-',
-        gradient: 'from-blue-500/20 to-cyan-500/20',
-        icon: 'target',
-    },
-    {
-        id: 4,
-        title: 'Wealth Manager',
-        description: 'Mutual Fund Wealth Management System. Comprehensive portfolio tracking, risk analysis, and reporting dashboard.',
-        category: 'Finance',
-        tech: ['Full Stack', 'PostgreSQL', 'Analytics'],
-        metrics: { label: 'Assets', value: 'Tracked' },
-        link: 'https://github.com/Pusparaj99op/Mutual-Fund-Wealth-Management-System',
-        gradient: 'from-purple-500/20 to-pink-500/20',
-        icon: 'briefcase',
-    },
-    {
-        id: 5,
-        title: 'Ripple Scaler',
-        description: 'High-frequency scalping system designed specifically for XRP market microstructure and volatility patterns.',
-        category: 'Trading',
-        tech: ['Python', 'HFT', 'AsyncIO'],
-        metrics: { label: 'Freq', value: 'High' },
-        link: 'https://github.com/Pusparaj99op/RippleScalerSystem',
-        gradient: 'from-orange-500/20 to-red-500/20',
-        icon: 'lightning',
-    },
-    {
-        id: 6,
-        title: 'BTC Options Algo',
-        description: 'Specialized algorithmic trading bot for Bitcoin options on Binance. Implements Black-Scholes pricing models.',
-        category: 'Trading',
-        tech: ['Python', 'Options', 'Derivatives'],
-        metrics: { label: 'Model', value: 'BSM' },
-        link: 'https://github.com/Pusparaj99op/BinanceBitcionOptionTradingSystem',
-        gradient: 'from-yellow-500/20 to-orange-500/20',
-        icon: 'chart',
-    },
-];
+// Map projectsData to match the existing projects structure
+const projects = projectsData.map(p => ({
+    id: p.id,
+    title: p.title,
+    description: p.shortDescription,
+    category: p.category,
+    tech: p.tech,
+    metrics: p.metrics,
+    link: p.link,
+    gradient: p.gradient,
+    icon: p.icon,
+    slug: p.slug
+}));
 
 const categories = ['All', 'Trading', 'Finance', 'Web3'];
 
@@ -237,9 +185,34 @@ export default function Projects() {
 
     return (
         <section ref={sectionRef} id="projects" className="section bg-gradient-to-b from-transparent via-black/80 to-transparent relative overflow-hidden">
-            {/* Background Decoration with parallax */}
-            <div className="projects-orb-1 absolute top-0 right-0 w-[40vw] h-[40vw] bg-accent-purple/5 rounded-full blur-[150px] pointer-events-none" />
-            <div className="projects-orb-2 absolute bottom-0 left-0 w-[30vw] h-[30vw] bg-accent-green/5 rounded-full blur-[120px] pointer-events-none" />
+            {/* Enhanced Background with Framer Motion */}
+            <motion.div
+                className="projects-orb-1 absolute top-0 right-0 w-[40vw] h-[40vw] rounded-full blur-[150px] pointer-events-none"
+                style={{ background: 'radial-gradient(circle, rgba(153,69,255,0.1) 0%, transparent 70%)' }}
+                animate={{
+                    x: [0, 50, 0],
+                    y: [0, -30, 0],
+                    scale: [1, 1.2, 1]
+                }}
+                transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+                className="projects-orb-2 absolute bottom-0 left-0 w-[30vw] h-[30vw] rounded-full blur-[120px] pointer-events-none"
+                style={{ background: 'radial-gradient(circle, rgba(20,241,149,0.08) 0%, transparent 70%)' }}
+                animate={{
+                    x: [0, -40, 0],
+                    y: [0, 40, 0],
+                    scale: [1, 1.15, 1]
+                }}
+                transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+            />
+
+            {/* Animated grid background */}
+            <motion.div
+                className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none"
+                animate={{ opacity: [0.3, 0.5, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity }}
+            />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div ref={headerRef} className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-8">
@@ -311,14 +284,14 @@ export default function Projects() {
                                                         {project.category}
                                                     </span>
                                                 </div>
-                                                <a
-                                                    href={project.link}
+                                                <Link
+                                                    href={`/projects/${project.slug}`}
                                                     className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white group-hover:bg-accent-purple group-hover:border-accent-purple transition-all duration-300 group/link"
                                                 >
                                                     <svg className="w-5 h-5 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                                     </svg>
-                                                </a>
+                                                </Link>
                                             </div>
 
                                             <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-accent-purple transition-colors duration-300">

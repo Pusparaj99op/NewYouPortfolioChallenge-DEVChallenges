@@ -82,7 +82,7 @@ export default function TradingChart({ symbol = 'BTC/USDT', theme = 'dark' }: Tr
             xAxis: {
                 type: 'category',
                 data: data0.categoryData,
-                scale: true,
+
                 boundaryGap: false,
                 axisLine: { onZero: false, lineStyle: { color: '#555' } },
                 splitLine: { show: false },

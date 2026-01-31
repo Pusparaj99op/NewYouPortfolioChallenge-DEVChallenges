@@ -44,6 +44,7 @@ export default function SmoothScrolling({ children }: SmoothScrollingProps) {
         <ReactLenis
             ref={lenisRef}
             root
+            autoRaf={false}
             options={{
                 lerp: 0.08, // Smoother interpolation
                 duration: 1.2, // Longer duration for more luxurious feel

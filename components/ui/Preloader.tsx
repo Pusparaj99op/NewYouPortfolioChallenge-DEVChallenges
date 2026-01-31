@@ -2,327 +2,405 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
-import dynamic from 'next/dynamic';
-
-// Dynamically import Lottie for SSR safety
-const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
-
-// Animated geometric loader animation data (inline for simplicity)
-const loaderAnimationData = {
-    v: "5.7.4",
-    fr: 60,
-    ip: 0,
-    op: 120,
-    w: 200,
-    h: 200,
-    nm: "Obsidian Loader",
-    ddd: 0,
-    assets: [],
-    layers: [
-        {
-            ddd: 0,
-            ind: 1,
-            ty: 4,
-            nm: "Shape 1",
-            sr: 1,
-            ks: {
-                o: { a: 0, k: 100, ix: 11 },
-                r: {
-                    a: 1,
-                    k: [
-                        { i: { x: [0.833], y: [0.833] }, o: { x: [0.167], y: [0.167] }, t: 0, s: [0] },
-                        { t: 120, s: [360] }
-                    ],
-                    ix: 10
-                },
-                p: { a: 0, k: [100, 100, 0], ix: 2 },
-                a: { a: 0, k: [0, 0, 0], ix: 1 },
-                s: {
-                    a: 1,
-                    k: [
-                        { i: { x: [0.667, 0.667, 0.667], y: [1, 1, 1] }, o: { x: [0.333, 0.333, 0.333], y: [0, 0, 0] }, t: 0, s: [80, 80, 100] },
-                        { i: { x: [0.667, 0.667, 0.667], y: [1, 1, 1] }, o: { x: [0.333, 0.333, 0.333], y: [0, 0, 0] }, t: 60, s: [100, 100, 100] },
-                        { t: 120, s: [80, 80, 100] }
-                    ],
-                    ix: 6
-                }
-            },
-            ao: 0,
-            shapes: [
-                {
-                    ty: "gr",
-                    it: [
-                        {
-                            ind: 0,
-                            ty: "sh",
-                            ix: 1,
-                            ks: {
-                                a: 0,
-                                k: {
-                                    i: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
-                                    o: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
-                                    v: [[0, -50], [43.3, -25], [43.3, 25], [0, 50], [-43.3, 25], [-43.3, -25]],
-                                    c: true
-                                },
-                                ix: 2
-                            },
-                            nm: "Hexagon"
-                        },
-                        {
-                            ty: "st",
-                            c: { a: 0, k: [0.6, 0.271, 1, 1], ix: 3 },
-                            o: { a: 0, k: 100, ix: 4 },
-                            w: { a: 0, k: 3, ix: 5 },
-                            lc: 2,
-                            lj: 2,
-                            nm: "Stroke"
-                        },
-                        {
-                            ty: "tr",
-                            p: { a: 0, k: [0, 0], ix: 2 },
-                            a: { a: 0, k: [0, 0], ix: 1 },
-                            s: { a: 0, k: [100, 100], ix: 3 },
-                            r: { a: 0, k: 0, ix: 6 },
-                            o: { a: 0, k: 100, ix: 7 },
-                            sk: { a: 0, k: 0, ix: 4 },
-                            sa: { a: 0, k: 0, ix: 5 },
-                            nm: "Transform"
-                        }
-                    ],
-                    nm: "Hexagon",
-                    np: 2,
-                    cix: 2,
-                    bm: 0
-                }
-            ],
-            ip: 0,
-            op: 120,
-            st: 0,
-            bm: 0
-        },
-        {
-            ddd: 0,
-            ind: 2,
-            ty: 4,
-            nm: "Shape 2",
-            sr: 1,
-            ks: {
-                o: { a: 0, k: 60, ix: 11 },
-                r: {
-                    a: 1,
-                    k: [
-                        { i: { x: [0.833], y: [0.833] }, o: { x: [0.167], y: [0.167] }, t: 0, s: [0] },
-                        { t: 120, s: [-360] }
-                    ],
-                    ix: 10
-                },
-                p: { a: 0, k: [100, 100, 0], ix: 2 },
-                a: { a: 0, k: [0, 0, 0], ix: 1 },
-                s: { a: 0, k: [60, 60, 100], ix: 6 }
-            },
-            ao: 0,
-            shapes: [
-                {
-                    ty: "gr",
-                    it: [
-                        {
-                            ind: 0,
-                            ty: "sh",
-                            ix: 1,
-                            ks: {
-                                a: 0,
-                                k: {
-                                    i: [[0, 0], [0, 0], [0, 0]],
-                                    o: [[0, 0], [0, 0], [0, 0]],
-                                    v: [[0, -50], [43.3, 25], [-43.3, 25]],
-                                    c: true
-                                },
-                                ix: 2
-                            },
-                            nm: "Triangle"
-                        },
-                        {
-                            ty: "st",
-                            c: { a: 0, k: [0.078, 0.945, 0.584, 1], ix: 3 },
-                            o: { a: 0, k: 100, ix: 4 },
-                            w: { a: 0, k: 2, ix: 5 },
-                            lc: 2,
-                            lj: 2,
-                            nm: "Stroke"
-                        },
-                        {
-                            ty: "tr",
-                            p: { a: 0, k: [0, 0], ix: 2 },
-                            a: { a: 0, k: [0, 0], ix: 1 },
-                            s: { a: 0, k: [100, 100], ix: 3 },
-                            r: { a: 0, k: 0, ix: 6 },
-                            o: { a: 0, k: 100, ix: 7 },
-                            sk: { a: 0, k: 0, ix: 4 },
-                            sa: { a: 0, k: 0, ix: 5 },
-                            nm: "Transform"
-                        }
-                    ],
-                    nm: "Triangle",
-                    np: 2,
-                    cix: 2,
-                    bm: 0
-                }
-            ],
-            ip: 0,
-            op: 120,
-            st: 0,
-            bm: 0
-        }
-    ],
-    markers: []
-};
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Preloader() {
     const [isLoading, setIsLoading] = useState(true);
     const [progress, setProgress] = useState(0);
+
+    // Refs for GSAP
     const preloaderRef = useRef<HTMLDivElement>(null);
     const logoRef = useRef<HTMLDivElement>(null);
-    const progressRef = useRef<HTMLDivElement>(null);
-    const lottieRef = useRef<HTMLDivElement>(null);
+    const logoLettersRef = useRef<HTMLSpanElement[]>([]);
+    const subtitleRef = useRef<HTMLParagraphElement>(null);
+    const progressBarRef = useRef<HTMLDivElement>(null);
+    const progressFillRef = useRef<HTMLDivElement>(null);
+    const counterRef = useRef<HTMLDivElement>(null);
+    const gradient1Ref = useRef<HTMLDivElement>(null);
+    const gradient2Ref = useRef<HTMLDivElement>(null);
+    const gradient3Ref = useRef<HTMLDivElement>(null);
+    const glowRef = useRef<HTMLDivElement>(null);
+    const lineLeftRef = useRef<HTMLDivElement>(null);
+    const lineRightRef = useRef<HTMLDivElement>(null);
+    const cornerRefs = useRef<HTMLDivElement[]>([]);
+
+    const logoText = 'BlackObsidian';
 
     useEffect(() => {
-        // Entrance animations
-        const tl = gsap.timeline();
+        const ctx = gsap.context(() => {
+            // Master timeline
+            const masterTl = gsap.timeline();
 
-        tl.fromTo(lottieRef.current,
-            { scale: 0, opacity: 0, rotation: -180 },
-            { scale: 1, opacity: 1, rotation: 0, duration: 0.8, ease: 'elastic.out(1, 0.5)' }
-        );
+            // Initial states
+            gsap.set(logoLettersRef.current, { y: 60, opacity: 0, rotateX: -90 });
+            gsap.set(subtitleRef.current, { y: 20, opacity: 0 });
+            gsap.set(progressBarRef.current, { scaleX: 0, opacity: 0 });
+            gsap.set(counterRef.current, { opacity: 0, scale: 0.8 });
+            gsap.set(cornerRefs.current, { opacity: 0, scale: 0 });
+            gsap.set([lineLeftRef.current, lineRightRef.current], { scaleX: 0 });
 
-        tl.fromTo(logoRef.current,
-            { y: 30, opacity: 0, filter: 'blur(10px)' },
-            { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.6, ease: 'power3.out' },
-            '-=0.4'
-        );
+            // Gradient animations - smooth continuous motion
+            gsap.to(gradient1Ref.current, {
+                x: '30%',
+                y: '20%',
+                scale: 1.2,
+                duration: 8,
+                ease: 'sine.inOut',
+                repeat: -1,
+                yoyo: true
+            });
 
-        tl.fromTo(progressRef.current,
-            { width: 0, opacity: 0 },
-            { width: '12rem', opacity: 1, duration: 0.5, ease: 'power2.out' },
-            '-=0.3'
-        );
+            gsap.to(gradient2Ref.current, {
+                x: '-25%',
+                y: '-15%',
+                scale: 1.3,
+                duration: 10,
+                ease: 'sine.inOut',
+                repeat: -1,
+                yoyo: true,
+                delay: 0.5
+            });
 
-        // Simulate loading progress with easing
-        const targetProgress = { value: 0 };
-        gsap.to(targetProgress, {
-            value: 100,
-            duration: 1.5,
-            ease: 'power2.inOut',
-            onUpdate: () => {
-                setProgress(targetProgress.value);
-            },
-            onComplete: () => {
-                // Exit animation sequence
-                const exitTl = gsap.timeline({
-                    onComplete: () => setIsLoading(false)
-                });
+            gsap.to(gradient3Ref.current, {
+                x: '20%',
+                y: '-25%',
+                scale: 1.1,
+                duration: 12,
+                ease: 'sine.inOut',
+                repeat: -1,
+                yoyo: true,
+                delay: 1
+            });
 
-                exitTl.to(progressRef.current, {
-                    opacity: 0,
-                    y: 10,
-                    duration: 0.3
-                });
+            // Glow pulse animation
+            gsap.to(glowRef.current, {
+                opacity: 0.4,
+                scale: 1.1,
+                duration: 2,
+                ease: 'sine.inOut',
+                repeat: -1,
+                yoyo: true
+            });
 
-                exitTl.to(logoRef.current, {
-                    y: -20,
-                    opacity: 0,
-                    filter: 'blur(5px)',
-                    duration: 0.4
-                }, '-=0.2');
+            // Letter stagger animation with smooth easing
+            masterTl.to(logoLettersRef.current, {
+                y: 0,
+                opacity: 1,
+                rotateX: 0,
+                duration: 0.8,
+                stagger: 0.04,
+                ease: 'back.out(1.7)'
+            });
 
-                exitTl.to(lottieRef.current, {
-                    scale: 0,
-                    rotation: 180,
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: 'power2.in'
-                }, '-=0.3');
+            // Subtitle fade in
+            masterTl.to(subtitleRef.current, {
+                y: 0,
+                opacity: 1,
+                duration: 0.6,
+                ease: 'power3.out'
+            }, '-=0.4');
 
-                exitTl.to(preloaderRef.current, {
-                    yPercent: -100,
-                    duration: 0.8,
-                    ease: 'power4.inOut',
-                });
-            }
-        });
+            // Lines extend
+            masterTl.to([lineLeftRef.current, lineRightRef.current], {
+                scaleX: 1,
+                duration: 0.8,
+                ease: 'power2.out'
+            }, '-=0.3');
 
-        return () => {
-            tl.kill();
-        };
+            // Progress bar reveal
+            masterTl.to(progressBarRef.current, {
+                scaleX: 1,
+                opacity: 1,
+                duration: 0.5,
+                ease: 'power2.out'
+            }, '-=0.4');
+
+            // Counter fade in
+            masterTl.to(counterRef.current, {
+                opacity: 1,
+                scale: 1,
+                duration: 0.4,
+                ease: 'back.out(2)'
+            }, '-=0.2');
+
+            // Corners fade in with stagger
+            masterTl.to(cornerRefs.current, {
+                opacity: 0.5,
+                scale: 1,
+                duration: 0.5,
+                stagger: 0.1,
+                ease: 'back.out(2)'
+            }, '-=0.3');
+
+            // Progress animation with smooth easing
+            const progressObj = { value: 0 };
+            gsap.to(progressObj, {
+                value: 100,
+                duration: 2.5,
+                ease: 'power2.inOut',
+                onUpdate: () => {
+                    const val = Math.round(progressObj.value);
+                    setProgress(val);
+                    if (progressFillRef.current) {
+                        gsap.to(progressFillRef.current, {
+                            width: `${val}%`,
+                            duration: 0.1,
+                            ease: 'none'
+                        });
+                    }
+                },
+                onComplete: () => {
+                    // Exit animation sequence
+                    const exitTl = gsap.timeline({
+                        onComplete: () => setIsLoading(false)
+                    });
+
+                    // Smooth exit animations
+                    exitTl.to(counterRef.current, {
+                        opacity: 0,
+                        y: -15,
+                        duration: 0.3,
+                        ease: 'power2.in'
+                    });
+
+                    exitTl.to(progressBarRef.current, {
+                        scaleX: 0,
+                        opacity: 0,
+                        duration: 0.4,
+                        ease: 'power3.in'
+                    }, '-=0.2');
+
+                    exitTl.to([lineLeftRef.current, lineRightRef.current], {
+                        scaleX: 0,
+                        duration: 0.4,
+                        ease: 'power2.in'
+                    }, '-=0.3');
+
+                    exitTl.to(subtitleRef.current, {
+                        opacity: 0,
+                        y: -10,
+                        duration: 0.3,
+                        ease: 'power2.in'
+                    }, '-=0.3');
+
+                    exitTl.to(logoLettersRef.current, {
+                        y: -40,
+                        opacity: 0,
+                        rotateX: 45,
+                        duration: 0.4,
+                        stagger: 0.02,
+                        ease: 'power3.in'
+                    }, '-=0.2');
+
+                    exitTl.to(cornerRefs.current, {
+                        opacity: 0,
+                        scale: 0,
+                        duration: 0.3,
+                        stagger: 0.05,
+                        ease: 'power2.in'
+                    }, '-=0.3');
+
+                    exitTl.to(preloaderRef.current, {
+                        yPercent: -100,
+                        duration: 0.8,
+                        ease: 'power4.inOut'
+                    }, '-=0.1');
+                }
+            });
+        }, preloaderRef);
+
+        return () => ctx.revert();
     }, []);
 
     if (!isLoading) return null;
 
     return (
-        <div
-            ref={preloaderRef}
-            className="preloader fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center overflow-hidden"
-        >
-            {/* Animated background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/10 via-transparent to-accent-green/10 animate-pulse" />
-
-            {/* Grid pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-50" />
-
-            {/* Lottie Animation */}
-            <div ref={lottieRef} className="w-32 h-32 mb-8">
-                <Lottie
-                    animationData={loaderAnimationData}
-                    loop
-                    autoplay
-                    style={{ width: '100%', height: '100%' }}
-                />
-            </div>
-
-            {/* Logo Animation */}
-            <div ref={logoRef} className="text-center">
-                <div className="text-4xl font-black tracking-tighter">
-                    <span className="text-white">Black</span>
-                    <span className="gradient-text">Obsidian</span>
-                </div>
-                <div className="text-sm text-text-muted tracking-widest mt-2">
-                    ASSET MANAGEMENT
-                </div>
-            </div>
-
-            {/* Progress Bar */}
-            <div ref={progressRef} className="mt-8 w-48">
-                <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+        <>
+            <AnimatePresence>
+                <div
+                    key="preloader-content"
+                    ref={preloaderRef}
+                    className="fixed inset-0 z-[9999] bg-[#030303] flex flex-col items-center justify-center overflow-hidden"
+                >
+                    {/* Motion Gradient Orbs */}
                     <div
-                        className="h-full bg-gradient-to-r from-accent-purple via-accent-blue to-accent-green transition-all duration-100 relative"
-                        style={{ width: `${Math.min(progress, 100)}%` }}
-                    >
-                        {/* Shimmer effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
-                    </div>
-                </div>
-
-                {/* Loading Text */}
-                <div className="mt-4 text-xs text-text-muted font-mono text-center flex items-center justify-center gap-2">
-                    <span className="inline-block w-2 h-2 rounded-full bg-accent-green animate-pulse" />
-                    {Math.min(Math.round(progress), 100)}%
-                </div>
-            </div>
-
-            {/* Floating particles */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                {[...Array(6)].map((_, i) => (
-                    <div
-                        key={i}
-                        className="absolute w-1 h-1 rounded-full bg-accent-purple/50 animate-float"
+                        ref={gradient1Ref}
+                        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full opacity-30 blur-[120px] pointer-events-none"
                         style={{
-                            left: `${20 + i * 15}%`,
-                            top: `${30 + (i % 3) * 20}%`,
-                            animationDelay: `${i * 0.5}s`,
-                            animationDuration: `${3 + i}s`
+                            background: 'radial-gradient(circle, rgba(153,69,255,0.6) 0%, rgba(153,69,255,0) 70%)'
                         }}
                     />
-                ))}
-            </div>
-        </div>
+                    <div
+                        ref={gradient2Ref}
+                        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full opacity-25 blur-[100px] pointer-events-none"
+                        style={{
+                            background: 'radial-gradient(circle, rgba(20,241,149,0.5) 0%, rgba(20,241,149,0) 70%)'
+                        }}
+                    />
+                    <div
+                        ref={gradient3Ref}
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-20 blur-[150px] pointer-events-none"
+                        style={{
+                            background: 'radial-gradient(circle, rgba(0,212,255,0.4) 0%, rgba(0,212,255,0) 70%)'
+                        }}
+                    />
+
+                    {/* Center Glow */}
+                    <div
+                        ref={glowRef}
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full opacity-20 blur-[80px] pointer-events-none"
+                        style={{
+                            background: 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)'
+                        }}
+                    />
+
+                    {/* Subtle grid overlay */}
+                    <div
+                        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                        style={{
+                            backgroundImage: `
+                            linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)
+                        `,
+                            backgroundSize: '80px 80px'
+                        }}
+                    />
+
+                    {/* Logo with letter animation */}
+                    <div ref={logoRef} className="text-center mb-10 relative z-10">
+                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight flex justify-center perspective-[1000px]">
+                            {logoText.split('').map((letter, i) => (
+                                <span
+                                    key={i}
+                                    ref={el => { if (el) logoLettersRef.current[i] = el; }}
+                                    className={`inline-block ${i < 5 ? 'text-white' : ''}`}
+                                    style={i >= 5 ? {
+                                        background: 'linear-gradient(135deg, #9945FF 0%, #00D4FF 50%, #14F195 100%)',
+                                        backgroundClip: 'text',
+                                        WebkitBackgroundClip: 'text',
+                                        color: 'transparent',
+                                        backgroundSize: '200% 200%',
+                                        animation: 'gradientShift 4s ease infinite'
+                                    } : undefined}
+                                >
+                                    {letter}
+                                </span>
+                            ))}
+                        </h1>
+
+                        <p
+                            ref={subtitleRef}
+                            className="text-xs text-zinc-500 tracking-[0.3em] uppercase mt-4 font-medium"
+                        >
+                            Asset Management
+                        </p>
+                    </div>
+
+                    {/* Decorative lines */}
+                    <div className="flex items-center gap-6 mb-10">
+                        <div
+                            ref={lineLeftRef}
+                            className="w-16 md:w-24 h-px origin-right"
+                            style={{
+                                background: 'linear-gradient(90deg, transparent, rgba(153,69,255,0.5))'
+                            }}
+                        />
+                        <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#9945FF] to-[#14F195] animate-pulse" />
+                        <div
+                            ref={lineRightRef}
+                            className="w-16 md:w-24 h-px origin-left"
+                            style={{
+                                background: 'linear-gradient(90deg, rgba(20,241,149,0.5), transparent)'
+                            }}
+                        />
+                    </div>
+
+                    {/* Progress bar */}
+                    <div
+                        ref={progressBarRef}
+                        className="w-64 md:w-80 relative z-10 origin-center"
+                    >
+                        {/* Track */}
+                        <div className="h-[2px] bg-white/5 rounded-full overflow-hidden relative">
+                            {/* Fill */}
+                            <div
+                                ref={progressFillRef}
+                                className="h-full rounded-full relative"
+                                style={{
+                                    background: 'linear-gradient(90deg, #9945FF 0%, #00D4FF 50%, #14F195 100%)',
+                                    width: '0%',
+                                    boxShadow: '0 0 20px rgba(153,69,255,0.5), 0 0 40px rgba(20,241,149,0.3)'
+                                }}
+                            />
+                        </div>
+
+                        {/* Counter */}
+                        <div
+                            ref={counterRef}
+                            className="mt-8 flex justify-center items-baseline gap-1"
+                        >
+                            <span
+                                className="text-4xl font-mono font-light tabular-nums"
+                                style={{
+                                    background: 'linear-gradient(135deg, #9945FF, #14F195)',
+                                    backgroundClip: 'text',
+                                    WebkitBackgroundClip: 'text',
+                                    color: 'transparent'
+                                }}
+                            >
+                                {progress.toString().padStart(2, '0')}
+                            </span>
+                            <span className="text-sm text-zinc-600 font-mono">%</span>
+                        </div>
+                    </div>
+
+                    {/* Corner accents */}
+                    {[
+                        { pos: 'top-8 left-8', rotate: 0 },
+                        { pos: 'top-8 right-8', rotate: 90 },
+                        { pos: 'bottom-8 right-8', rotate: 180 },
+                        { pos: 'bottom-8 left-8', rotate: 270 },
+                    ].map((corner, i) => (
+                        <div
+                            key={`corner-${i}`}
+                            ref={el => { if (el) cornerRefs.current[i] = el; }}
+                            className={`absolute ${corner.pos} w-8 h-8 pointer-events-none`}
+                            style={{ transform: `rotate(${corner.rotate}deg)` }}
+                        >
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                <path
+                                    d="M0 16V4C0 1.79086 1.79086 0 4 0H16"
+                                    stroke={`url(#cornerGradient-${i})`}
+                                    strokeWidth="1.5"
+                                />
+                                <defs>
+                                    <linearGradient id={`cornerGradient-${i}`} x1="0" y1="16" x2="16" y2="0">
+                                        <stop stopColor="#9945FF" />
+                                        <stop offset="1" stopColor="#14F195" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                    ))}
+
+                    {/* Bottom text */}
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.3 }}
+                        transition={{ delay: 1, duration: 1 }}
+                        className="absolute bottom-8 text-[10px] text-zinc-600 tracking-[0.2em] uppercase font-mono"
+                    >
+                        Initializing Experience
+                    </motion.p>
+                </div>
+            </AnimatePresence>
+
+            <style jsx global>{`
+                @keyframes gradientShift {
+                    0%, 100% { background-position: 0% 50%; }
+                    50% { background-position: 100% 50%; }
+                }
+            `}</style>
+        </>
     );
 }

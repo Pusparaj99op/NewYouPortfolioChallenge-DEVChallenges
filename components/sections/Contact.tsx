@@ -4,6 +4,7 @@ import { useState, FormEvent, useRef, useEffect } from 'react';
 import { useToast } from '@/components/ui/Toast';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion, AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -209,11 +210,11 @@ export default function Contact() {
             duration: 0.1
         });
 
-        // Simulate sending
+        // Demo mode: Show success message without actual submission
         setTimeout(() => {
             setStatus('success');
             setFormData({ name: '', email: '', message: '' });
-            showToast('Message broadcasted successfully!', 'success');
+            showToast('Demo mode: Form data captured! In production, this would send an email.', 'success');
 
             // Success animation burst
             gsap.to('.submit-button', {
@@ -285,6 +286,12 @@ export default function Contact() {
                     <p className="contact-subtitle text-text-secondary text-base sm:text-lg leading-relaxed max-w-lg mx-auto">
                         Interested in high-frequency trading systems, Web3 infrastructure, or just want to connect? Drop a message.
                     </p>
+                    <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-blue/10 border border-accent-blue/20 text-accent-blue text-xs font-medium">
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                        </svg>
+                        Demo mode - Form submissions shown in browser only
+                    </div>
                 </div>
 
                 <div className="max-w-xl mx-auto">

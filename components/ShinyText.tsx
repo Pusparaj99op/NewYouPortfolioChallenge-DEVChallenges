@@ -21,7 +21,7 @@ const ShinyText: React.FC<ShinyTextProps> = ({
     disabled = false,
     speed = 3,
     delay = 0,
-    spread = 120, // Not explicitly used in simplified gradient but concept remains
+    spread = 120,
     direction = 'left',
     color = '#b5b5b5',
     shineColor = '#ffffff',
@@ -35,25 +35,23 @@ const ShinyText: React.FC<ShinyTextProps> = ({
 
     useEffect(() => {
         // Calculate a random start point (negative delay) to desynchronize animations
-        // and add any user-specified delay.
-        // We use a negative delay so the animation seems like it's already running at different phases.
-        const randomStart = Math.random() * -5; // Random number between -5 and 0
+        const randomStart = Math.random() * -5;
         setRandomDelay(randomStart);
     }, []);
 
     const animationDuration = `${speed}s`;
     const totalDelay = `${delay + randomDelay}s`;
 
-    // Improved gradient logic
-    const gradientDegree = direction === 'left' ? '120deg' : '-60deg';
+    // Enhanced gradient for smoother shine effect
+    const gradientDegree = direction === 'left' ? '110deg' : '-70deg';
 
     const content = (
         <span
             className={`shiny-text ${className} ${disabled ? '' : 'animate-shine'} ${pauseOnHover ? 'hover:pause-animation' : ''}`}
             style={{
                 color: 'transparent',
-                backgroundImage: `linear-gradient(${gradientDegree}, ${color} 40%, ${shineColor} 50%, ${color} 60%)`,
-                backgroundSize: '200% 100%',
+                backgroundImage: `linear-gradient(${gradientDegree}, ${color} 35%, ${shineColor} 48%, ${shineColor} 52%, ${color} 65%)`,
+                backgroundSize: '250% 100%',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -66,12 +64,13 @@ const ShinyText: React.FC<ShinyTextProps> = ({
             {text}
             <style jsx>{`
                 .shiny-text {
+                    will-change: background-position;
                 }
                 .animate-shine {
                     animation-name: shine;
                     animation-duration: var(--animation-duration);
                     animation-delay: var(--animation-delay);
-                    animation-timing-function: linear;
+                    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
                     animation-iteration-count: infinite;
                 }
                 .hover\\:pause-animation:hover {
@@ -79,10 +78,10 @@ const ShinyText: React.FC<ShinyTextProps> = ({
                 }
                 @keyframes shine {
                     0% {
-                        background-position: 100%;
+                        background-position: 100% 50%;
                     }
                     100% {
-                        background-position: -100%;
+                        background-position: -100% 50%;
                     }
                 }
             `}</style>
