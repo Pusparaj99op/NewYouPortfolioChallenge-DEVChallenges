@@ -16,7 +16,17 @@ import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
 import './Lanyard.css';
 
-extend({ MeshLineGeometry, MeshLineMaterial });
+// Extend only on the client side to avoid SSR issues
+if (typeof window !== 'undefined') {
+    extend({ MeshLineGeometry, MeshLineMaterial });
+}
+
+declare module '@react-three/fiber' {
+    interface ThreeElements {
+        meshLineGeometry: any;
+        meshLineMaterial: any;
+    }
+}
 
 interface LanyardProps {
     position?: [number, number, number];
@@ -34,6 +44,9 @@ export default function Lanyard({
     const [isMobile, setIsMobile] = useState<boolean>(false);
 
     useEffect(() => {
+        // Re-extend on mount to ensure it's available
+        extend({ MeshLineGeometry, MeshLineMaterial });
+
         setIsMobile(window.innerWidth < 768);
         const handleResize = (): void => setIsMobile(window.innerWidth < 768);
         window.addEventListener('resize', handleResize);
@@ -41,12 +54,15 @@ export default function Lanyard({
     }, []);
 
     return (
-        <div className="lanyard-wrapper">
+        <div className="lanyard-wrapper" style={{ background: 'transparent' }}>
             <Canvas
                 camera={{ position, fov }}
-                dpr={[1, 2]} // Simplified DPR
-                gl={{ alpha: transparent }}
-                onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
+                dpr={[1, 2]}
+                gl={{ alpha: true, preserveDrawingBuffer: true }}
+                onCreated={({ gl }) => {
+                    gl.setClearColor(new THREE.Color(0x000000), 0);
+                }}
+                style={{ pointerEvents: 'auto' }}
             >
                 <ambientLight intensity={Math.PI} />
                 <Physics gravity={gravity} timeStep={1 / 60}>
@@ -94,7 +110,6 @@ interface BandProps {
 }
 
 function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
-    // Using "any" for refs since the exact types depend on Rapier's internals
     const band = useRef<any>(null);
     const fixed = useRef<any>(null);
     const j1 = useRef<any>(null);
@@ -115,9 +130,19 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
         linearDamping: 4
     };
 
-    // Adjust path as needed
+    // Explicitly preload the assets
+    useGLTF.preload('/card.glb');
+    useTexture.preload('/lanyard.png');
+
     const { nodes, materials } = useGLTF('/card.glb') as any;
     const texture = useTexture('/lanyard.png');
+
+    // Safe geometry access
+    const cardGeometry = nodes?.card?.geometry;
+    const clipGeometry = nodes?.clip?.geometry;
+    const clampGeometry = nodes?.clamp?.geometry;
+    const baseMap = materials?.base?.map;
+    const metalMaterial = materials?.metal;
 
     const [curve] = useState(
         () =>
@@ -168,15 +193,26 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
             curve.points[1].copy(j2.current.lerped);
             curve.points[2].copy(j1.current.lerped);
             curve.points[3].copy(fixed.current.translation());
-            band.current.geometry.setPoints(curve.getPoints(32));
-            ang.copy(card.current.angvel());
-            rot.copy(card.current.rotation());
-            card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
+
+            if (band.current) {
+                band.current.geometry.setPoints(curve.getPoints(32));
+            }
+
+            if (card.current) {
+                ang.copy(card.current.angvel());
+                rot.copy(card.current.rotation());
+                card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
+            }
         }
     });
 
     curve.curveType = 'chordal';
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+
+    // Render a fallback if assets are not ready/found
+    if (!cardGeometry || !baseMap) {
+        return null;
+    }
 
     return (
         <>
@@ -212,9 +248,9 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                             drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
                         }}
                     >
-                        <mesh geometry={nodes.card.geometry}>
+                        <mesh geometry={cardGeometry}>
                             <meshPhysicalMaterial
-                                map={materials.base.map}
+                                map={baseMap}
                                 map-anisotropy={16}
                                 clearcoat={1}
                                 clearcoatRoughness={0.15}
@@ -222,8 +258,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                                 metalness={0.5}
                             />
                         </mesh>
-                        <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
-                        <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
+                        <mesh geometry={clipGeometry} material={metalMaterial} material-roughness={0.3} />
+                        <mesh geometry={clampGeometry} material={metalMaterial} />
                     </group>
                 </RigidBody>
             </group>
@@ -232,7 +268,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 <meshLineMaterial
                     color="white"
                     depthTest={false}
-                    resolution={[window.innerWidth, window.innerHeight]}
+                    resolution={[typeof window !== 'undefined' ? window.innerWidth : 800, typeof window !== 'undefined' ? window.innerHeight : 600]}
                     useMap
                     map={texture}
                     repeat={[-3, 1]}
