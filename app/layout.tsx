@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Pranay Gajbhiye | BlackObsidian AMC",
     description: "Founder & Quantitative Trader at BlackObsidian AMC",
-    creator: "@pranaygajbhiye777",
+    creator: "@_pranaygajbhiye",
   },
   robots: {
     index: true,

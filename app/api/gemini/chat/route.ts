@@ -29,7 +29,7 @@ Interests: Finance, Quant Analysis, Technology, Reading Books, Economy, Mathemat
 Social Links:
 - GitHub: github.com/Pusparaj99op
 - LinkedIn: linkedin.com/in/pranaygajbhiye
-- Twitter/X: twitter.com/pranaygajbhiye7
+- Twitter/X: x.com/_pranaygajbhiye
 - DEV.to: dev.to/pusparaj99op
 
 Projects include:

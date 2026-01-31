@@ -227,7 +227,7 @@ Built for the **DEV Challenge - Google AI 2025/2026** (New Year New You Portfoli
 **Pranay Gajbhiye**
 - GitHub: [@Pusparaj99op](https://github.com/Pusparaj99op)
 - LinkedIn: [pranaygajbhiye](https://linkedin.com/in/pranaygajbhiye)
-- Twitter: [@pranaygajbhiye7](https://twitter.com/pranaygajbhiye7)
+- Twitter: [@_pranaygajbhiye](https://x.com/_pranaygajbhiye)
 
 ## 📄 License
 
