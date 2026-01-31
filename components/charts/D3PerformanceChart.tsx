@@ -192,7 +192,7 @@ export default function D3PerformanceChart() {
             .delay(500)
             .ease(d3.easeCubicInOut)
             .attr('stroke-dashoffset', 0)
-            .on('end', function() {
+            .on('end', function () {
                 d3.select(this).attr('stroke-dasharray', '6,4');
             });
 
@@ -210,7 +210,7 @@ export default function D3PerformanceChart() {
             .attr('stroke-width', 2)
             .style('filter', 'drop-shadow(0 0 6px rgba(153,69,255,0.5))')
             .style('cursor', 'pointer')
-            .on('mouseenter', function(event, d) {
+            .on('mouseenter', function (event, d) {
                 d3.select(this)
                     .transition()
                     .duration(200)
@@ -218,7 +218,7 @@ export default function D3PerformanceChart() {
                     .style('filter', 'drop-shadow(0 0 12px rgba(153,69,255,0.8))');
                 setHoveredPoint(d);
             })
-            .on('mouseleave', function() {
+            .on('mouseleave', function () {
                 d3.select(this)
                     .transition()
                     .duration(200)

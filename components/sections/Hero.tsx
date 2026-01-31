@@ -1,12 +1,15 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, Suspense } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLenis } from 'lenis/react';
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import MagneticButton from '@/components/ui/MagneticButton';
 import ShinyText from '@/components/ShinyText';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Torus, MeshTransmissionMaterial, Environment, Text } from '@react-three/drei';
+import * as THREE from 'three';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -148,6 +151,66 @@ function MouseGradient() {
     );
 }
 
+// 3D Glass Torus Model with transmission material
+function GlassTorusModel() {
+    const torusRef = useRef<THREE.Mesh>(null);
+
+    useFrame((state) => {
+        if (torusRef.current) {
+            torusRef.current.rotation.x = state.clock.getElapsedTime() * 0.3;
+            torusRef.current.rotation.y = state.clock.getElapsedTime() * 0.2;
+        }
+    });
+
+    return (
+        <group scale={1.5}>
+
+
+
+
+            {/* Glass Torus - smaller and more transparent */}
+            <Torus ref={torusRef} args={[1, 0.4, 32, 100]}>
+                <MeshTransmissionMaterial
+                    thickness={0.1}
+                    roughness={0}
+                    transmission={1}
+                    ior={1.2}
+                    chromaticAberration={0.02}
+                    backside={true}
+                    distortion={0.2}
+                    distortionScale={0.2}
+                    temporalDistortion={0.05}
+                    clearcoat={1}
+                    clearcoatRoughness={0}
+                />
+            </Torus>
+        </group>
+    );
+}
+
+// Glass Torus Scene - embedded Canvas
+const GlassTorusScene = React.forwardRef<HTMLDivElement>((props, ref) => {
+    return (
+        <div ref={ref} className="absolute inset-0 pointer-events-none z-50">
+            <Canvas
+                camera={{ position: [0, 0, 5], fov: 45 }}
+                dpr={[1, 2]}
+                gl={{ antialias: true, alpha: true }}
+                style={{ background: 'transparent' }}
+            >
+                <Suspense fallback={null}>
+                    <GlassTorusModel />
+                    <directionalLight intensity={3} position={[0, 2, 3]} />
+                    <ambientLight intensity={0.5} />
+                    <Environment preset="city" />
+                </Suspense>
+            </Canvas>
+        </div>
+    );
+});
+
+GlassTorusScene.displayName = 'GlassTorusScene';
+
 export default function Hero() {
     const heroRef = useRef<HTMLElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
@@ -158,6 +221,7 @@ export default function Hero() {
     const gradient1Ref = useRef<HTMLDivElement>(null);
     const gradient2Ref = useRef<HTMLDivElement>(null);
     const gradient3Ref = useRef<HTMLDivElement>(null);
+    const glassTorusRef = useRef<HTMLDivElement>(null);
     const [isAnimated, setIsAnimated] = useState(false);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -275,6 +339,21 @@ export default function Hero() {
                 }
             });
 
+            // Glass Torus parallax - moves independently to create depth
+            if (glassTorusRef.current) {
+                gsap.to(glassTorusRef.current, {
+                    y: -150,
+                    scale: 0.85,
+                    opacity: 0.7,
+                    scrollTrigger: {
+                        trigger: heroRef.current,
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: 1.5,
+                    }
+                });
+            }
+
         }, heroRef);
 
         return () => ctx.revert();
@@ -370,10 +449,10 @@ export default function Hero() {
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+                <div className="flex flex-col items-center justify-center gap-12 lg:gap-16">
 
-                    {/* Left Column: Content */}
-                    <div className="flex flex-col items-center text-center order-2 lg:order-1">
+                    {/* Content */}
+                    <div className="flex flex-col items-center text-center w-full max-w-5xl z-20">
                         {/* Premium Status Badge */}
                         <div className="mb-12 mt-20">
                             <div className="hero-badge inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/[0.03] border border-white/10 text-sm font-medium hover:bg-white/[0.06] hover:border-accent-green/30 transition-all duration-500 cursor-default group backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
@@ -385,41 +464,46 @@ export default function Hero() {
                             </div>
                         </div>
 
-                        <h1
-                            ref={titleRef}
-                            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-black tracking-[-0.04em] mb-10 leading-[0.85] perspective-1000 select-none"
-                        >
-                            <div className="flex flex-col items-center gap-3">
-                                <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
-                                    <div className="inline-block relative group">
+                        {/* Title with 3D Glass Effect Overlay */}
+                        <div className="relative w-full">
+                            {/* Glass Torus 3D Effect */}
+                            <GlassTorusScene ref={glassTorusRef} />
+                            <h1
+                                ref={titleRef}
+                                className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-black tracking-[-0.04em] mb-10 leading-[0.85] perspective-1000 select-none relative z-10"
+                            >
+                                <div className="flex flex-col items-center gap-3">
+                                    <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+                                        <div className="inline-block relative group">
+                                            <ShinyText
+                                                text="Design"
+                                                disabled={false}
+                                                speed={3}
+                                                shineColor="#ffffff"
+                                                color="#e5e5e5"
+                                                className="text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem] font-black tracking-[-0.04em] drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+                                            />
+                                            <span className="absolute -bottom-2 left-0 w-full h-[4px] bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:via-accent-purple/50 transition-all duration-500 blur-sm"></span>
+                                        </div>
+                                        <span className="text-accent-purple/60 text-4xl sm:text-5xl md:text-6xl font-extralight animate-pulse-slow">×</span>
+                                        <span className="gradient-text-premium inline-block drop-shadow-[0_0_50px_rgba(20,241,149,0.4)] text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem]">
+                                            <SplitText text="Trade" isAnimated={isAnimated} />
+                                        </span>
+                                    </div>
+                                    <div className="relative">
                                         <ShinyText
-                                            text="Design"
+                                            text="Build"
                                             disabled={false}
                                             speed={3}
                                             shineColor="#ffffff"
                                             color="#e5e5e5"
-                                            className="text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem] font-black tracking-[-0.04em] drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+                                            className="text-white mt-[-10px] inline-block drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem]"
                                         />
-                                        <span className="absolute -bottom-2 left-0 w-full h-[4px] bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:via-accent-purple/50 transition-all duration-500 blur-sm"></span>
+                                        <div className="absolute -right-12 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-accent-purple/30 animate-ping-slow opacity-50" />
                                     </div>
-                                    <span className="text-accent-purple/60 text-4xl sm:text-5xl md:text-6xl font-extralight animate-pulse-slow">×</span>
-                                    <span className="gradient-text-premium inline-block drop-shadow-[0_0_50px_rgba(20,241,149,0.4)] text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem]">
-                                        <SplitText text="Trade" isAnimated={isAnimated} />
-                                    </span>
                                 </div>
-                                <div className="relative">
-                                    <ShinyText
-                                        text="Build"
-                                        disabled={false}
-                                        speed={3}
-                                        shineColor="#ffffff"
-                                        color="#e5e5e5"
-                                        className="text-white mt-[-10px] inline-block drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem]"
-                                    />
-                                    <div className="absolute -right-12 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-accent-purple/30 animate-ping-slow opacity-50" />
-                                </div>
-                            </div>
-                        </h1>
+                            </h1>
+                        </div>
 
                         <p
                             ref={subtitleRef}
@@ -492,9 +576,9 @@ export default function Hero() {
                         </div>
                     </div>
 
-                    {/* Right Column: Premium 3D Visualization with Enhanced Motion */}
+                    {/* Premium 3D Visualization - Background/Behind */}
                     <motion.div
-                        className="relative h-[450px] lg:h-[650px] w-full flex items-center justify-center order-1 lg:order-2"
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[1000px] pointer-events-none z-0 opacity-40"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1.2, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
@@ -562,34 +646,7 @@ export default function Hero() {
                             transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
                         />
 
-                        {/* Orbital dots */}
-                        <motion.div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%]"
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-                        >
-                            {[...Array(6)].map((_, i) => (
-                                <motion.div
-                                    key={i}
-                                    className="absolute w-2 h-2 rounded-full"
-                                    style={{
-                                        top: '50%',
-                                        left: '50%',
-                                        transform: `rotate(${i * 60}deg) translateX(${45}%) translateY(-50%)`,
-                                        background: ['#9945FF', '#14F195', '#00D4FF'][i % 3]
-                                    }}
-                                    animate={{
-                                        scale: [1, 1.5, 1],
-                                        opacity: [0.5, 1, 0.5]
-                                    }}
-                                    transition={{
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        delay: i * 0.3
-                                    }}
-                                />
-                            ))}
-                        </motion.div>
+                        {/* Orbital dots removed */}
                     </motion.div>
 
                 </div>

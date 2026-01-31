@@ -113,10 +113,8 @@ export default function Header() {
                             onMouseEnter={() => playHover()}
                             onClick={() => playClick()}
                         >
-                            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-accent-purple via-accent-blue to-accent-green p-[1px] group-hover:shadow-[0_0_20px_rgba(153,69,255,0.3)] transition-all duration-300">
-                                <div className="w-full h-full rounded-2xl bg-background-primary flex items-center justify-center text-text-primary font-bold text-base group-hover:bg-transparent group-hover:text-white transition-all duration-300">
-                                    BO
-                                </div>
+                            <div className="w-11 h-11 rounded-xl overflow-hidden group-hover:shadow-[0_0_20px_rgba(153,69,255,0.3)] transition-all duration-300">
+                                <img src="/logo.png" alt="BlackObsidian Logo" className="w-full h-full object-cover" />
                             </div>
                             <div className="hidden sm:flex flex-col">
                                 <span className="text-xl font-bold font-display tracking-tight text-text-primary group-hover:text-accent-purple transition-colors">BlackObsidian</span>

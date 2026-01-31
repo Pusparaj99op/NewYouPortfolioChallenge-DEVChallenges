@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLenis } from 'lenis/react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import dynamic from 'next/dynamic';
+import LogoLoop from '@/components/ui/LogoLoop';
 
 // Lazy load D3 chart for performance
 const D3PerformanceChart = dynamic(() => import('@/components/charts/D3PerformanceChart'), {
@@ -219,21 +220,7 @@ export default function About() {
         return () => ctx.revert();
     }, []);
 
-    // Velocity-based tilt effect
-    useEffect(() => {
-        if (!lenis || !skillsRef.current) return;
 
-        const handleScroll = () => {
-            const velocity = lenis.velocity;
-            gsap.to(skillsRef.current, {
-                skewY: velocity * 0.3,
-                duration: 0.3
-            });
-        };
-
-        lenis.on('scroll', handleScroll);
-        return () => lenis.off('scroll', handleScroll);
-    }, [lenis]);
 
     // Split text helper
     const splitText = (text: string) => {
@@ -282,6 +269,69 @@ export default function About() {
 
                     {/* Text Content */}
                     <div ref={textRef}>
+                        {/* About Me Card Button - 3D Glassmorphism */}
+                        <motion.a
+                            href="/about-me"
+                            className="group relative block mb-8 p-6 rounded-2xl bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-transparent border border-green-500/20 backdrop-blur-xl overflow-hidden cursor-pointer"
+                            initial={{ opacity: 0, y: -20, rotateX: -15 }}
+                            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                            whileHover={{
+                                scale: 1.02,
+                                rotateX: 2,
+                                borderColor: 'rgba(20, 241, 149, 0.4)',
+                                transition: { duration: 0.3 }
+                            }}
+                            style={{
+                                transformStyle: 'preserve-3d',
+                                perspective: '1000px'
+                            }}
+                        >
+                            {/* Animated gradient background */}
+                            <motion.div
+                                className="absolute inset-0 bg-gradient-to-br from-green-400/10 via-emerald-500/5 to-cyan-500/10 opacity-0 group-hover:opacity-100"
+                                transition={{ duration: 0.5 }}
+                            />
+
+                            {/* Glow effect */}
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/20 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                            {/* Content */}
+                            <div className="relative z-10 flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                    <motion.div
+                                        className="p-3 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/10 group-hover:scale-110 transition-transform duration-300"
+                                        whileHover={{ rotate: 5 }}
+                                    >
+                                        <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                    </motion.div>
+                                    <div>
+                                        <h3 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
+                                            About Me
+                                            <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 font-medium">Personal</span>
+                                        </h3>
+                                        <p className="text-sm text-text-muted">Learn more about the founder</p>
+                                    </div>
+                                </div>
+                                <motion.div
+                                    className="text-green-400 group-hover:translate-x-1 transition-transform duration-300"
+                                    whileHover={{ x: 5 }}
+                                >
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </motion.div>
+                            </div>
+
+                            {/* Shine effect */}
+                            <motion.div
+                                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full"
+                                transition={{ duration: 0.8 }}
+                            />
+                        </motion.a>
+
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-accent-purple text-xs font-semibold uppercase tracking-wider mb-6">
                             <span className="w-1.5 h-1.5 rounded-full bg-accent-purple" />
                             About The Firm
@@ -387,7 +437,7 @@ export default function About() {
                     </div>
 
                     {/* Skills Visualization */}
-                    <div ref={skillsRef} className="relative transform-gpu" style={{ transformStyle: 'preserve-3d' }}>
+                    <div ref={skillsRef} className="relative">
                         {/* Decorative Glow */}
                         <motion.div
                             className="absolute -inset-4 bg-gradient-to-r from-accent-purple/10 via-accent-blue/10 to-accent-green/10 rounded-3xl blur-2xl"
@@ -469,6 +519,83 @@ export default function About() {
                     </div>
 
                 </div>
+
+                {/* Tech Stack Logo Loop */}
+                <motion.div
+                    className="mt-24 pt-16 border-t border-white/5"
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                >
+                    <LogoLoop
+                        logos={[
+                            {
+                                text: 'React',
+                                href: 'https://react.dev',
+                                title: 'React',
+                                icon: <svg viewBox="-10.5 -9.45 21 18.9" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#61DAFB]"><circle cx="0" cy="0" r="2" fill="currentColor"></circle><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="10" ry="4.5"></ellipse><ellipse rx="10" ry="4.5" transform="rotate(60)"></ellipse><ellipse rx="10" ry="4.5" transform="rotate(120)"></ellipse></g></svg>
+                            },
+                            {
+                                text: 'Next.js',
+                                href: 'https://nextjs.org',
+                                title: 'Next.js',
+                                icon: <svg viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white"><mask id="mask0_next" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="180" height="180"><circle cx="90" cy="90" r="90" fill="black" /></mask><g mask="url(#mask0_next)"><circle cx="90" cy="90" r="90" fill="black" stroke="white" strokeWidth="6" /><path d="M149.508 157.52L69.142 54H54V125.97H66.1136V69.3836L139.999 164.845C143.333 162.614 146.509 160.165 149.508 157.52Z" fill="url(#paint0_linear_next)" /><rect x="115" y="54" width="12" height="72" fill="url(#paint1_linear_next)" /></g><defs><linearGradient id="paint0_linear_next" x1="109" y1="116.5" x2="144.5" y2="160.5" gradientUnits="userSpaceOnUse"><stop stopColor="white" /><stop offset="1" stopColor="white" stopOpacity="0" /></linearGradient><linearGradient id="paint1_linear_next" x1="121" y1="54" x2="120.791" y2="106.888" gradientUnits="userSpaceOnUse"><stop stopColor="white" /><stop offset="1" stopColor="white" stopOpacity="0" /></linearGradient></defs></svg>
+                            },
+                            {
+                                text: 'TypeScript',
+                                href: 'https://www.typescriptlang.org',
+                                title: 'TypeScript',
+                                icon: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#3178C6]"><path d="M0 0H24V24H0V0Z" fill="currentColor" /><path d="M11.8864 12.0163H9.86364V18.5H8V12.0163H5.97727V10.5H11.8864V12.0163ZM18.3636 12.6074C18.3636 12.0162 18.0682 11.6662 17.3864 11.4587L16.2955 11.0837C15.8182 10.9312 15.6818 10.8337 15.6818 10.5837C15.6818 10.3762 15.8636 10.1862 16.25 10.1862C16.6364 10.1862 16.8864 10.3937 16.9091 10.5837H18.25C18.1591 9.77123 17.3409 9.06373 16.2045 9.06373C14.9318 9.06373 14.1136 9.87123 14.1136 10.9837C14.1136 12.3562 15.1136 12.6937 15.9318 12.9862L16.7045 13.2537C17.3636 13.4837 17.5 13.6337 17.5 13.9162C17.5 14.2862 17.1364 14.5087 16.6818 14.5087C16.1591 14.5087 15.7955 14.2937 15.75 13.9012H14.3636C14.4773 15.0237 15.4318 15.6312 16.6818 15.6312C18.0455 15.6312 19.0455 14.8812 19.0455 13.7262V12.6074H18.3636Z" fill="white" /></svg>
+                            },
+                            {
+                                text: 'Tailwind CSS',
+                                href: 'https://tailwindcss.com',
+                                title: 'Tailwind CSS',
+                                icon: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#38B2AC]"><path d="M12.0002 6C12.0002 6 15.2943 2.11765 17.6472 2.11765C20.0002 2.11765 21 3.88235 21 6.5C21 7.61793 20.6695 8.61836 20.218 9.42334C19.7891 10.1879 19.349 10.8252 18.2581 12.2266C16.9248 13.9397 16.4851 16.2932 17.1766 18.2936C17.3514 18.7992 16.9534 19.2941 16.4255 19.16C15.9754 19.0455 15.5458 18.8927 15.1311 18.6657C13.229 17.6242 12 15.3411 12 13.0033C12 13 12 13 12 12.9967C12 10.8788 10.3773 8.35626 7.94225 7.02293C6.30599 6.12698 4.29528 6.00282 2.64673 6.94056C2.19327 7.1984 1.76569 7.64166 1.96803 8.12574C2.76813 10.0397 5.12165 11.5163 6.94225 12.2266C7.94225 12.6167 9.1766 12.5594 10.0579 12.5002C10.5752 12.4655 11.0825 12.3952 11.5836 12.2475C12.4497 11.9922 13.2678 11.3912 13.7943 10.5884C14.7649 9.1088 12.0002 6 12.0002 6Z" fill="currentColor" /></svg>
+                            },
+                            {
+                                text: 'GSAP',
+                                href: 'https://greensock.com/gsap',
+                                title: 'GSAP',
+                                icon: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#88CE02]"><path d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM15.5 16.5C15.5 16.5 14 18 11.5 18C9.5 18 8 16.5 8 14V14.5H6.5V14C6.5 11.5 8.5 9.5 11 9.5C13.5 9.5 15.5 11.5 15.5 14H14C14 12.5 13 11 11.5 11C10 11 9.5 12.5 9.5 14C9.5 15.5 10.5 16.5 12 16.5C13.5 16.5 14.5 15.5 14.5 15.5V16.5H15.5Z" fill="currentColor" /><path d="M16 8.5C16 8.5 14.5 7 12 7C11.1716 7 10.413 7.16839 9.77588 7.4646L10.3794 8.84155C10.8249 8.68335 11.3655 8.5 12 8.5C13.5 8.5 14.5 9.5 14.5 9.5V8.5H16Z" fill="currentColor" /></svg>
+                            },
+                            {
+                                text: 'Three.js',
+                                href: 'https://threejs.org',
+                                title: 'Three.js',
+                                icon: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white"><path d="M6 18L12 21.5L18 18V11.5L12 8L6 11.5V18Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" /><path d="M12 8V15L18 18" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" /><path d="M12 15L6 18" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" /><path d="M12 2.5L16.5 5L12 7.5L7.5 5L12 2.5Z" fill="currentColor" /></svg>
+                            },
+                            {
+                                text: 'Framer Motion',
+                                href: 'https://www.framer.com/motion',
+                                title: 'Framer Motion',
+                                icon: <svg viewBox="0 0 14 21" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white"><path d="M0 0H14V7H7L0 0Z" fill="currentColor" /><path d="M14 7H7L0 14H14V7Z" fill="currentColor" opacity="0.5" /><path d="M0 14H7L14 21H0V14Z" fill="currentColor" /></svg>
+                            },
+                            {
+                                text: 'PostgreSQL',
+                                href: 'https://www.postgresql.org',
+                                title: 'PostgreSQL',
+                                icon: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#336791]"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM18.5 14.5C18.5 14.5 17.5 17.5 13 17.5C10.5 17.5 8.5 15.5 8.5 12C8.5 9.5 10 7.5 13 7.5C15.5 7.5 17 9 17 9L15.5 10C15.5 10 14.5 9 13 9C11.5 9 10 10.5 10 12C10 13.5 11 15.5 13 15.5C15 15.5 16 14.5 16 14.5H13V13H18.5V14.5Z" fill="currentColor" /></svg>
+                            },
+                            {
+                                text: 'Lenis',
+                                href: 'https://lenis.studiofreight.com',
+                                title: 'Lenis',
+                                icon: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#C9B6A1]"><path d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" strokeWidth="2" /><path d="M7 12H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /><path d="M11 7L13 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+                            },
+                        ]}
+                        speed={80}
+                        direction="left"
+                        logoHeight={60}
+                        gap={40}
+                        pauseOnHover={true}
+                        scaleOnHover={true}
+                        fadeOut={true}
+                        fadeOutColor="#000000"
+                        ariaLabel="Technologies used in this portfolio"
+                    />
+                </motion.div>
             </div>
         </section>
     );

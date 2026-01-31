@@ -12,6 +12,8 @@ import Preloader from "@/components/ui/Preloader";
 import SmoothScrolling from "@/components/ui/SmoothScrolling";
 import AppEffects from "@/components/ui/AppEffects";
 
+import PageAnimatePresence from "@/components/ui/PageAnimatePresence";
+
 // Dynamic import for PageTransition (needs Suspense for useSearchParams)
 const PageTransition = dynamic(() => import("@/components/ui/PageTransition"));
 
@@ -96,7 +98,9 @@ export default function RootLayout({
                 Skip to main content
               </a>
               <SmoothScrolling>
-                {children}
+                <PageAnimatePresence>
+                  {children}
+                </PageAnimatePresence>
               </SmoothScrolling>
             </ToastProvider>
           </SoundProvider>

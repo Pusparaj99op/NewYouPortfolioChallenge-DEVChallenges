@@ -173,11 +173,10 @@ export default function AIChatAssistant() {
                     setIsOpen(!isOpen);
                     setIsMinimized(false);
                 }}
-                className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ease-out group ${
-                    isOpen
-                        ? 'bg-background-elevated border border-border-default rotate-0 shadow-lg'
-                        : 'bg-gradient-to-br from-accent-purple via-accent-blue to-accent-purple shadow-xl hover:shadow-2xl hover:scale-110 active:scale-95'
-                }`}
+                className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ease-out group ${isOpen
+                    ? 'bg-background-elevated border border-border-default rotate-0 shadow-lg'
+                    : 'bg-gradient-to-br from-accent-purple via-accent-blue to-accent-purple shadow-xl hover:shadow-2xl hover:scale-110 active:scale-95'
+                    }`}
                 aria-label={isOpen ? 'Close chat' : 'Open AI chat assistant'}
             >
                 {/* Pulse ring animation */}
@@ -197,15 +196,13 @@ export default function AIChatAssistant() {
 
             {/* Chat Modal */}
             <div
-                className={`fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] transition-all duration-500 ease-out ${
-                    isOpen
-                        ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
-                        : 'opacity-0 translate-y-8 scale-95 pointer-events-none'
-                }`}
+                className={`fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] transition-all duration-500 ease-out ${isOpen
+                    ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+                    : 'opacity-0 translate-y-8 scale-95 pointer-events-none'
+                    }`}
             >
-                <div className={`bg-background-elevated/95 backdrop-blur-xl border border-border-default rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ${
-                    isMinimized ? 'h-[72px]' : 'h-auto'
-                }`}>
+                <div className={`bg-background-elevated/95 backdrop-blur-xl border border-border-default rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ${isMinimized ? 'h-[72px]' : 'h-auto'
+                    }`}>
                     {/* Header */}
                     <div className="relative overflow-hidden">
                         {/* Animated gradient background */}
@@ -249,11 +246,10 @@ export default function AIChatAssistant() {
                                     className={`flex gap-2.5 ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
                                 >
                                     {/* Avatar */}
-                                    <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center ${
-                                        message.role === 'user'
-                                            ? 'bg-accent-purple/10'
-                                            : 'bg-gradient-to-br from-accent-purple/20 to-accent-blue/20'
-                                    }`}>
+                                    <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center ${message.role === 'user'
+                                        ? 'bg-accent-purple/10'
+                                        : 'bg-gradient-to-br from-accent-purple/20 to-accent-blue/20'
+                                        }`}>
                                         {message.role === 'user' ? (
                                             <UserIcon className="w-4 h-4 text-accent-purple" />
                                         ) : (
@@ -264,11 +260,10 @@ export default function AIChatAssistant() {
                                     {/* Message bubble */}
                                     <div className={`flex flex-col ${message.role === 'user' ? 'items-end' : 'items-start'} max-w-[75%]`}>
                                         <div
-                                            className={`rounded-2xl px-4 py-2.5 ${
-                                                message.role === 'user'
-                                                    ? 'bg-gradient-to-br from-accent-purple to-accent-blue text-white rounded-tr-md shadow-md shadow-accent-purple/20'
-                                                    : 'bg-background-secondary/80 backdrop-blur-sm text-text-primary rounded-tl-md border border-border-subtle'
-                                            }`}
+                                            className={`rounded-2xl px-4 py-2.5 ${message.role === 'user'
+                                                ? 'bg-gradient-to-br from-accent-purple to-accent-blue text-white rounded-tr-md shadow-md shadow-accent-purple/20'
+                                                : 'bg-background-secondary/80 backdrop-blur-sm text-text-primary rounded-tl-md border border-border-subtle'
+                                                }`}
                                         >
                                             <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
                                         </div>
