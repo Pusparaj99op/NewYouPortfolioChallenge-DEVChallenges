@@ -373,7 +373,7 @@ export default function Hero() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
                     {/* Left Column: Content */}
-                    <div className="flex flex-col items-start text-left order-2 lg:order-1">
+                    <div className="flex flex-col items-center text-center order-2 lg:order-1">
                         {/* Premium Status Badge */}
                         <div className="mb-12 mt-20">
                             <div className="hero-badge inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/[0.03] border border-white/10 text-sm font-medium hover:bg-white/[0.06] hover:border-accent-green/30 transition-all duration-500 cursor-default group backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
@@ -389,8 +389,8 @@ export default function Hero() {
                             ref={titleRef}
                             className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-black tracking-[-0.04em] mb-10 leading-[0.85] perspective-1000 select-none"
                         >
-                            <div className="flex flex-col items-start gap-3">
-                                <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                            <div className="flex flex-col items-center gap-3">
+                                <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
                                     <div className="inline-block relative group">
                                         <ShinyText
                                             text="Design"
@@ -453,7 +453,7 @@ export default function Hero() {
                         </p>
 
                         <div className="hero-tagline mb-12">
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center justify-center gap-4">
                                 <div className="w-12 h-px bg-gradient-to-r from-accent-purple/50 to-transparent" />
                                 <p className="text-xs sm:text-sm text-text-muted font-mono tracking-[0.25em] uppercase flex items-center gap-3">
                                     <span className="text-accent-green/80">Systematic Research</span>
@@ -465,7 +465,7 @@ export default function Hero() {
 
                         <div
                             ref={buttonsRef}
-                            className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto"
+                            className="flex flex-col sm:flex-row justify-center gap-6 w-full sm:w-auto"
                         >
                             <MagneticButton strength={40}>
                                 <a
