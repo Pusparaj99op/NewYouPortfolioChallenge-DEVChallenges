@@ -430,16 +430,16 @@ export default function QuantitativeTradingPage() {
                 </motion.div>
             </header>
 
-            {/* Grid Layout */}
-            <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 grid-rows-4 gap-4 min-h-[800px] relative z-10">
+            {/* Grid Layout - Improved Structure */}
+            <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
 
-                {/* Main Chart - Large Area */}
+                {/* Row 1: Main Chart - Full Width */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.2 }}
-                    whileHover={{ scale: 1.005 }}
-                    className="trading-panel col-span-1 md:col-span-2 lg:col-span-3 row-span-2 relative group"
+                    whileHover={{ scale: 1.002 }}
+                    className="trading-panel col-span-1 md:col-span-2 lg:col-span-4 h-[400px] relative group"
                 >
                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-violet-500/5 rounded-2xl" />
 
@@ -470,8 +470,8 @@ export default function QuantitativeTradingPage() {
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold ${priceChange > 0
-                                        ? 'bg-emerald-500/20 text-emerald-400'
-                                        : 'bg-rose-500/20 text-rose-400'
+                                    ? 'bg-emerald-500/20 text-emerald-400'
+                                    : 'bg-rose-500/20 text-rose-400'
                                     }`}
                             >
                                 {priceChange > 0 ? '▲' : '▼'} {Math.abs(priceChange).toFixed(3)}%
@@ -493,13 +493,14 @@ export default function QuantitativeTradingPage() {
                     </div>
                 </motion.div>
 
-                {/* Trade Panel - Enhanced */}
+                {/* Row 2: Trade Panel */}
                 <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
                     whileHover={{ scale: 1.01 }}
-                    className="trading-panel col-span-1 row-span-2 rounded-2xl glass-panel border border-white/10 bg-gradient-to-br from-zinc-900/80 via-zinc-900/60 to-black/80 backdrop-blur-xl p-6 flex flex-col gap-6 relative overflow-hidden group"
+                    className="trading-panel col-span-1 h-[380px] rounded-2xl glass-panel border border-white/10 bg-gradient-to-br from-zinc-900/80 via-zinc-900/60 to-black/80 backdrop-blur-xl p-5 flex flex-col gap-4 relative overflow-hidden group"
+
                 >
                     {/* Animated background gradient */}
                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -587,10 +588,10 @@ export default function QuantitativeTradingPage() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: 10 }}
                                     className={`text-sm p-4 rounded-xl font-mono backdrop-blur-sm ${tradeStatus.startsWith('Error')
-                                            ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
-                                            : tradeStatus.startsWith('Success')
-                                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                                                : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                                        ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                                        : tradeStatus.startsWith('Success')
+                                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                                            : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
                                         }`}
                                 >
                                     {tradeStatus}
@@ -616,13 +617,13 @@ export default function QuantitativeTradingPage() {
                     </div>
                 </motion.div>
 
-                {/* Live Order Book - Enhanced */}
+                {/* Row 2: Order Book Depth */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
                     whileHover={{ scale: 1.005 }}
-                    className="trading-panel col-span-1 md:col-span-1 row-span-2 relative group"
+                    className="trading-panel col-span-1 h-[380px] relative group"
                 >
                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-violet-500/5 rounded-2xl" />
                     <LiveOrderBook />
@@ -630,17 +631,17 @@ export default function QuantitativeTradingPage() {
                     {/* Corner indicators */}
                     <div className="absolute top-4 right-4 flex items-center gap-2 text-xs font-mono text-cyan-400">
                         <BarChart3 size={14} />
-                        <span>Live Depth</span>
+                        <span>Depth</span>
                         <span className="w-2 h-2 bg-cyan-500 rounded-full pulse-dot" />
                     </div>
                 </motion.div>
 
-                {/* Fake Trading Terminal */}
+                {/* Row 2: Fake Trading Terminal */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.65 }}
-                    className="trading-panel col-span-1 row-span-2 rounded-2xl glass-panel border border-white/10 bg-gradient-to-br from-zinc-900/90 via-black/95 to-zinc-900/90 backdrop-blur-xl overflow-hidden relative group"
+                    className="trading-panel col-span-1 h-[380px] rounded-2xl glass-panel border border-white/10 bg-gradient-to-br from-zinc-900/90 via-black/95 to-zinc-900/90 backdrop-blur-xl overflow-hidden relative group"
                 >
                     {/* Terminal Header */}
                     <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/50">
@@ -658,8 +659,8 @@ export default function QuantitativeTradingPage() {
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.95 }}
                                 className={`px-2 py-1 rounded text-[10px] font-mono uppercase tracking-wider transition-all ${isTerminalRunning
-                                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                                        : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                    : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
                                     }`}
                             >
                                 {isTerminalRunning ? '● LIVE' : '○ PAUSED'}
@@ -682,10 +683,10 @@ export default function QuantitativeTradingPage() {
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 0.3 }}
                                     className={`py-1.5 flex items-start gap-2 border-b border-white/5 last:border-0 ${log.type === 'BUY' ? 'text-emerald-400' :
-                                            log.type === 'SELL' ? 'text-rose-400' :
-                                                log.type === 'SUCCESS' ? 'text-cyan-400' :
-                                                    log.type === 'SYSTEM' ? 'text-violet-400' :
-                                                        'text-zinc-400'
+                                        log.type === 'SELL' ? 'text-rose-400' :
+                                            log.type === 'SUCCESS' ? 'text-cyan-400' :
+                                                log.type === 'SYSTEM' ? 'text-violet-400' :
+                                                    'text-zinc-400'
                                         }`}
                                 >
                                     <span className="text-zinc-600 shrink-0">[{log.timestamp}]</span>
@@ -716,13 +717,13 @@ export default function QuantitativeTradingPage() {
                     </div>
                 </motion.div>
 
-                {/* AI Sentiment Analysis - Enhanced */}
+                {/* Row 2: AI Sentiment Analysis */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7 }}
                     whileHover={{ scale: 1.01 }}
-                    className="trading-panel col-span-1 md:col-span-2 lg:col-span-1 row-span-2 rounded-2xl glass-panel border border-white/10 bg-gradient-to-br from-zinc-900/80 via-zinc-900/60 to-black/80 backdrop-blur-xl p-6 flex flex-col gap-4 relative overflow-hidden group"
+                    className="trading-panel col-span-1 h-[380px] rounded-2xl glass-panel border border-white/10 bg-gradient-to-br from-zinc-900/80 via-zinc-900/60 to-black/80 backdrop-blur-xl p-5 flex flex-col gap-3 relative overflow-hidden group"
                 >
                     {/* Animated gradient background */}
                     <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 via-purple-500/5 to-cyan-500/5 opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
@@ -783,8 +784,8 @@ export default function QuantitativeTradingPage() {
                                             animate={{ width: `${item.confidence}%` }}
                                             transition={{ delay: 1 + i * 0.1, duration: 0.8 }}
                                             className={`h-full ${item.sentiment === 'positive' ? 'bg-emerald-500' :
-                                                    item.sentiment === 'neutral' ? 'bg-blue-500' :
-                                                        'bg-amber-500'
+                                                item.sentiment === 'neutral' ? 'bg-blue-500' :
+                                                    'bg-amber-500'
                                                 }`}
                                         />
                                     </div>
@@ -807,10 +808,10 @@ export default function QuantitativeTradingPage() {
                     </motion.button>
                 </motion.div>
 
-                {/* Bottom Stats Row - Enhanced */}
+                {/* Row 3: Stats Row - 4 Equal Columns */}
                 <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 }}
                     whileHover={{ scale: 1.02 }}
                     className="trading-panel col-span-1 rounded-2xl glass-panel border border-white/10 bg-gradient-to-br from-zinc-900/80 via-zinc-900/60 to-black/80 backdrop-blur-xl p-5 flex flex-col justify-center gap-2 relative overflow-hidden group"
@@ -824,10 +825,9 @@ export default function QuantitativeTradingPage() {
                     <div className="text-xs text-emerald-400 font-mono relative z-10">↑ 12.4%</div>
                 </motion.div>
 
-                {/* Additional Stats Panels */}
                 <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.85 }}
                     whileHover={{ scale: 1.02 }}
                     className="trading-panel col-span-1 rounded-2xl glass-panel border border-white/10 bg-gradient-to-br from-zinc-900/80 via-zinc-900/60 to-black/80 backdrop-blur-xl p-5 flex flex-col justify-center gap-2 relative overflow-hidden group"
@@ -842,8 +842,8 @@ export default function QuantitativeTradingPage() {
                 </motion.div>
 
                 <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.9 }}
                     whileHover={{ scale: 1.02 }}
                     className="trading-panel col-span-1 rounded-2xl glass-panel border border-white/10 bg-gradient-to-br from-zinc-900/80 via-zinc-900/60 to-black/80 backdrop-blur-xl p-5 flex flex-col justify-center gap-2 relative overflow-hidden group"
@@ -858,8 +858,8 @@ export default function QuantitativeTradingPage() {
                 </motion.div>
 
                 <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.95 }}
                     whileHover={{ scale: 1.02 }}
                     className="trading-panel col-span-1 rounded-2xl glass-panel border border-white/10 bg-gradient-to-br from-zinc-900/80 via-zinc-900/60 to-black/80 backdrop-blur-xl p-5 flex flex-col justify-center gap-2 relative overflow-hidden group"
