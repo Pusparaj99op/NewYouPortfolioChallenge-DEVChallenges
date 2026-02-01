@@ -173,7 +173,7 @@ export default function AIChatAssistant() {
                     setIsOpen(!isOpen);
                     setIsMinimized(false);
                 }}
-                className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ease-out group ${isOpen
+                className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ease-out group safe-area-bottom touch-target ${isOpen
                     ? 'bg-background-elevated border border-border-default rotate-0 shadow-lg'
                     : 'bg-gradient-to-br from-accent-purple via-accent-blue to-accent-purple shadow-xl hover:shadow-2xl hover:scale-110 active:scale-95'
                     }`}
@@ -196,7 +196,7 @@ export default function AIChatAssistant() {
 
             {/* Chat Modal */}
             <div
-                className={`fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] transition-all duration-500 ease-out ${isOpen
+                className={`fixed bottom-20 right-4 sm:bottom-24 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-[380px] max-w-[calc(100vw-2rem)] transition-all duration-500 ease-out safe-area-bottom ${isOpen
                     ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
                     : 'opacity-0 translate-y-8 scale-95 pointer-events-none'
                     }`}

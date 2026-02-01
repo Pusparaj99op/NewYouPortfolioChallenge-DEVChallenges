@@ -467,12 +467,15 @@ export default function Hero() {
                         {/* Title with 3D Glass Effect Overlay */}
                         <div className="relative w-full">
                             {/* Glass Torus 3D Effect */}
-                            <GlassTorusScene ref={glassTorusRef} />
+                            {/* Hide 3D torus on mobile for performance */}
+                            <div className="hidden md:block">
+                                <GlassTorusScene ref={glassTorusRef} />
+                            </div>
                             <h1
                                 ref={titleRef}
-                                className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-black tracking-[-0.04em] mb-10 leading-[0.85] perspective-1000 select-none relative z-10"
+                                className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] font-black tracking-[-0.04em] mb-6 sm:mb-10 leading-[0.9] sm:leading-[0.85] perspective-1000 select-none relative z-10"
                             >
-                                <div className="flex flex-col items-center gap-3">
+                                <div className="flex flex-col items-center gap-2 sm:gap-3">
                                     <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
                                         <div className="inline-block relative group">
                                             <ShinyText
@@ -481,12 +484,12 @@ export default function Hero() {
                                                 speed={3}
                                                 shineColor="#ffffff"
                                                 color="#e5e5e5"
-                                                className="text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem] font-black tracking-[-0.04em] drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+                                                className="text-4xl sm:text-5xl md:text-6xl lg:text-[7rem] xl:text-[8rem] font-black tracking-[-0.04em] drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
                                             />
-                                            <span className="absolute -bottom-2 left-0 w-full h-[4px] bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:via-accent-purple/50 transition-all duration-500 blur-sm"></span>
+                                            <span className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-[2px] sm:h-[4px] bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:via-accent-purple/50 transition-all duration-500 blur-sm"></span>
                                         </div>
-                                        <span className="text-accent-purple/60 text-4xl sm:text-5xl md:text-6xl font-extralight animate-pulse-slow">×</span>
-                                        <span className="gradient-text-premium inline-block drop-shadow-[0_0_50px_rgba(20,241,149,0.4)] text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem]">
+                                        <span className="text-accent-purple/60 text-2xl sm:text-4xl md:text-5xl font-extralight animate-pulse-slow">×</span>
+                                        <span className="gradient-text-premium inline-block drop-shadow-[0_0_50px_rgba(20,241,149,0.4)] text-4xl sm:text-5xl md:text-6xl lg:text-[7rem] xl:text-[8rem]">
                                             <SplitText text="Trade" isAnimated={isAnimated} />
                                         </span>
                                     </div>
@@ -497,9 +500,9 @@ export default function Hero() {
                                             speed={3}
                                             shineColor="#ffffff"
                                             color="#e5e5e5"
-                                            className="text-white mt-[-10px] inline-block drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem]"
+                                            className="text-white mt-[-5px] sm:mt-[-10px] inline-block drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] text-4xl sm:text-5xl md:text-6xl lg:text-[7rem] xl:text-[8rem]"
                                         />
-                                        <div className="absolute -right-12 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-accent-purple/30 animate-ping-slow opacity-50" />
+                                        <div className="absolute -right-8 sm:-right-12 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 rounded-full border border-accent-purple/30 animate-ping-slow opacity-50 hidden sm:block" />
                                     </div>
                                 </div>
                             </h1>
@@ -536,12 +539,12 @@ export default function Hero() {
                             </span>.
                         </p>
 
-                        <div className="hero-tagline mb-12">
-                            <div className="flex items-center justify-center gap-4">
-                                <div className="w-12 h-px bg-gradient-to-r from-accent-purple/50 to-transparent" />
-                                <p className="text-xs sm:text-sm text-text-muted font-mono tracking-[0.25em] uppercase flex items-center gap-3">
+                        <div className="hero-tagline mb-8 sm:mb-12">
+                            <div className="flex items-center justify-center gap-2 sm:gap-4">
+                                <div className="w-8 sm:w-12 h-px bg-gradient-to-r from-accent-purple/50 to-transparent" />
+                                <p className="text-[10px] sm:text-xs text-text-muted font-mono tracking-[0.15em] sm:tracking-[0.25em] uppercase flex items-center gap-2 sm:gap-3">
                                     <span className="text-accent-green/80">Systematic Research</span>
-                                    <span className="w-1.5 h-1.5 rounded-full bg-accent-purple/60" />
+                                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-accent-purple/60" />
                                     <span className="text-accent-purple/80">Disciplined Execution</span>
                                 </p>
                             </div>
@@ -549,12 +552,12 @@ export default function Hero() {
 
                         <div
                             ref={buttonsRef}
-                            className="flex flex-col sm:flex-row justify-center gap-6 w-full sm:w-auto"
+                            className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 w-full px-4 sm:px-0 sm:w-auto"
                         >
                             <MagneticButton strength={40}>
                                 <a
                                     href="#projects"
-                                    className="btn-primary min-w-[200px] text-lg h-16 inline-flex items-center justify-center gap-3 group hover:gap-5 transition-all shadow-[0_0_20px_rgba(153,69,255,0.3)] hover:shadow-[0_0_30px_rgba(20,241,149,0.4)]"
+                                    className="btn-primary min-w-[180px] sm:min-w-[200px] text-base sm:text-lg h-14 sm:h-16 inline-flex items-center justify-center gap-3 group hover:gap-5 transition-all shadow-[0_0_20px_rgba(153,69,255,0.3)] hover:shadow-[0_0_30px_rgba(20,241,149,0.4)] touch-target"
                                 >
                                     <span className="font-semibold tracking-wide">Explore Work</span>
                                     <svg className="w-5 h-5 group-hover:rotate-45 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -565,7 +568,7 @@ export default function Hero() {
                             <MagneticButton strength={40}>
                                 <a
                                     href="#contact"
-                                    className="btn-secondary min-w-[200px] text-lg h-16 inline-flex items-center justify-center gap-3 group hover:gap-5 transition-all glass-button-white bg-white/[0.05] border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-xl"
+                                    className="btn-secondary min-w-[180px] sm:min-w-[200px] text-base sm:text-lg h-14 sm:h-16 inline-flex items-center justify-center gap-3 group hover:gap-5 transition-all glass-button-white bg-white/[0.05] border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-xl touch-target"
                                 >
                                     <span className="font-semibold tracking-wide">Contact Me</span>
                                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -654,7 +657,7 @@ export default function Hero() {
                 {/* Premium Stats Strip with Enhanced Animations */}
                 <motion.div
                     ref={statsRef}
-                    className="mt-24 lg:mt-36 w-full relative"
+                    className="mt-16 sm:mt-24 lg:mt-36 w-full relative px-4 sm:px-0"
                     initial={{ opacity: 0, y: 60 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-100px' }}
@@ -671,8 +674,8 @@ export default function Hero() {
                         viewport={{ once: true }}
                         transition={{ duration: 1.2, ease: 'easeOut' }}
                     />
-                    <div className="pt-12">
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10">
+                    <div className="pt-8 sm:pt-12">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-10">
                             {stats.map((stat, i) => (
                                 <motion.div
                                     key={stat.label}

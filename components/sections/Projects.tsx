@@ -215,43 +215,45 @@ export default function Projects() {
             />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div ref={headerRef} className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-8">
+                <div ref={headerRef} className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 sm:mb-16 gap-6 sm:gap-8">
                     <div>
                         <div className="projects-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-green/10 border border-accent-green/20 text-accent-green text-xs font-semibold uppercase tracking-wider mb-6">
                             <span className="w-1.5 h-1.5 rounded-full bg-accent-green" />
                             Portfolio
                         </div>
 
-                        <h2 className="text-4xl sm:text-5xl font-bold mb-4 leading-tight overflow-hidden">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 leading-tight overflow-hidden">
                             <span className="projects-title-word inline-block text-white">Selected</span>{' '}
                             <span className="projects-title-word inline-block gradient-text">Works</span>
                         </h2>
-                        <p className="text-text-secondary max-w-xl text-base sm:text-lg leading-relaxed">
+                        <p className="text-text-secondary max-w-xl text-sm sm:text-base md:text-lg leading-relaxed">
                             A collection of high-performance trading systems and web applications deployed in production.
                         </p>
                     </div>
 
-                    {/* Enhanced Filters with hover animations */}
-                    <div ref={filtersRef} className="flex flex-wrap gap-2 p-1.5 bg-white/[0.02] rounded-full border border-white/5">
-                        {categories.map((cat) => (
-                            <button
-                                key={cat}
-                                onClick={() => handleCategoryChange(cat)}
-                                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 relative overflow-hidden group ${activeCategory === cat
-                                    ? 'glass-button-white shadow-lg shadow-white/10'
-                                    : 'bg-transparent text-text-secondary hover:text-white hover:bg-white/5'
-                                    }`}
-                            >
-                                <span className="relative z-10">{cat}</span>
-                                {/* Hover ripple effect */}
-                                <span className="absolute inset-0 bg-gradient-to-r from-accent-purple/20 to-accent-green/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
-                            </button>
-                        ))}
+                    {/* Enhanced Filters with horizontal scroll on mobile */}
+                    <div ref={filtersRef} className="w-full lg:w-auto overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
+                        <div className="flex gap-2 p-1.5 bg-white/[0.02] rounded-full border border-white/5 min-w-max">
+                            {categories.map((cat) => (
+                                <button
+                                    key={cat}
+                                    onClick={() => handleCategoryChange(cat)}
+                                    className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 relative overflow-hidden group ${activeCategory === cat
+                                        ? 'glass-button-white shadow-lg shadow-white/10'
+                                        : 'bg-transparent text-text-secondary hover:text-white hover:bg-white/5'
+                                        }`}
+                                >
+                                    <span className="relative z-10">{cat}</span>
+                                    {/* Hover ripple effect */}
+                                    <span className="absolute inset-0 bg-gradient-to-r from-accent-purple/20 to-accent-green/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
                 {/* Project Grid */}
-                <div ref={gridRef} className="grid md:grid-cols-2 gap-6 lg:gap-8">
+                <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
                     {filtered.map((project, idx) => (
                         <Reveal key={project.id} delay={idx * 0.1}>
                             <TiltCard intensity={6} className="h-full">
@@ -272,7 +274,7 @@ export default function Projects() {
                                             <div className={`absolute -right-10 -top-10 w-20 h-20 bg-gradient-to-br from-accent-purple/10 to-transparent rotate-45 group-hover:from-accent-purple/30 transition-all duration-500 ${hoveredId === project.id ? 'scale-150' : 'scale-100'}`} />
                                         </div>
 
-                                        <div className="relative p-6 sm:p-8 h-full flex flex-col">
+                                        <div className="relative p-4 sm:p-6 md:p-8 h-full flex flex-col">
                                             <div className="flex justify-between items-start mb-6">
                                                 <div className="flex items-center gap-3">
                                                     <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">

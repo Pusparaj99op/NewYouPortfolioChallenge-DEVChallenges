@@ -246,10 +246,10 @@ export default function Header() {
 
                 {/* Mobile Menu */}
                 <div
-                    className={`md:hidden overflow-hidden transition-all duration-500 ease-out ${isMobileMenuOpen ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'
+                    className={`md:hidden overflow-hidden transition-all duration-500 ease-out ${isMobileMenuOpen ? 'max-h-[500px] opacity-100 mt-4' : 'max-h-0 opacity-0'
                         }`}
                 >
-                    <div className="flex flex-col gap-2 py-4 px-2 border-t border-black/5 dark:border-white/5 bg-white/80 dark:bg-black/80 rounded-2xl backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl">
+                    <div className="flex flex-col gap-2 py-4 px-2 border-t border-black/5 dark:border-white/5 bg-white/95 dark:bg-black/95 rounded-2xl backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl safe-area-bottom">
                         {navLinks.map((link, index) => (
                             <a
                                 key={link.href}
@@ -258,17 +258,17 @@ export default function Header() {
                                     setIsMobileMenuOpen(false);
                                     playClick();
                                 }}
-                                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${activeSection === link.href.replace('#', '')
-                                    ? 'bg-white/10 text-white border border-white/5'
-                                    : 'text-text-secondary hover:text-white hover:bg-white/5'
+                                className={`flex items-center gap-3 px-4 py-4 rounded-xl transition-all duration-300 min-h-[48px] touch-target ${activeSection === link.href.replace('#', '')
+                                    ? 'bg-accent-purple/10 dark:bg-white/10 text-accent-purple dark:text-white border border-accent-purple/20 dark:border-white/5'
+                                    : 'text-text-primary dark:text-text-secondary hover:text-accent-purple dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                                     }`}
                                 style={{ animationDelay: `${index * 50}ms` }}
                             >
-                                <span className={`w-1.5 h-1.5 rounded-full ${activeSection === link.href.replace('#', '')
+                                <span className={`w-2 h-2 rounded-full ${activeSection === link.href.replace('#', '')
                                     ? 'bg-accent-purple shadow-[0_0_8px_rgba(153,69,255,0.8)]'
-                                    : 'bg-white/20'
+                                    : 'bg-black/20 dark:bg-white/20'
                                     }`} />
-                                {link.label}
+                                <span className="font-medium">{link.label}</span>
                             </a>
                         ))}
                         <a
@@ -277,7 +277,7 @@ export default function Header() {
                                 setIsMobileMenuOpen(false);
                                 playClick();
                             }}
-                            className="w-full text-center py-3 rounded-xl bg-gradient-to-r from-accent-purple to-accent-blue text-white font-semibold mt-2 shadow-lg shadow-accent-purple/20 active:scale-95 transition-all"
+                            className="w-full text-center py-4 rounded-xl bg-gradient-to-r from-accent-purple to-accent-blue text-white font-semibold mt-2 shadow-lg shadow-accent-purple/20 active:scale-95 transition-all min-h-[48px] touch-target"
                         >
                             Get in Touch
                         </a>

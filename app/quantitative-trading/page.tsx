@@ -14,12 +14,17 @@ const LiveOrderBook = dynamic(() => import('@/components/charts/LiveOrderBook'),
 
 export default function QuantitativeTradingPage() {
     const [price, setPrice] = useState<number | null>(null);
-    const [portfolio, setPortfolio] = useState<{ usdt_balance: number; btc_balance: number }>({ usdt_balance: 0, btc_balance: 0 });
+    const [portfolio, setPortfolio] = useState<{ usdt_balance: number; btc_balance: number }>({ usdt_balance: 10000, btc_balance: 0.5 });
     const [loading, setLoading] = useState(true);
     const [tradeAmount, setTradeAmount] = useState<string>('0.01');
     const [tradeStatus, setTradeStatus] = useState<string | null>(null);
     const [priceChange, setPriceChange] = useState<number>(0);
     const [isTrading, setIsTrading] = useState(false);
+
+    // Fake Terminal State
+    const [terminalLogs, setTerminalLogs] = useState<Array<{ id: number; type: 'BUY' | 'SELL' | 'INFO' | 'SUCCESS' | 'SYSTEM'; message: string; timestamp: string; amount?: number; price?: number }>>([]);
+    const [isTerminalRunning, setIsTerminalRunning] = useState(true);
+    const terminalRef = useRef<HTMLDivElement>(null);
 
     // Refs for GSAP animations
     const containerRef = useRef<HTMLDivElement>(null);
@@ -163,6 +168,93 @@ export default function QuantitativeTradingPage() {
             ctx.revert();
         };
     }, [fetchPortfolio, fetchPrice]);
+
+    // Fake Terminal Auto Trading Effect
+    useEffect(() => {
+        if (!isTerminalRunning) return;
+
+        const initialLogs = [
+            { id: 0, type: 'SYSTEM' as const, message: '> Initializing BlackObsidian Trading Engine v2.4.1...', timestamp: new Date().toLocaleTimeString() },
+            { id: 1, type: 'INFO' as const, message: '> Connected to Binance WebSocket API', timestamp: new Date().toLocaleTimeString() },
+            { id: 2, type: 'INFO' as const, message: '> Loading market microstructure models...', timestamp: new Date().toLocaleTimeString() },
+            { id: 3, type: 'SUCCESS' as const, message: '> System ready. Starting automated execution...', timestamp: new Date().toLocaleTimeString() },
+        ];
+        setTerminalLogs(initialLogs);
+
+        let logId = 4;
+        const executeRandomOrder = () => {
+            if (!price) return;
+
+            const isBuy = Math.random() > 0.45; // Slightly bullish bias
+            const amount = parseFloat((Math.random() * 0.05 + 0.001).toFixed(4));
+            const orderType = isBuy ? 'BUY' : 'SELL';
+            const colors = isBuy ? 'text-emerald-400' : 'text-rose-400';
+
+            // Add processing log
+            const processingLog = {
+                id: logId++,
+                type: 'INFO' as const,
+                message: `> Analyzing order flow... Signal strength: ${(Math.random() * 30 + 70).toFixed(1)}%`,
+                timestamp: new Date().toLocaleTimeString()
+            };
+            setTerminalLogs(prev => [...prev.slice(-15), processingLog]);
+
+            // Execute order after brief delay
+            setTimeout(() => {
+                const execPrice = price + (Math.random() * 100 - 50);
+                const orderLog = {
+                    id: logId++,
+                    type: orderType as 'BUY' | 'SELL',
+                    message: `> EXECUTED: ${orderType} ${amount} BTC @ $${execPrice.toFixed(2)}`,
+                    timestamp: new Date().toLocaleTimeString(),
+                    amount,
+                    price: execPrice
+                };
+
+                setTerminalLogs(prev => [...prev.slice(-15), orderLog]);
+
+                // Update portfolio
+                setPortfolio(prev => {
+                    if (isBuy) {
+                        const cost = amount * execPrice;
+                        return {
+                            usdt_balance: Math.max(0, prev.usdt_balance - cost),
+                            btc_balance: prev.btc_balance + amount
+                        };
+                    } else {
+                        const revenue = amount * execPrice;
+                        return {
+                            usdt_balance: prev.usdt_balance + revenue,
+                            btc_balance: Math.max(0, prev.btc_balance - amount)
+                        };
+                    }
+                });
+
+                // Add success log
+                setTimeout(() => {
+                    const successLog = {
+                        id: logId++,
+                        type: 'SUCCESS' as const,
+                        message: `> Order filled. P&L: ${isBuy ? '-' : '+'}$${(amount * execPrice).toFixed(2)}`,
+                        timestamp: new Date().toLocaleTimeString()
+                    };
+                    setTerminalLogs(prev => [...prev.slice(-15), successLog]);
+
+                    // Scroll terminal to bottom
+                    if (terminalRef.current) {
+                        terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+                    }
+                }, 300);
+            }, 500);
+        };
+
+        // Execute orders at random intervals
+        const tradingInterval = setInterval(() => {
+            executeRandomOrder();
+        }, Math.random() * 3000 + 2000);
+
+        return () => clearInterval(tradingInterval);
+    }, [isTerminalRunning, price]);
 
     const handleTrade = async (action: 'BUY' | 'SELL') => {
         if (!price) return;
@@ -377,11 +469,10 @@ export default function QuantitativeTradingPage() {
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold ${
-                                    priceChange > 0
+                                className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold ${priceChange > 0
                                         ? 'bg-emerald-500/20 text-emerald-400'
                                         : 'bg-rose-500/20 text-rose-400'
-                                }`}
+                                    }`}
                             >
                                 {priceChange > 0 ? '▲' : '▼'} {Math.abs(priceChange).toFixed(3)}%
                             </motion.div>
@@ -495,13 +586,12 @@ export default function QuantitativeTradingPage() {
                                     initial={{ opacity: 0, y: -10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: 10 }}
-                                    className={`text-sm p-4 rounded-xl font-mono backdrop-blur-sm ${
-                                        tradeStatus.startsWith('Error')
+                                    className={`text-sm p-4 rounded-xl font-mono backdrop-blur-sm ${tradeStatus.startsWith('Error')
                                             ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
                                             : tradeStatus.startsWith('Success')
-                                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                                            : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                                    }`}
+                                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                                                : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                                        }`}
                                 >
                                     {tradeStatus}
                                 </motion.div>
@@ -532,7 +622,7 @@ export default function QuantitativeTradingPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
                     whileHover={{ scale: 1.005 }}
-                    className="trading-panel col-span-1 md:col-span-2 row-span-2 relative group"
+                    className="trading-panel col-span-1 md:col-span-1 row-span-2 relative group"
                 >
                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-violet-500/5 rounded-2xl" />
                     <LiveOrderBook />
@@ -542,6 +632,87 @@ export default function QuantitativeTradingPage() {
                         <BarChart3 size={14} />
                         <span>Live Depth</span>
                         <span className="w-2 h-2 bg-cyan-500 rounded-full pulse-dot" />
+                    </div>
+                </motion.div>
+
+                {/* Fake Trading Terminal */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.65 }}
+                    className="trading-panel col-span-1 row-span-2 rounded-2xl glass-panel border border-white/10 bg-gradient-to-br from-zinc-900/90 via-black/95 to-zinc-900/90 backdrop-blur-xl overflow-hidden relative group"
+                >
+                    {/* Terminal Header */}
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/50">
+                        <div className="flex items-center gap-3">
+                            <div className="flex gap-1.5">
+                                <div className="w-3 h-3 rounded-full bg-rose-500/80" />
+                                <div className="w-3 h-3 rounded-full bg-amber-500/80" />
+                                <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
+                            </div>
+                            <span className="text-xs font-mono text-zinc-400">algo-trader@blackobsidian:~</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <motion.button
+                                onClick={() => setIsTerminalRunning(!isTerminalRunning)}
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
+                                className={`px-2 py-1 rounded text-[10px] font-mono uppercase tracking-wider transition-all ${isTerminalRunning
+                                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                        : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                                    }`}
+                            >
+                                {isTerminalRunning ? '● LIVE' : '○ PAUSED'}
+                            </motion.button>
+                        </div>
+                    </div>
+
+                    {/* Terminal Body */}
+                    <div
+                        ref={terminalRef}
+                        className="p-4 h-[calc(100%-48px)] overflow-y-auto custom-scrollbar font-mono text-xs leading-relaxed"
+                        style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(10,10,10,0.95) 100%)' }}
+                    >
+                        <AnimatePresence>
+                            {terminalLogs.map((log, index) => (
+                                <motion.div
+                                    key={log.id}
+                                    initial={{ opacity: 0, x: -20, height: 0 }}
+                                    animate={{ opacity: 1, x: 0, height: 'auto' }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    className={`py-1.5 flex items-start gap-2 border-b border-white/5 last:border-0 ${log.type === 'BUY' ? 'text-emerald-400' :
+                                            log.type === 'SELL' ? 'text-rose-400' :
+                                                log.type === 'SUCCESS' ? 'text-cyan-400' :
+                                                    log.type === 'SYSTEM' ? 'text-violet-400' :
+                                                        'text-zinc-400'
+                                        }`}
+                                >
+                                    <span className="text-zinc-600 shrink-0">[{log.timestamp}]</span>
+                                    <span className="break-all">
+                                        {log.type === 'BUY' && <span className="mr-1">▲</span>}
+                                        {log.type === 'SELL' && <span className="mr-1">▼</span>}
+                                        {log.message}
+                                    </span>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+
+                        {/* Blinking cursor */}
+                        <div className="flex items-center gap-2 mt-2 text-emerald-400">
+                            <span>&gt;</span>
+                            <motion.span
+                                animate={{ opacity: [1, 0] }}
+                                transition={{ duration: 0.8, repeat: Infinity }}
+                                className="w-2 h-4 bg-emerald-400"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Terminal glow effect */}
+                    <div className="absolute inset-0 pointer-events-none">
+                        <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-emerald-500/5 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-emerald-500/5 to-transparent" />
                     </div>
                 </motion.div>
 
@@ -611,11 +782,10 @@ export default function QuantitativeTradingPage() {
                                             initial={{ width: 0 }}
                                             animate={{ width: `${item.confidence}%` }}
                                             transition={{ delay: 1 + i * 0.1, duration: 0.8 }}
-                                            className={`h-full ${
-                                                item.sentiment === 'positive' ? 'bg-emerald-500' :
-                                                item.sentiment === 'neutral' ? 'bg-blue-500' :
-                                                'bg-amber-500'
-                                            }`}
+                                            className={`h-full ${item.sentiment === 'positive' ? 'bg-emerald-500' :
+                                                    item.sentiment === 'neutral' ? 'bg-blue-500' :
+                                                        'bg-amber-500'
+                                                }`}
                                         />
                                     </div>
                                     <span className="text-[10px] text-zinc-500 font-mono">{item.confidence}%</span>

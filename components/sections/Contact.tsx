@@ -278,30 +278,31 @@ export default function Contact() {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
                     {/* Left Column: Lanyard Card */}
-                    <div className="relative w-full h-[600px] hidden lg:block fade-in-left">
-                        <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} transparent={true} />
+                    <div className="relative w-full h-[700px] hidden lg:block fade-in-left">
+                        <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/5 via-transparent to-accent-green/5 rounded-3xl" />
+                        <Lanyard position={[0, 0, 18]} gravity={[0, -40, 0]} transparent={true} />
                     </div>
 
                     {/* Right Column: Contact Form */}
                     <div className="w-full">
-                        <div ref={headerRef} className="text-left mb-10">
-                            <div className="contact-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-accent-purple text-xs font-semibold uppercase tracking-wider mb-6">
+                        <div ref={headerRef} className="text-left mb-8 sm:mb-10">
+                            <div className="contact-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-accent-purple text-xs font-semibold uppercase tracking-wider mb-4 sm:mb-6">
                                 <span className="w-1.5 h-1.5 rounded-full bg-accent-purple" />
                                 Get in Touch
                             </div>
 
-                            <h2 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight overflow-hidden">
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 leading-tight overflow-hidden">
                                 <span className="contact-title-word inline-block">Let&apos;s</span>{' '}
                                 <span className="contact-title-word inline-block gradient-text">Build</span>{' '}
                                 <span className="contact-title-word inline-block">Together</span>
                             </h2>
-                            <p className="contact-subtitle text-text-secondary text-base sm:text-lg leading-relaxed max-w-lg">
+                            <p className="contact-subtitle text-text-secondary text-sm sm:text-base md:text-lg leading-relaxed max-w-lg">
                                 Interested in high-frequency trading systems, Web3 infrastructure, or just want to connect? Drop a message.
                             </p>
-                            <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-blue/10 border border-accent-blue/20 text-accent-blue text-xs font-medium">
+                            <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-blue/10 border border-accent-blue/20 text-accent-blue text-[10px] sm:text-xs font-medium">
                                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                                 </svg>

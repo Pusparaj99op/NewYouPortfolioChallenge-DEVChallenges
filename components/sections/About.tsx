@@ -265,70 +265,186 @@ export default function About() {
             />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+                <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
 
                     {/* Text Content */}
                     <div ref={textRef}>
-                        {/* About Me Card Button - 3D Glassmorphism */}
+                        {/* About Me Card Button - Premium 3D Glassmorphism with GSAP */}
                         <motion.a
                             href="/about-me"
-                            className="group relative block mb-8 p-6 rounded-2xl bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-transparent border border-green-500/20 backdrop-blur-xl overflow-hidden cursor-pointer"
-                            initial={{ opacity: 0, y: -20, rotateX: -15 }}
-                            animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                            className="group relative block mb-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-green-500/15 via-emerald-500/10 to-cyan-500/5 border-2 border-green-500/30 backdrop-blur-2xl overflow-hidden cursor-pointer shadow-lg shadow-green-500/10"
+                            initial={{ opacity: 0, y: -30, scale: 0.95, rotateX: -20 }}
+                            animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+                            transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
                             whileHover={{
-                                scale: 1.02,
-                                rotateX: 2,
-                                borderColor: 'rgba(20, 241, 149, 0.4)',
-                                transition: { duration: 0.3 }
+                                scale: 1.03,
+                                rotateX: 5,
+                                rotateY: 2,
+                                boxShadow: '0 25px 50px -12px rgba(20, 241, 149, 0.25)',
+                                borderColor: 'rgba(20, 241, 149, 0.6)',
+                                transition: { duration: 0.4, ease: 'easeOut' }
                             }}
+                            whileTap={{ scale: 0.98 }}
                             style={{
                                 transformStyle: 'preserve-3d',
-                                perspective: '1000px'
+                                perspective: '1200px'
+                            }}
+                            onMouseEnter={(e) => {
+                                const target = e.currentTarget;
+                                // GSAP magnetic effect
+                                gsap.to(target, {
+                                    duration: 0.3,
+                                    ease: 'power2.out'
+                                });
+                                // Animate child elements
+                                gsap.to(target.querySelector('.about-icon'), {
+                                    scale: 1.2,
+                                    rotate: 10,
+                                    duration: 0.4,
+                                    ease: 'back.out(2)'
+                                });
+                                gsap.to(target.querySelector('.about-arrow'), {
+                                    x: 10,
+                                    duration: 0.3,
+                                    ease: 'power2.out'
+                                });
+                                gsap.to(target.querySelector('.about-shine'), {
+                                    x: '200%',
+                                    duration: 0.8,
+                                    ease: 'power2.inOut'
+                                });
+                                // Pulse the glow
+                                gsap.to(target.querySelector('.about-glow'), {
+                                    opacity: 1,
+                                    scale: 1.2,
+                                    duration: 0.5,
+                                    ease: 'power2.out'
+                                });
+                            }}
+                            onMouseLeave={(e) => {
+                                const target = e.currentTarget;
+                                gsap.to(target.querySelector('.about-icon'), {
+                                    scale: 1,
+                                    rotate: 0,
+                                    duration: 0.4,
+                                    ease: 'power2.out'
+                                });
+                                gsap.to(target.querySelector('.about-arrow'), {
+                                    x: 0,
+                                    duration: 0.3,
+                                    ease: 'power2.out'
+                                });
+                                gsap.to(target.querySelector('.about-shine'), {
+                                    x: '-100%',
+                                    duration: 0.8,
+                                    ease: 'power2.inOut'
+                                });
+                                gsap.to(target.querySelector('.about-glow'), {
+                                    opacity: 0,
+                                    scale: 0.8,
+                                    duration: 0.5,
+                                    ease: 'power2.out'
+                                });
                             }}
                         >
-                            {/* Animated gradient background */}
+                            {/* Animated gradient mesh background */}
                             <motion.div
-                                className="absolute inset-0 bg-gradient-to-br from-green-400/10 via-emerald-500/5 to-cyan-500/10 opacity-0 group-hover:opacity-100"
-                                transition={{ duration: 0.5 }}
+                                className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(20,241,149,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(0,212,255,0.1),transparent_50%)]"
+                                animate={{
+                                    opacity: [0.5, 0.8, 0.5],
+                                    backgroundPosition: ['0% 0%', '100% 100%', '0% 0%']
+                                }}
+                                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
                             />
 
+                            {/* Floating particles */}
+                            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                                {[...Array(6)].map((_, i) => (
+                                    <motion.div
+                                        key={i}
+                                        className="absolute w-1 h-1 bg-green-400/40 rounded-full"
+                                        style={{
+                                            left: `${20 + i * 15}%`,
+                                            top: `${30 + Math.sin(i) * 40}%`
+                                        }}
+                                        animate={{
+                                            y: [0, -20, 0],
+                                            opacity: [0.3, 0.8, 0.3],
+                                            scale: [1, 1.5, 1]
+                                        }}
+                                        transition={{
+                                            duration: 3 + i * 0.5,
+                                            repeat: Infinity,
+                                            delay: i * 0.3,
+                                            ease: 'easeInOut'
+                                        }}
+                                    />
+                                ))}
+                            </div>
+
                             {/* Glow effect */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/20 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                            <div className="about-glow absolute top-0 right-0 w-40 h-40 bg-green-500/30 rounded-full blur-[80px] opacity-0 pointer-events-none" />
+
+                            {/* Animated border gradient */}
+                            <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
+                                <motion.div
+                                    className="absolute inset-0 bg-gradient-conic from-green-500/50 via-transparent to-green-500/50"
+                                    style={{ padding: '2px' }}
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                                />
+                            </div>
 
                             {/* Content */}
                             <div className="relative z-10 flex items-center justify-between">
-                                <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-5">
                                     <motion.div
-                                        className="p-3 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/10 group-hover:scale-110 transition-transform duration-300"
-                                        whileHover={{ rotate: 5 }}
+                                        className="about-icon p-4 rounded-2xl bg-gradient-to-br from-green-500/30 to-emerald-500/20 border border-green-400/30 shadow-lg shadow-green-500/20"
                                     >
-                                        <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg className="w-7 h-7 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
                                     </motion.div>
                                     <div>
-                                        <h3 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
+                                        <h3 className="text-xl font-bold text-white mb-1.5 flex items-center gap-3">
                                             About Me
-                                            <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 font-medium">Personal</span>
+                                            <motion.span
+                                                className="text-xs px-3 py-1 rounded-full bg-gradient-to-r from-green-500/30 to-emerald-500/20 text-green-400 font-semibold border border-green-400/30"
+                                                animate={{
+                                                    boxShadow: ['0 0 10px rgba(20,241,149,0.3)', '0 0 20px rgba(20,241,149,0.5)', '0 0 10px rgba(20,241,149,0.3)']
+                                                }}
+                                                transition={{ duration: 2, repeat: Infinity }}
+                                            >
+                                                ✦ Personal
+                                            </motion.span>
                                         </h3>
-                                        <p className="text-sm text-text-muted">Learn more about the founder</p>
+                                        <p className="text-sm text-text-secondary font-medium">Discover the vision behind BlackObsidian AMC</p>
                                     </div>
                                 </div>
                                 <motion.div
-                                    className="text-green-400 group-hover:translate-x-1 transition-transform duration-300"
-                                    whileHover={{ x: 5 }}
+                                    className="about-arrow flex items-center gap-2 text-green-400"
                                 >
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
+                                    <span className="text-sm font-semibold hidden sm:inline">Explore</span>
+                                    <div className="p-2 rounded-full bg-green-500/20 border border-green-400/30">
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </div>
                                 </motion.div>
                             </div>
 
                             {/* Shine effect */}
+                            <div
+                                className="about-shine absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
+                                style={{ transform: 'translateX(-100%)' }}
+                            />
+
+                            {/* Bottom highlight line */}
                             <motion.div
-                                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full"
-                                transition={{ duration: 0.8 }}
+                                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-gradient-to-r from-transparent via-green-400/60 to-transparent"
+                                initial={{ width: '0%' }}
+                                whileInView={{ width: '80%' }}
+                                transition={{ duration: 1, delay: 0.5 }}
                             />
                         </motion.a>
 
@@ -337,12 +453,12 @@ export default function About() {
                             About The Firm
                         </div>
 
-                        <h2 ref={headingRef} className="text-4xl sm:text-5xl font-bold mb-8 leading-tight">
+                        <h2 ref={headingRef} className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 leading-tight">
                             <span className="text-white">{splitText('BlackObsidian')}</span>
                             <span className="gradient-text">{splitText(' AMC')}</span>
                         </h2>
 
-                        <div className="space-y-6 text-base sm:text-lg text-text-secondary leading-relaxed prose">
+                        <div className="space-y-4 sm:space-y-6 text-sm sm:text-base md:text-lg text-text-secondary leading-relaxed prose">
                             <p className="font-medium text-lg text-white/90">
                                 UAE-based systematic asset manager building research-driven trading systems across digital assets, derivatives, and global markets.
                             </p>
@@ -392,7 +508,7 @@ export default function About() {
                         </div>
 
                         {/* Highlight Cards */}
-                        <div ref={highlightsRef} className="pt-10 grid grid-cols-2 gap-4">
+                        <div ref={highlightsRef} className="pt-8 sm:pt-10 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             {highlights.map((item, i) => (
                                 <div
                                     key={i}

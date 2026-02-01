@@ -12,7 +12,7 @@ Hey everyone! I'm Pusparaj, and I've built **Black Obsidian** - an immersive 3D 
 
 ## 🚀 Live Demo
 
-{% cloudrun YOUR_CLOUD_RUN_URL_HERE %}
+{% cloudrun https://portfolio-209535685481.us-central1.run.app %}
 
 **Try these features:**
 - 🎮 Explore the interactive 3D crystal scene (drag to rotate!)
@@ -75,8 +75,8 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 export async function POST(req: Request) {
   const { message, conversationHistory } = await req.json();
-  
-  const model = genAI.getGenerativeModel({ 
+
+  const model = genAI.getGenerativeModel({
     model: 'gemini-pro',
     systemInstruction: `You are an AI assistant for Pusparaj's portfolio...`
   });
@@ -91,8 +91,8 @@ export async function POST(req: Request) {
 
   const result = await chat.sendMessage(message);
   const response = await result.response;
-  
-  return NextResponse.json({ 
+
+  return NextResponse.json({
     reply: response.text(),
     timestamp: new Date().toISOString()
   });
@@ -113,7 +113,7 @@ const sendMessage = async () => {
   });
 
   const data = await response.json();
-  setMessages([...messages, 
+  setMessages([...messages,
     { role: 'user', content: input },
     { role: 'assistant', content: data.reply }
   ]);
@@ -183,7 +183,7 @@ I chose Gemini for several reasons:
 
 ## 🔗 Links
 
-- 🌐 **Live Demo**: [Your Cloud Run URL]
+- 🌐 **Live Demo**: [https://portfolio-209535685481.us-central1.run.app](https://portfolio-209535685481.us-central1.run.app)
 - 💻 **GitHub Repository**: [https://github.com/Pusparaj99op/NewYouPortfolioChallenge-DEVChallenges](https://github.com/Pusparaj99op/NewYouPortfolioChallenge-DEVChallenges)
 - 📖 **Deployment Guide**: [See DEPLOYMENT.md in repo]
 
@@ -227,7 +227,7 @@ This project is open source under the MIT License. Feel free to fork, learn from
 
 ## 💬 Let's Connect!
 
-I'd love to hear your feedback! Try the live demo, explore the code, and let me know what you think in the comments below. 
+I'd love to hear your feedback! Try the live demo, explore the code, and let me know what you think in the comments below.
 
 **What feature impressed you most? What would you add?** 👇
 

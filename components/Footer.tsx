@@ -85,8 +85,8 @@ export default function Footer() {
             {/* Large Striped Logo */}
             <StripedLogo />
 
-            <div className="max-w-7xl mx-auto px-[var(--space-phi-lg)] sm:px-[var(--space-phi-xl)] lg:px-[var(--space-phi-2xl)] py-[var(--space-phi-3xl)] relative">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-[var(--space-phi-2xl)]">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-[var(--space-phi-3xl)] relative">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-[var(--space-phi-2xl)]">
                     {/* Brand */}
                     <div className="space-y-[var(--space-phi-base)]">
                         <Link href="/" className="flex items-center gap-[var(--space-phi-sm)] group">
@@ -132,17 +132,17 @@ export default function Footer() {
                         >
                             pranaykgajbhiye@gmail.com
                         </a>
-                        <div className="flex flex-wrap gap-[var(--space-phi-sm)]">
+                        <div className="flex flex-wrap gap-3 sm:gap-[var(--space-phi-sm)]">
                             {socialLinks.map((social) => (
                                 <a
                                     key={social.name}
                                     href={social.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-[var(--space-phi-xl)] h-[var(--space-phi-xl)] rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-text-muted hover:text-white hover:border-accent-purple hover:bg-accent-purple/10 transition-all duration-300 group"
+                                    className="w-11 h-11 sm:w-[var(--space-phi-xl)] sm:h-[var(--space-phi-xl)] rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-text-muted hover:text-white hover:border-accent-purple hover:bg-accent-purple/10 transition-all duration-300 group touch-target"
                                     aria-label={social.name}
                                 >
-                                    <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-5 h-5 sm:w-4 sm:h-4 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
                                         <path d={social.icon} fillRule="evenodd" clipRule="evenodd" />
                                     </svg>
                                 </a>
@@ -152,15 +152,15 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="mt-[var(--space-phi-3xl)] pt-[var(--space-phi-lg)] border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-text-muted text-sm">
+                <div className="mt-8 sm:mt-[var(--space-phi-3xl)] pt-6 sm:pt-[var(--space-phi-lg)] border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-text-muted text-xs sm:text-sm text-center sm:text-left">
                         © 2026 BlackObsidian AMC. All rights reserved.
                     </p>
 
                     <div className="flex flex-col items-center relative group/button">
                         <button
                             onClick={scrollToTop}
-                            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/10 text-text-muted hover:text-white hover:border-accent-purple transition-all text-sm relative z-10"
+                            className="flex items-center gap-2 px-4 py-3 sm:py-2 rounded-full bg-white/[0.03] border border-white/10 text-text-muted hover:text-white hover:border-accent-purple transition-all text-sm relative z-10 min-h-[44px] touch-target"
                         >
                             <span>Back to top</span>
                             <svg className="w-4 h-4 group-hover/button:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

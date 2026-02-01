@@ -1,6 +1,80 @@
 @import "tailwindcss";
 
 /* ============================================
+   MOBILE RESPONSIVENESS UTILITIES
+   ============================================ */
+
+/* Safe area insets for notched phones */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* Mobile touch target optimization - minimum 44px for accessibility */
+@media (max-width: 768px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Reduce section padding on mobile */
+  .section {
+    padding: 3rem 0;
+  }
+
+  /* Improve text readability on small screens */
+  body {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Prevent horizontal scroll */
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* Optimize animations for mobile performance */
+  .reduce-motion {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hide scrollbar utility - works cross-browser */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari and Opera */
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
    BlackObsidian AMC Portfolio - Solana Style Global Styles
    ============================================ */
 
@@ -482,6 +556,7 @@ h6 {
   0% {
     transform: translateY(0);
   }
+
   100% {
     transform: translateY(50px);
   }
@@ -829,10 +904,13 @@ section {
 
 /* Slow pulse animation for ambient effects */
 @keyframes pulse-slow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.7;
     transform: scale(1.05);
@@ -849,7 +927,9 @@ section {
     transform: translate(-50%, -50%) scale(1);
     opacity: 0.5;
   }
-  75%, 100% {
+
+  75%,
+  100% {
     transform: translate(-50%, -50%) scale(1.5);
     opacity: 0;
   }
@@ -861,18 +941,23 @@ section {
 
 /* Floating animation for particles */
 @keyframes float-slow {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) translateX(0);
     opacity: 0.6;
   }
+
   25% {
     transform: translateY(-15px) translateX(5px);
     opacity: 0.8;
   }
+
   50% {
     transform: translateY(-25px) translateX(-5px);
     opacity: 0.6;
   }
+
   75% {
     transform: translateY(-15px) translateX(8px);
     opacity: 0.8;
@@ -888,6 +973,7 @@ section {
   from {
     transform: translate(-50%, -50%) rotate(0deg);
   }
+
   to {
     transform: translate(-50%, -50%) rotate(360deg);
   }
@@ -899,15 +985,13 @@ section {
 
 /* Premium Gradient Text - Enhanced */
 .gradient-text-premium {
-  background: linear-gradient(
-    135deg,
-    var(--accent-green) 0%,
-    var(--accent-cyan, #00D9FF) 20%,
-    var(--accent-blue) 40%,
-    var(--accent-purple) 60%,
-    var(--accent-blue) 80%,
-    var(--accent-green) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--accent-green) 0%,
+      var(--accent-cyan, #00D9FF) 20%,
+      var(--accent-blue) 40%,
+      var(--accent-purple) 60%,
+      var(--accent-blue) 80%,
+      var(--accent-green) 100%);
   background-size: 300% 300%;
   animation: gradient-flow-premium 8s ease-in-out infinite;
   -webkit-background-clip: text;
@@ -921,9 +1005,11 @@ section {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -944,12 +1030,10 @@ section {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(153, 69, 255, 0.05) 0%,
-    transparent 50%,
-    rgba(20, 241, 149, 0.05) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(153, 69, 255, 0.05) 0%,
+      transparent 50%,
+      rgba(20, 241, 149, 0.05) 100%);
   opacity: 0;
   transition: opacity 0.5s ease;
 }
@@ -1023,12 +1107,10 @@ section {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
   transition: left 0.5s ease;
 }
 
