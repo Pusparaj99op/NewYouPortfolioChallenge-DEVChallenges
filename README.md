@@ -2,7 +2,7 @@
 
 A premium portfolio website for **Pranay Gajbhiye**, Founder of BlackObsidian AMC UAE. Features a trading terminal aesthetic with GSAP animations and Google Gemini AI integration.
 
-🌐 **Live:** [pranaygajbhiye.me]([https://pranaygajbhiye.me](https://portfolio-209535685481.us-central1.run.app/))
+🌐 **Live:** [pranaygajbhiye.me](https://portfolio-209535685481.us-central1.run.app/)
 
 ## ✨ Features
 
