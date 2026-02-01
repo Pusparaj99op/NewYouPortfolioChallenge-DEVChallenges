@@ -33,6 +33,7 @@ export default function QuantitativeTradingPage() {
     const priceRef = useRef<HTMLDivElement>(null);
     const glowRef = useRef<HTMLDivElement>(null);
     const statsRefs = useRef<HTMLDivElement[]>([]);
+    const latestPriceRef = useRef<number | null>(null);
 
     // Animation controls
     const controls = useAnimation();
@@ -80,6 +81,11 @@ export default function QuantitativeTradingPage() {
         } catch (error) {
             console.error('Failed to fetch price', error);
         }
+    }, [price]);
+
+    // Keep latestPriceRef updated
+    useEffect(() => {
+        latestPriceRef.current = price;
     }, [price]);
 
     // Fetch Portfolio
@@ -181,18 +187,17 @@ export default function QuantitativeTradingPage() {
         ];
         setTerminalLogs(initialLogs);
 
-        let logId = 4;
         const executeRandomOrder = () => {
-            if (!price) return;
+            const currentPrice = latestPriceRef.current;
+            if (!currentPrice) return;
 
             const isBuy = Math.random() > 0.45; // Slightly bullish bias
             const amount = parseFloat((Math.random() * 0.05 + 0.001).toFixed(4));
             const orderType = isBuy ? 'BUY' : 'SELL';
-            const colors = isBuy ? 'text-emerald-400' : 'text-rose-400';
 
             // Add processing log
             const processingLog = {
-                id: logId++,
+                id: Date.now() + Math.random(),
                 type: 'INFO' as const,
                 message: `> Analyzing order flow... Signal strength: ${(Math.random() * 30 + 70).toFixed(1)}%`,
                 timestamp: new Date().toLocaleTimeString()
@@ -201,9 +206,9 @@ export default function QuantitativeTradingPage() {
 
             // Execute order after brief delay
             setTimeout(() => {
-                const execPrice = price + (Math.random() * 100 - 50);
+                const execPrice = currentPrice + (Math.random() * 100 - 50);
                 const orderLog = {
-                    id: logId++,
+                    id: Date.now() + Math.random(),
                     type: orderType as 'BUY' | 'SELL',
                     message: `> EXECUTED: ${orderType} ${amount} BTC @ $${execPrice.toFixed(2)}`,
                     timestamp: new Date().toLocaleTimeString(),
@@ -233,7 +238,7 @@ export default function QuantitativeTradingPage() {
                 // Add success log
                 setTimeout(() => {
                     const successLog = {
-                        id: logId++,
+                        id: Date.now() + Math.random(),
                         type: 'SUCCESS' as const,
                         message: `> Order filled. P&L: ${isBuy ? '-' : '+'}$${(amount * execPrice).toFixed(2)}`,
                         timestamp: new Date().toLocaleTimeString()
@@ -254,7 +259,7 @@ export default function QuantitativeTradingPage() {
         }, Math.random() * 3000 + 2000);
 
         return () => clearInterval(tradingInterval);
-    }, [isTerminalRunning, price]);
+    }, [isTerminalRunning]);
 
     const handleTrade = async (action: 'BUY' | 'SELL') => {
         if (!price) return;
