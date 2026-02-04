@@ -1131,3 +1131,22 @@ section {
   writing-mode: vertical-rl;
   text-orientation: mixed;
 }
+
+/* ============================================
+   WEBGL PARTICLE WAVE BACKGROUND
+   ============================================ */
+
+#webgl {
+  top: 0;
+  left: 0;
+  position: fixed;
+  height: 100svh;
+  width: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#webgl canvas {
+  width: 100%;
+  height: 100%;
+}

@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback, Suspense } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLenis } from 'lenis/react';
-import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 import MagneticButton from '@/components/ui/MagneticButton';
 import ShinyText from '@/components/ShinyText';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Torus, MeshTransmissionMaterial, Environment, Text } from '@react-three/drei';
-import * as THREE from 'three';
+import { GL } from '@/components/gl';
+import { Leva } from 'leva';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -96,32 +95,6 @@ function AnimatedStat({ value, label, delay }: { value: string; label: string; d
     );
 }
 
-// Animated gradient orb component
-function GradientOrb({ className, color, delay = 0 }: { className: string; color: string; delay?: number }) {
-    return (
-        <motion.div
-            className={className}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{
-                opacity: [0.3, 0.6, 0.3],
-                scale: [1, 1.2, 1],
-                x: [0, 30, -20, 0],
-                y: [0, -20, 30, 0]
-            }}
-            transition={{
-                duration: 8,
-                delay,
-                repeat: Infinity,
-                ease: 'easeInOut'
-            }}
-            style={{
-                background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-                filter: 'blur(60px)'
-            }}
-        />
-    );
-}
-
 // Mouse follower gradient
 function MouseGradient() {
     const mouseX = useMotionValue(0);
@@ -140,7 +113,7 @@ function MouseGradient() {
 
     return (
         <motion.div
-            className="fixed w-[400px] h-[400px] rounded-full pointer-events-none z-0 opacity-30"
+            className="fixed w-[400px] h-[400px] rounded-full pointer-events-none z-0 opacity-20"
             style={{
                 x: springX,
                 y: springY,
@@ -151,66 +124,6 @@ function MouseGradient() {
     );
 }
 
-// 3D Glass Torus Model with transmission material
-function GlassTorusModel() {
-    const torusRef = useRef<THREE.Mesh>(null);
-
-    useFrame((state) => {
-        if (torusRef.current) {
-            torusRef.current.rotation.x = state.clock.getElapsedTime() * 0.3;
-            torusRef.current.rotation.y = state.clock.getElapsedTime() * 0.2;
-        }
-    });
-
-    return (
-        <group scale={1.5}>
-
-
-
-
-            {/* Glass Torus - smaller and more transparent */}
-            <Torus ref={torusRef} args={[1, 0.4, 32, 100]}>
-                <MeshTransmissionMaterial
-                    thickness={0.1}
-                    roughness={0}
-                    transmission={1}
-                    ior={1.2}
-                    chromaticAberration={0.02}
-                    backside={true}
-                    distortion={0.2}
-                    distortionScale={0.2}
-                    temporalDistortion={0.05}
-                    clearcoat={1}
-                    clearcoatRoughness={0}
-                />
-            </Torus>
-        </group>
-    );
-}
-
-// Glass Torus Scene - embedded Canvas
-const GlassTorusScene = React.forwardRef<HTMLDivElement>((props, ref) => {
-    return (
-        <div ref={ref} className="absolute inset-0 pointer-events-none z-50">
-            <Canvas
-                camera={{ position: [0, 0, 5], fov: 45 }}
-                dpr={[1, 2]}
-                gl={{ antialias: true, alpha: true }}
-                style={{ background: 'transparent' }}
-            >
-                <Suspense fallback={null}>
-                    <GlassTorusModel />
-                    <directionalLight intensity={3} position={[0, 2, 3]} />
-                    <ambientLight intensity={0.5} />
-                    <Environment preset="city" />
-                </Suspense>
-            </Canvas>
-        </div>
-    );
-});
-
-GlassTorusScene.displayName = 'GlassTorusScene';
-
 export default function Hero() {
     const heroRef = useRef<HTMLElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
@@ -218,25 +131,17 @@ export default function Hero() {
     const buttonsRef = useRef<HTMLDivElement>(null);
     const statsRef = useRef<HTMLDivElement>(null);
     const gridRef = useRef<HTMLDivElement>(null);
-    const gradient1Ref = useRef<HTMLDivElement>(null);
-    const gradient2Ref = useRef<HTMLDivElement>(null);
-    const gradient3Ref = useRef<HTMLDivElement>(null);
-    const glassTorusRef = useRef<HTMLDivElement>(null);
     const [isAnimated, setIsAnimated] = useState(false);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [isHovering, setIsHovering] = useState(false);
 
     // Lenis scroll velocity for parallax
-    const lenis = useLenis();
+    useLenis();
 
     // Mouse tracking for interactive elements
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (heroRef.current) {
-                const rect = heroRef.current.getBoundingClientRect();
-                setMousePosition({
-                    x: (e.clientX - rect.left) / rect.width,
-                    y: (e.clientY - rect.top) / rect.height
-                });
+                heroRef.current.getBoundingClientRect();
             }
         };
         window.addEventListener('mousemove', handleMouseMove);
@@ -339,21 +244,6 @@ export default function Hero() {
                 }
             });
 
-            // Glass Torus parallax - moves independently to create depth
-            if (glassTorusRef.current) {
-                gsap.to(glassTorusRef.current, {
-                    y: -150,
-                    scale: 0.85,
-                    opacity: 0.7,
-                    scrollTrigger: {
-                        trigger: heroRef.current,
-                        start: 'top top',
-                        end: 'bottom top',
-                        scrub: 1.5,
-                    }
-                });
-            }
-
         }, heroRef);
 
         return () => ctx.revert();
@@ -370,82 +260,27 @@ export default function Hero() {
         <section
             ref={heroRef}
             id="home"
-            className="relative min-h-screen flex items-center overflow-hidden bg-background-primary pt-20"
+            className="relative min-h-screen flex items-center overflow-hidden bg-[#0a0a0f] pt-20"
         >
+            {/* Particle Wave Background */}
+            <GL hovering={isHovering} />
+            <Leva hidden />
+
             {/* Mouse Following Gradient */}
             <MouseGradient />
 
-            {/* Premium Geometric Background with Framer Motion */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
+            {/* Subtle Grid Overlay */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-[1]">
                 {/* Animated Grid with Gradient Overlay */}
                 <motion.div
                     ref={gridRef}
-                    className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,#000_30%,transparent_100%)]"
-                    animate={{ opacity: [0.3, 0.5, 0.3] }}
+                    className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,#000_30%,transparent_100%)]"
+                    animate={{ opacity: [0.2, 0.3, 0.2] }}
                     transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                 />
 
-                {/* Premium Motion Gradient Orbs */}
-                <GradientOrb
-                    className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full opacity-20"
-                    color="rgba(153,69,255,0.15)"
-                    delay={0}
-                />
-                <GradientOrb
-                    className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full opacity-20"
-                    color="rgba(20,241,149,0.12)"
-                    delay={1}
-                />
-                <GradientOrb
-                    className="absolute top-[20%] left-[-5%] w-[400px] h-[400px] rounded-full opacity-15"
-                    color="rgba(0,212,255,0.1)"
-                    delay={2}
-                />
-                <GradientOrb
-                    className="absolute bottom-[20%] right-[10%] w-[500px] h-[500px] rounded-full opacity-10"
-                    color="rgba(255,107,107,0.08)"
-                    delay={3}
-                />
-
-                {/* Animated mesh gradient background */}
-                <motion.div
-                    className="absolute inset-0"
-                    animate={{
-                        background: [
-                            'radial-gradient(ellipse at 20% 30%, rgba(153,69,255,0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(20,241,149,0.06) 0%, transparent 50%)',
-                            'radial-gradient(ellipse at 80% 30%, rgba(153,69,255,0.08) 0%, transparent 50%), radial-gradient(ellipse at 20% 70%, rgba(20,241,149,0.06) 0%, transparent 50%)',
-                            'radial-gradient(ellipse at 50% 50%, rgba(0,212,255,0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(153,69,255,0.04) 0%, transparent 70%)',
-                            'radial-gradient(ellipse at 20% 30%, rgba(153,69,255,0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(20,241,149,0.06) 0%, transparent 50%)',
-                        ]
-                    }}
-                    transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-                />
-
-                {/* Animated Side Accent Lines */}
-                <motion.div
-                    className="absolute top-1/4 left-8 w-px bg-gradient-to-b from-transparent via-accent-purple/50 to-transparent"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 192, opacity: 1 }}
-                    transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }}
-                />
-                <motion.div
-                    className="absolute top-1/3 left-8 h-px bg-gradient-to-r from-accent-purple/50 to-transparent"
-                    initial={{ width: 0, opacity: 0 }}
-                    animate={{ width: 96, opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.8, ease: 'easeOut' }}
-                />
-
-                {/* Floating Particles Removed */}
-
                 {/* Noise Texture Overlay */}
                 <div className="absolute inset-0 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMSIvPjwvc3ZnPg==')]" />
-
-                {/* Scan line effect */}
-                <motion.div
-                    className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-purple/20 to-transparent"
-                    animate={{ top: ['0%', '100%'] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-                />
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -464,13 +299,8 @@ export default function Hero() {
                             </div>
                         </div>
 
-                        {/* Title with 3D Glass Effect Overlay */}
+                        {/* Title */}
                         <div className="relative w-full">
-                            {/* Glass Torus 3D Effect */}
-                            {/* Hide 3D torus on mobile for performance */}
-                            <div className="hidden md:block">
-                                <GlassTorusScene ref={glassTorusRef} />
-                            </div>
                             <h1
                                 ref={titleRef}
                                 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] font-black tracking-[-0.04em] mb-6 sm:mb-10 leading-[0.9] sm:leading-[0.85] perspective-1000 select-none relative z-10"
@@ -558,6 +388,8 @@ export default function Hero() {
                                 <a
                                     href="#projects"
                                     className="btn-primary min-w-[180px] sm:min-w-[200px] text-base sm:text-lg h-14 sm:h-16 inline-flex items-center justify-center gap-3 group hover:gap-5 transition-all shadow-[0_0_20px_rgba(153,69,255,0.3)] hover:shadow-[0_0_30px_rgba(20,241,149,0.4)] touch-target"
+                                    onMouseEnter={() => setIsHovering(true)}
+                                    onMouseLeave={() => setIsHovering(false)}
                                 >
                                     <span className="font-semibold tracking-wide">Explore Work</span>
                                     <svg className="w-5 h-5 group-hover:rotate-45 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -569,6 +401,8 @@ export default function Hero() {
                                 <a
                                     href="#contact"
                                     className="btn-secondary min-w-[180px] sm:min-w-[200px] text-base sm:text-lg h-14 sm:h-16 inline-flex items-center justify-center gap-3 group hover:gap-5 transition-all glass-button-white bg-white/[0.05] border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-xl touch-target"
+                                    onMouseEnter={() => setIsHovering(true)}
+                                    onMouseLeave={() => setIsHovering(false)}
                                 >
                                     <span className="font-semibold tracking-wide">Contact Me</span>
                                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -578,79 +412,6 @@ export default function Hero() {
                             </MagneticButton>
                         </div>
                     </div>
-
-                    {/* Premium 3D Visualization - Background/Behind */}
-                    <motion.div
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[1000px] pointer-events-none z-0 opacity-40"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1.2, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                    >
-                        {/* Multi-layer Animated Glow Effects */}
-                        <motion.div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle, rgba(153,69,255,0.25) 0%, rgba(153,69,255,0.1) 40%, transparent 70%)',
-                                filter: 'blur(120px)'
-                            }}
-                            animate={{
-                                scale: [1, 1.1, 1],
-                                opacity: [0.6, 0.8, 0.6]
-                            }}
-                            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                        />
-                        <motion.div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle, rgba(0,212,255,0.15) 0%, transparent 60%)',
-                                filter: 'blur(80px)'
-                            }}
-                            animate={{
-                                scale: [1, 1.15, 1],
-                                rotate: [0, 180, 360]
-                            }}
-                            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                        />
-                        <motion.div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle, rgba(20,241,149,0.1) 0%, transparent 60%)',
-                                filter: 'blur(60px)'
-                            }}
-                            animate={{
-                                scale: [1, 1.2, 1],
-                                x: [0, 20, -20, 0],
-                                y: [0, -20, 20, 0]
-                            }}
-                            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-                        />
-
-                        {/* Decorative Rings with Framer Motion */}
-                        <motion.div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border border-white/[0.08] rounded-full"
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 1.5, delay: 0.5 }}
-                        />
-                        <motion.div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] border border-white/[0.03] rounded-full"
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 1.8, delay: 0.6 }}
-                        />
-                        <motion.div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[85%] border border-dashed border-white/[0.06] rounded-full"
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-                        />
-                        <motion.div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] border border-dotted border-accent-purple/20 rounded-full"
-                            animate={{ rotate: -360 }}
-                            transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-                        />
-
-                        {/* Orbital dots removed */}
-                    </motion.div>
 
                 </div>
 
