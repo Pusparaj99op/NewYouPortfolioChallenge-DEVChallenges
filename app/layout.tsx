@@ -8,7 +8,7 @@ import { ToastProvider } from "@/components/ui/Toast";
 import { SoundProvider } from "@/components/context/SoundContext";
 
 import ScrollProgress from "@/components/ui/ScrollProgress";
-import Preloader from "@/components/ui/Preloader";
+
 import SmoothScrolling from "@/components/ui/SmoothScrolling";
 import AppEffects from "@/components/ui/AppEffects";
 
@@ -89,7 +89,7 @@ export default function RootLayout({
             <ToastProvider>
               <AppEffects />
               <ScrollProgress />
-              <Preloader />
+
               <Suspense fallback={null}>
                 <PageTransition />
               </Suspense>

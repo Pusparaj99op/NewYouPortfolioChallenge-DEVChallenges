@@ -133,9 +133,9 @@
   --border-default: #D4D4D8;
   --border-strong: #A1A1AA;
 
-  --accent-purple: #7C3AED;
-  --accent-green: #10B981;
-  --accent-blue: #3B82F6;
+  --accent-purple: #64748B;
+  --accent-green: #94A3B8;
+  --accent-blue: #475569;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
@@ -986,19 +986,19 @@ section {
 /* Premium Gradient Text - Enhanced */
 .gradient-text-premium {
   background: linear-gradient(135deg,
-      var(--accent-green) 0%,
-      var(--accent-cyan, #00D9FF) 20%,
-      var(--accent-blue) 40%,
-      var(--accent-purple) 60%,
-      var(--accent-blue) 80%,
-      var(--accent-green) 100%);
+      #E2E8F0 0%,
+      #CBD5E1 20%,
+      #94A3B8 40%,
+      #64748B 60%,
+      #94A3B8 80%,
+      #CBD5E1 100%);
   background-size: 300% 300%;
   animation: gradient-flow-premium 8s ease-in-out infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-weight: 900;
-  filter: drop-shadow(0 0 20px rgba(20, 241, 149, 0.2));
+  filter: drop-shadow(0 0 20px rgba(203, 213, 225, 0.3));
 }
 
 @keyframes gradient-flow-premium {

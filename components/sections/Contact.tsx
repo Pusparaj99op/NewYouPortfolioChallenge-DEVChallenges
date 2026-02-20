@@ -4,15 +4,135 @@ import { useState, FormEvent, useRef, useEffect } from 'react';
 import { useToast } from '@/components/ui/Toast';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import dynamic from 'next/dynamic';
-
-// Dynamically import Lanyard to avoid SSR issues with 3D context
-const Lanyard = dynamic(() => import('../ui/Lanyard'), {
-    ssr: false,
-    loading: () => <div className="w-full h-full min-h-[500px] flex items-center justify-center text-white/20">Loading 3D Scene...</div>
-});
+import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
+
+
+// Premium animated contact card — pure CSS/React, no WebGL
+function ContactCard() {
+    const [tilt, setTilt] = useState({ x: 0, y: 0 });
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = cardRef.current?.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        setTilt({ x: y * -18, y: x * 18 });
+    };
+
+    const handleMouseLeave = () => setTilt({ x: 0, y: 0 });
+
+    const cardStats = [
+        { label: 'Projects', value: '12+' },
+        { label: 'Strategies', value: '30+' },
+        { label: 'Experience', value: '4yr' },
+    ];
+
+    return (
+        <div
+            ref={cardRef}
+            className="relative w-[340px] group cursor-pointer"
+            style={{ perspective: '1200px' }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+        >
+            {/* Animated gradient glow border */}
+            <div
+                className="absolute -inset-0.5 rounded-2xl opacity-60 blur-sm group-hover:opacity-100 group-hover:blur-none transition-all duration-500"
+                style={{
+                    background: 'linear-gradient(135deg, #9945FF, #14F195, #2F7AF9, #9945FF)',
+                    backgroundSize: '300% 300%',
+                    animation: 'gradient-flow 4s ease-in-out infinite',
+                }}
+            />
+            {/* Card body with 3D tilt */}
+            <div
+                className="relative rounded-2xl overflow-hidden transition-transform duration-150 ease-out"
+                style={{
+                    transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+                    background: 'linear-gradient(145deg, rgba(12,12,18,0.99) 0%, rgba(8,8,14,0.97) 100%)',
+                    border: '1px solid rgba(255,255,255,0.07)',
+                }}
+            >
+                {/* Dynamic shine highlight */}
+                <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
+                    style={{
+                        background: `radial-gradient(circle at ${50 + tilt.y * 3}% ${50 + tilt.x * 3}%, rgba(153,69,255,0.12) 0%, transparent 55%)`,
+                    }}
+                />
+                {/* Top color stripe */}
+                <div className="h-1" style={{ background: 'linear-gradient(90deg,#9945FF,#14F195,#2F7AF9)' }} />
+                <div className="p-7">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-[#9945FF]/40 group-hover:ring-[#9945FF]/70 transition-all">
+                                <Image src="/logo.png" alt="BlackObsidian" fill className="object-cover" />
+                            </div>
+                            <div>
+                                <div className="font-bold text-white text-sm">Pranay Gajbhiye</div>
+                                <div className="text-[10px] text-white/40 font-mono uppercase tracking-widest mt-0.5">BlackObsidian AMC</div>
+                            </div>
+                        </div>
+                        <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold text-[#14F195]"
+                            style={{ background: 'rgba(20,241,149,0.08)', border: '1px solid rgba(20,241,149,0.2)' }}>
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#14F195] animate-pulse" />
+                            Open
+                        </span>
+                    </div>
+                    {/* Divider */}
+                    <div className="h-px mb-6 bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+                    {/* Role tags */}
+                    <div className="flex flex-wrap gap-1.5 mb-6">
+                        {['Quant Dev', 'Full Stack', 'Web3', 'AI/ML'].map((tag) => (
+                            <span key={tag} className="px-2.5 py-1 rounded-md text-[11px] font-mono text-white/45"
+                                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                    {/* Stats */}
+                    <div className="grid grid-cols-3 gap-2.5 mb-6">
+                        {cardStats.map(({ label, value }) => (
+                            <div key={label} className="rounded-xl p-3 text-center"
+                                style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                <div className="text-xl font-bold gradient-text leading-none mb-1">{value}</div>
+                                <div className="text-[9px] text-white/30 font-mono uppercase tracking-wider">{label}</div>
+                            </div>
+                        ))}
+                    </div>
+                    {/* Divider */}
+                    <div className="h-px mb-5 bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+                    {/* Socials + location */}
+                    <div className="flex items-center justify-between">
+                        <div className="flex gap-2">
+                            {socialLinks.map((s) => (
+                                <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer"
+                                    className="w-8 h-8 rounded-full flex items-center justify-center text-white/40 hover:text-white transition-all"
+                                    style={{ border: '1px solid rgba(255,255,255,0.08)' }}
+                                    aria-label={s.name}>
+                                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d={s.icon} /></svg>
+                                </a>
+                            ))}
+                        </div>
+                        <span className="text-[10px] text-white/25 font-mono">UAE · Remote</span>
+                    </div>
+                </div>
+                {/* Circuit pattern footer */}
+                <div className="px-7 pb-5 opacity-15">
+                    <svg width="100%" height="24" viewBox="0 0 300 24" fill="none">
+                        <line x1="0" y1="12" x2="300" y2="12" stroke="#9945FF" strokeWidth="0.5" strokeDasharray="3 6" />
+                        {[50, 110, 170, 230].map(cx => (
+                            <circle key={cx} cx={cx} cy={12} r={3} stroke="#14F195" strokeWidth="0.5" />
+                        ))}
+                    </svg>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 const socialLinks = [
     { name: 'GitHub', icon: 'M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z', href: 'https://github.com/pranaygajbhiye' },
@@ -280,10 +400,9 @@ export default function Contact() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
-                    {/* Left Column: Lanyard Card */}
-                    <div className="relative w-full h-[700px] hidden lg:block fade-in-left">
-                        <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/5 via-transparent to-accent-green/5 rounded-3xl" />
-                        <Lanyard position={[0, 0, 18]} gravity={[0, -40, 0]} transparent={true} />
+                    {/* Left Column: Premium Animated Contact Card */}
+                    <div className="relative w-full hidden lg:flex items-center justify-center fade-in-left">
+                        <ContactCard />
                     </div>
 
                     {/* Right Column: Contact Form */}

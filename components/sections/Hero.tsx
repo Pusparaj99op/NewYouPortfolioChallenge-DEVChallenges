@@ -9,6 +9,7 @@ import MagneticButton from '@/components/ui/MagneticButton';
 import ShinyText from '@/components/ShinyText';
 import { GL } from '@/components/gl';
 import { Leva } from 'leva';
+import { LiquidMetalButton } from '@/components/ui/LiquidMetalButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -260,7 +261,7 @@ export default function Hero() {
         <section
             ref={heroRef}
             id="home"
-            className="relative min-h-screen flex items-center overflow-hidden bg-[#0a0a0f] pt-20"
+            className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-[#0a0a0f] to-[#121212] pt-20"
         >
             {/* Particle Wave Background */}
             <GL hovering={isHovering} />
@@ -384,19 +385,16 @@ export default function Hero() {
                             ref={buttonsRef}
                             className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 w-full px-4 sm:px-0 sm:w-auto"
                         >
-                            <MagneticButton strength={40}>
-                                <a
-                                    href="#projects"
-                                    className="btn-primary min-w-[180px] sm:min-w-[200px] text-base sm:text-lg h-14 sm:h-16 inline-flex items-center justify-center gap-3 group hover:gap-5 transition-all shadow-[0_0_20px_rgba(153,69,255,0.3)] hover:shadow-[0_0_30px_rgba(20,241,149,0.4)] touch-target"
-                                    onMouseEnter={() => setIsHovering(true)}
-                                    onMouseLeave={() => setIsHovering(false)}
-                                >
-                                    <span className="font-semibold tracking-wide">Explore Work</span>
-                                    <svg className="w-5 h-5 group-hover:rotate-45 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
-                                </a>
-                            </MagneticButton>
+                            <a href="#projects" className="inline-block">
+                                <LiquidMetalButton
+                                    label="Explore Work"
+                                    onClick={() => {
+                                        setIsHovering(true)
+                                        const projectsSection = document.querySelector('#projects')
+                                        projectsSection?.scrollIntoView({ behavior: 'smooth' })
+                                    }}
+                                />
+                            </a>
                             <MagneticButton strength={40}>
                                 <a
                                     href="#contact"
@@ -436,26 +434,38 @@ export default function Hero() {
                         transition={{ duration: 1.2, ease: 'easeOut' }}
                     />
                     <div className="pt-8 sm:pt-12">
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-10">
-                            {stats.map((stat, i) => (
-                                <motion.div
-                                    key={stat.label}
-                                    initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{
-                                        duration: 0.6,
-                                        delay: i * 0.1,
-                                        ease: [0.25, 0.1, 0.25, 1]
-                                    }}
-                                >
-                                    <AnimatedStat
-                                        value={stat.value}
-                                        label={stat.label}
-                                        delay={i * 0.15}
-                                    />
-                                </motion.div>
-                            ))}
+                        {/* Glass Background Container */}
+                        <div className="relative max-w-5xl mx-auto">
+                            {/* Background blur panel with gradient border */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] via-white/[0.02] to-transparent backdrop-blur-xl rounded-3xl border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)]" />
+
+                            {/* Subtle ambient glow */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/5 via-transparent to-accent-green/5 rounded-3xl blur-2xl opacity-50" />
+
+                            {/* Content */}
+                            <div className="relative p-6 sm:p-8 md:p-10">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-10">
+                                    {stats.map((stat, i) => (
+                                        <motion.div
+                                            key={stat.label}
+                                            initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                                            viewport={{ once: true }}
+                                            transition={{
+                                                duration: 0.6,
+                                                delay: i * 0.1,
+                                                ease: [0.25, 0.1, 0.25, 1]
+                                            }}
+                                        >
+                                            <AnimatedStat
+                                                value={stat.value}
+                                                label={stat.label}
+                                                delay={i * 0.15}
+                                            />
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </motion.div>
