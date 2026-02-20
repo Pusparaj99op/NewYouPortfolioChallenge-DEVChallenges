@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+
+  /* HACKTHONIX 2.0 Theme (Cyber / Obsidian)
+     background.primary:   #050505
+     background.secondary: #0a0a0a
+     background.surface:   rgba(255,255,255,0.03)
+     accents.primary:      #00f0ff
+     accents.secondary:    #7000ff
+     accents.success:      #00ff9d
+     accents.danger:       #ff0055
+  */
+  --hx-bg: #050505;
+  --hx-bg2: #0a0a0a;
+  --hx-surface: rgba(255, 255, 255, 0.03);
+  --hx-border: rgba(255, 255, 255, 0.10);
+  --hx-text: rgba(255, 255, 255, 0.92);
+  --hx-muted: rgba(255, 255, 255, 0.70);
+  --hx-muted2: rgba(255, 255, 255, 0.55);
+
+  --hx-cyan: #00f0ff;
+  --hx-purple: #7000ff;
+  --hx-green: #00ff9d;
+  --hx-red: #ff0055;
+
+  /* Typography */
+  --hx-font-sans: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  --hx-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+/* Light mode overrides */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --hx-bg: #f7f8ff;
+  --hx-bg2: #ffffff;
+  --hx-surface: rgba(255, 255, 255, 0.72);
+  --hx-border: rgba(10, 10, 10, 0.10);
+  --hx-text: rgba(10, 10, 10, 0.92);
+  --hx-muted: rgba(10, 10, 10, 0.72);
+  --hx-muted2: rgba(10, 10, 10, 0.52);
+}
+
+body {
+  background: radial-gradient(1200px 600px at 30% -10%, rgba(112, 0, 255, 0.25), transparent 60%),
+    radial-gradient(900px 520px at 90% 0%, rgba(0, 240, 255, 0.18), transparent 55%),
+    linear-gradient(180deg, var(--hx-bg), var(--hx-bg2));
+  color: var(--hx-text);
+  font-family: var(--hx-font-sans);
+}
+
+:root[data-theme='light'] body {
+  background: radial-gradient(1100px 560px at 20% -10%, rgba(112, 0, 255, 0.18), transparent 60%),
+    radial-gradient(900px 520px at 90% 0%, rgba(0, 240, 255, 0.14), transparent 55%),
+    linear-gradient(180deg, var(--hx-bg), var(--hx-bg2));
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--hx-font-mono);
+}

@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neon-green: #00ff9d;
+  --color-neon-purple: #bd00ff;
+  --color-dark-bg: #050505;
+  --color-card-bg: #111111;
+}
+
+@layer base {
+  body {
+    @apply bg-dark-bg text-white font-sans antialiased overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+  }
+  .border-glow {
+    box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+  }
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, #1f2937 1px, transparent 1px),
+    linear-gradient(to bottom, #1f2937 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
